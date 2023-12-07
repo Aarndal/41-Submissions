@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Vector
+namespace VectorMath
 {
     public class Vector
     {
         private float x;
         private float y;
         private float z;
+        private static float minFloat = MathF.Pow(10f, -6f);
 
         public Vector()
         {
@@ -32,89 +33,181 @@ namespace Vector
             z = 0;
         }
 
-        public static Vector operator +(Vector _v1, Vector _v2)
+        #region Vector Addition & Subtraction
+        public static Vector operator +(Vector _vector1, Vector _vector2)
         {
-            float x = _v1.x + _v2.x;
-            float y = _v1.y + _v2.y;
-            float z = _v1.z + _v2.z;
+            float x = _vector1.x + _vector2.x;
+            float y = _vector1.y + _vector2.y;
+            float z = _vector1.z + _vector2.z;
             Vector sumVector = new Vector(x, y, z);
             return sumVector;
         }
-        public static Vector operator -(Vector _v1, Vector _v2)
+        public static Vector operator -(Vector _vector1, Vector _vector2)
         {
-            Vector differenceVector = _v1 + Inverse(_v2);
+            Vector differenceVector = _vector1 + GetOppositeVectorOf(_vector2);
             return differenceVector;
         }
+        #endregion
 
-        public static Vector operator *(Vector _v, float _lambda)
+        #region Scalar Multiplication & Division
+        public static Vector operator *(Vector _vector, float _lambda)
         {
-            float x = _v.x * _lambda;
-            float y = _v.y * _lambda;
-            float z = _v.z * _lambda;
+            float x = _vector.x * _lambda;
+            float y = _vector.y * _lambda;
+            float z = _vector.z * _lambda;
             Vector newVector = new Vector(x, y, z);
             return newVector;
         }
 
-        public static Vector operator *(Vector _v, int _lambda)
+        public static Vector operator *(Vector _vector, int _lambda)
         {
-            float x = _v.x * _lambda;
-            float y = _v.y * _lambda;
-            float z = _v.z * _lambda;
+            float x = _vector.x * _lambda;
+            float y = _vector.y * _lambda;
+            float z = _vector.z * _lambda;
             Vector newVector = new Vector(x, y, z);
             return newVector;
         }
 
-        public static float operator *(Vector _v1, Vector _v2)
+        public static Vector operator /(Vector _vector, float _lambda)
         {
-            float scalar = _v1.x * _v2.x
-                + _v1.y * _v2.y
-                + _v1.z * _v2.z;
+            if (_lambda > minFloat || _lambda < -minFloat)         //Ask Nicolas!!!
+            {
+                Vector newVector = _vector * MathF.Pow(_lambda, -1f);
+                return newVector;
+            }
+            return _vector; //ToDo
+        }
+
+        public static Vector operator /(Vector _vector, int _lambda)
+        {
+            if (_lambda != 0)
+            {
+                Vector newVector = _vector * MathF.Pow(_lambda, -1);
+                return newVector;
+            }
+            return _vector; //ToDo
+        }
+        #endregion
+
+        #region Dot Product & Cross Product
+        public static float operator *(Vector _vector1, Vector _vector2)
+        {
+            float scalar = _vector1.x * _vector2.x
+                + _vector1.y * _vector2.y
+                + _vector1.z * _vector2.z;
             return scalar;
         }
 
-        public static Vector Inverse(Vector _v)
+        public static Vector operator %(Vector _vector1, Vector _vector2)
         {
-            Vector inverseVector = _v * (-1);
+            float x = (_vector1.y * _vector2.z) - (_vector1.z * _vector2.y);
+            float y = -(_vector1.x * _vector2.z) + (_vector1.z * _vector2.x);
+            float z = (_vector1.x * _vector2.y) - (_vector1.y * _vector2.x);
+            Vector newVector = new Vector(x, y, z);
+            return newVector;
+        }
+        #endregion
+
+        public static Vector GetOppositeVectorOf(Vector _vector)
+        {
+            Vector inverseVector = _vector * (-1);
             return inverseVector;
         }
 
-        public static float SqrLength(Vector _v)
+        public Vector OppositeDirection()
         {
-            float sqrLength = _v.x * _v.x + _v.y * _v.y + _v.z * _v.z;
+            Vector inverseVector = new Vector(this.x, this.y, this.z) * (-1);
+            return inverseVector;
+        }
+
+        public static float GetSqrLengthOf(Vector _vector)
+        {
+            float sqrLength = _vector.x * _vector.x +
+                _vector.y * _vector.y +
+                _vector.z * _vector.z;
             return sqrLength;
         }
 
-        public static float Length(Vector _v)
+        public  float SqrLength()
         {
-            float length = MathF.Sqrt(SqrLength(_v));
+            Vector vector = new Vector(this.x, this.y, this.z);
+            float sqrLength = vector.x * vector.x +
+                vector.y * vector.y +
+                vector.z * vector.z;
+            return sqrLength;
+        }
+
+        public static float GetLengthOf(Vector _vector)
+        {
+            float length = MathF.Sqrt(GetSqrLengthOf(_vector));
             return length;
         }
 
-        public static float Magnitude(Vector _v)
+        public float Length()
         {
-            float magnitude = Length(_v);
-            return magnitude;
+            float length = MathF.Sqrt(GetSqrLengthOf(new Vector(this.x, this.y, this.z)));
+            return length;
         }
 
-        public static Vector Normalize(Vector _v)
+        public static Vector GetUnitVectorOf(Vector _vector)
         {
-            Vector normVector = new Vector();
-            float magV = Length(_v);
-            if (magV > MathF.Pow(10f, -6f))         //Ask Nicolas!!!
+            float sqrNorm = _vector.SqrLength();
+            float norm = _vector.Length();
+
+            if (sqrNorm > minFloat)
             {
-                normVector = new Vector(_v.x / magV,
-                _v.y / magV,
-                _v.z / magV);
-                return normVector;
+                Vector unitVector = _vector / norm;
+                return unitVector;
             }
-            return normVector;
+            return _vector; //ToDo
         }
 
-        public static float Distance(Vector _v1, Vector _v2)
+        public Vector Normalize()
         {
-            float distance = Length(_v1 - _v2);
+            Vector vector = new Vector(this.x, this.y, this.z);
+            float sqrNorm = vector.SqrLength();
+            float norm = vector.Length();
+
+            if (sqrNorm > minFloat)
+            {
+                vector = vector / norm;
+                return vector;
+            }
+            return vector; //ToDo
+        }
+
+        public static Vector GetDirectionVector(Vector _origin, Vector _target)
+        {
+            Vector directionVector = GetUnitVectorOf(_target - _origin);
+            return directionVector;
+        }
+
+        public static float GetDistanceBetween(Vector _origin, Vector _target)
+        {
+            Vector distanceVector = _target - _origin;
+            float distance = distanceVector.Length();
             return distance;
         }
 
+        public float DistanceTo(Vector _target)
+        {
+            Vector distanceVector = _target - new Vector(this.x, this.y, this.z);
+            float distance = distanceVector.Length();
+            return distance;
+        }
+
+
+        /*
+         * Vector v1 = new Vector(0,0,0);
+         * 
+         * 
+         * Vector normalizedVec = Vector.Normalize(v1);  // Static method
+         * 
+         * 
+         * v1.Normalize(); // Non-static method
+         * 
+         * 
+         * Vector normalizedVec = v1.Normalzed; // Non-static property
+         */
     }
 }
