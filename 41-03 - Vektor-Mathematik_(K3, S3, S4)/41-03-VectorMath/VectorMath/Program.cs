@@ -4,12 +4,12 @@
     {
         static void Main(string[] args)
         {
-            Vector vector1 = new Vector(5, 12, 1);
-            Vector vector2 = new Vector(0, 12, 1);
-            Vector resultVector = vector2 - vector1;
-            resultVector = resultVector.Normalize();
+            Vector vector1 = new Vector(1, 0);
+            Vector vector2 = new Vector(-1, 12);
+            float angle = Vector.GetAngle(vector1, vector2);
 
-            Console.WriteLine($"{resultVector.Length()}");
+
+            Console.WriteLine($"{angle}");
         }
     }
 }

@@ -33,6 +33,44 @@ namespace VectorMath
             z = 0;
         }
 
+        #region StandardVectors
+        public static Vector Zero
+        {
+            get
+            {
+                Vector vector = new Vector();
+                return vector;
+            }
+        }
+
+        public static Vector StdUnitVectorX
+        {
+            get
+            {
+                Vector vector = new Vector(1, 0, 0);
+                return vector;
+            }
+        }
+
+        public static Vector StdUnitVectorY
+        {
+            get
+            {
+                Vector vector = new Vector(0, 1, 0);
+                return vector;
+            }
+        }
+
+        public static Vector StdUnitVectorZ
+        {
+            get
+            {
+                Vector vector = new Vector(0, 0, 1);
+                return vector;
+            }
+        }
+        #endregion
+
         #region Vector Addition & Subtraction
         public static Vector operator +(Vector _vector1, Vector _vector2)
         {
@@ -44,7 +82,7 @@ namespace VectorMath
         }
         public static Vector operator -(Vector _vector1, Vector _vector2)
         {
-            Vector differenceVector = _vector1 + GetOppositeVectorOf(_vector2);
+            Vector differenceVector = _vector1 + GetOppositeVector(_vector2);
             return differenceVector;
         }
         #endregion
@@ -108,19 +146,8 @@ namespace VectorMath
         }
         #endregion
 
-        public static Vector GetOppositeVectorOf(Vector _vector)
-        {
-            Vector inverseVector = _vector * (-1);
-            return inverseVector;
-        }
-
-        public Vector OppositeDirection()
-        {
-            Vector inverseVector = new Vector(this.x, this.y, this.z) * (-1);
-            return inverseVector;
-        }
-
-        public static float GetSqrLengthOf(Vector _vector)
+        #region Length, SqrLength
+        public static float GetSqrLength(Vector _vector)
         {
             float sqrLength = _vector.x * _vector.x +
                 _vector.y * _vector.y +
@@ -128,7 +155,7 @@ namespace VectorMath
             return sqrLength;
         }
 
-        public  float SqrLength()
+        private float GetSqrLength()
         {
             Vector vector = new Vector(this.x, this.y, this.z);
             float sqrLength = vector.x * vector.x +
@@ -137,22 +164,61 @@ namespace VectorMath
             return sqrLength;
         }
 
-        public static float GetLengthOf(Vector _vector)
+        public float SqrLength
         {
-            float length = MathF.Sqrt(GetSqrLengthOf(_vector));
+            get
+            {
+                return this.GetSqrLength();
+            }
+        }
+
+        public static float GetLength(Vector _vector)
+        {
+            float length = MathF.Sqrt(GetSqrLength(_vector));
             return length;
         }
 
-        public float Length()
+        private float GetLength()
         {
-            float length = MathF.Sqrt(GetSqrLengthOf(new Vector(this.x, this.y, this.z)));
+            float length = MathF.Sqrt(GetSqrLength(new Vector(this.x, this.y, this.z)));
             return length;
         }
-
-        public static Vector GetUnitVectorOf(Vector _vector)
+        public float Length
         {
-            float sqrNorm = _vector.SqrLength();
-            float norm = _vector.Length();
+            get
+            {
+                return this.GetLength();
+            }
+        }
+        #endregion
+
+        #region OppositeVector
+        public static Vector GetOppositeVector(Vector _vector)
+        {
+            Vector inverseVector = _vector * (-1);
+            return inverseVector;
+        }
+
+        private Vector GetOppositeDirection()
+        {
+            Vector inverseVector = new Vector(this.x, this.y, this.z) * (-1);
+            return inverseVector;
+        }
+
+        public Vector Opposite
+        {
+            get
+            {
+                return this.GetOppositeDirection();
+            }
+        }
+        #endregion
+
+        #region UnitVector
+        public static Vector GetUnitVector(Vector _vector)
+        {
+            float sqrNorm = _vector.SqrLength;
+            float norm = _vector.Length;
 
             if (sqrNorm > minFloat)
             {
@@ -162,11 +228,11 @@ namespace VectorMath
             return _vector; //ToDo
         }
 
-        public Vector Normalize()
+        private Vector Normalize()
         {
             Vector vector = new Vector(this.x, this.y, this.z);
-            float sqrNorm = vector.SqrLength();
-            float norm = vector.Length();
+            float sqrNorm = vector.SqrLength;
+            float norm = vector.Length;
 
             if (sqrNorm > minFloat)
             {
@@ -176,28 +242,55 @@ namespace VectorMath
             return vector; //ToDo
         }
 
+        public Vector Normalized
+        {
+            get 
+            {
+                return this.Normalize();
+            }
+
+        }
+        #endregion
+
         public static Vector GetDirectionVector(Vector _origin, Vector _target)
         {
-            Vector directionVector = GetUnitVectorOf(_target - _origin);
+            Vector directionVector = GetUnitVector(_target - _origin);
             return directionVector;
         }
 
         public static float GetDistanceBetween(Vector _origin, Vector _target)
         {
             Vector distanceVector = _target - _origin;
-            float distance = distanceVector.Length();
+            float distance = distanceVector.Length;
             return distance;
         }
 
-        public float DistanceTo(Vector _target)
+        public float GetDistanceTo(Vector _target)
         {
             Vector distanceVector = _target - new Vector(this.x, this.y, this.z);
-            float distance = distanceVector.Length();
+            float distance = distanceVector.Length;
             return distance;
         }
 
+        public static float GetAngle(Vector _origin, Vector _target)
+        {
+            //float cosPhi = (_origin * _target) / (_origin.Length * _target.Length); 
+            //float angle = (MathF.Acos(cosPhi) * 180) / MathF.PI;
+            //return angle;
 
-        /*
+            float sqrCosPhi = ((_origin * _target) * (_origin * _target)) / (_origin.SqrLength * _target.SqrLength);
+            float angle = (MathF.Acos(MathF.Sqrt(sqrCosPhi)) * 180) / MathF.PI;
+            return angle;
+
+            //ToDO null Abfrage für Betrag von origin und target
+
+            //Drehrichtung über Kreuzprodukt und dadurch Anfangs und Endvektor festlegen?
+        }
+        
+    }
+
+
+    /*
          * Vector v1 = new Vector(0,0,0);
          * 
          * 
@@ -209,5 +302,4 @@ namespace VectorMath
          * 
          * Vector normalizedVec = v1.Normalzed; // Non-static property
          */
-    }
 }
