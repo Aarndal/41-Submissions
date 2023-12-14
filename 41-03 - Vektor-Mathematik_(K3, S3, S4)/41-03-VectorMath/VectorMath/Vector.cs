@@ -12,8 +12,8 @@ namespace VectorMath
         private float x;
         private float y;
         private float z;
-        
-        public enum RotationAxis
+
+        public enum CartesianAxis
         {
             X,
             Y,
@@ -138,7 +138,7 @@ namespace VectorMath
         #endregion
 
         #region DotProduct & CrossProduct
-        
+
         // Dot Product
         public static float operator *(Vector _vector1, Vector _vector2)
         {
@@ -251,8 +251,8 @@ namespace VectorMath
 
         public Vector Normalized
         {
-            get 
-            { 
+            get
+            {
                 return this.Normalize();
             }
         }
@@ -279,6 +279,45 @@ namespace VectorMath
             return distance;
         }
         #endregion
+        
+        #region Projection
+        public static Vector GetProjectionVector(Vector _origin, Vector _target)
+        {
+            _target = _target.Normalized;
+            Vector projectionVector = _target * (_origin * _target);
+            return projectionVector;
+        }
+
+        public Vector ProjectOn(Vector _target)
+        {
+            _target = _target.Normalized;
+            Vector projectionVector = _target * (this * _target);
+            return projectionVector;
+        }
+
+        public Vector ProjectOnAxis(CartesianAxis _axis)
+        {
+            Vector unitVector = new Vector();
+
+            switch (_axis)
+            {
+                case CartesianAxis.X:
+                    unitVector = StdUnitVectorX;
+                    break;
+                case CartesianAxis.Y:
+                    unitVector = StdUnitVectorY;
+
+                    break;
+                case CartesianAxis.Z:
+                    unitVector = StdUnitVectorZ;
+                    break;
+                default:
+                    break;
+            }
+            Vector projectionVector = unitVector * (this * unitVector);
+            return projectionVector;
+        }
+        #endregion
 
         #region Angles
         public static float GetAngleBetween(Vector _origin, Vector _target)
@@ -291,7 +330,7 @@ namespace VectorMath
             //ToDO: null Abfrage für Betrag von origin und target
         }
 
-        public static float GetSignedAngleBetween(Vector _origin, Vector _target, RotationAxis _rotationAxis)
+        public static float GetSignedAngleBetween(Vector _origin, Vector _target, CartesianAxis _rotationAxis)
         {
             //gets the "direct" angle between two vectors
             float angle = GetAngleBetween(_origin, _target);
@@ -300,14 +339,14 @@ namespace VectorMath
             Vector rotationAxis = new Vector();
             switch (_rotationAxis)
             {
-                case RotationAxis.X:
+                case CartesianAxis.X:
                     rotationAxis = StdUnitVectorX;
                     break;
-                case RotationAxis.Y:
+                case CartesianAxis.Y:
                     rotationAxis = StdUnitVectorY;
 
                     break;
-                case RotationAxis.Z:
+                case CartesianAxis.Z:
                     rotationAxis = StdUnitVectorZ;
                     break;
                 default:
@@ -322,7 +361,7 @@ namespace VectorMath
             }
             return angle;
         }
-        
+
         public float GetAngleTo(Vector _target)
         {
             float dotProduct = this * _target;
@@ -333,7 +372,7 @@ namespace VectorMath
             //ToDO: null Abfrage für Betrag von origin und target
         }
 
-        public float GetSignedAngleTo(Vector _target, RotationAxis _rotationAxis)
+        public float GetSignedAngleTo(Vector _target, CartesianAxis _rotationAxis)
         {
             //gets the "direct" angle between two vectors
             float angle = GetAngleBetween(this, _target);
@@ -342,14 +381,14 @@ namespace VectorMath
             Vector rotationAxis = new Vector();
             switch (_rotationAxis)
             {
-                case RotationAxis.X:
+                case CartesianAxis.X:
                     rotationAxis = StdUnitVectorX;
                     break;
-                case RotationAxis.Y:
+                case CartesianAxis.Y:
                     rotationAxis = StdUnitVectorY;
 
                     break;
-                case RotationAxis.Z:
+                case CartesianAxis.Z:
                     rotationAxis = StdUnitVectorZ;
                     break;
                 default:
@@ -364,9 +403,48 @@ namespace VectorMath
             }
             return angle;
         }
+
+        public float GetSignedAngleTo(Vector _target)
+        {
+            //gets the "direct" angle between two vectors
+            float angle = GetAngleBetween(this, _target);
+            Vector crossProduct = this % _target;
+
+            Vector [] cartesianAxes = new Vector[] { StdUnitVectorX, StdUnitVectorY, StdUnitVectorZ };
+
+            for (int i = 0; i < cartesianAxes.Length-1; i++)
+            {
+                cartesianAxes[i] = cartesianAxes[i].ProjectOnAxis(i);
+            }
+            
+            //gets the axis to define the sign of the angle in regards of a right hand coordinate system
+            //Vector rotationAxis = new Vector();
+            //switch (_rotationAxis)
+            //{
+            //    case CartesianAxis.X:
+            //        rotationAxis = StdUnitVectorX;
+            //        break;
+            //    case CartesianAxis.Y:
+            //        rotationAxis = StdUnitVectorY;
+
+            //        break;
+            //    case CartesianAxis.Z:
+            //        rotationAxis = StdUnitVectorZ;
+            //        break;
+            //    default:
+            //        break;
+            //}
+
+            //checks if the angle is positive or negative in regards of the rotation axis (right hand coordinate system) and returns the signed angle
+            float tripleProduct = crossProduct * rotationAxis;
+            if (tripleProduct < minFloat)
+            {
+                angle = -angle;
+            }
+            return angle;
+        }
         #endregion
 
-        //ToDO: ProjectionVector
 
         public bool IsNullVector
         {
@@ -418,7 +496,7 @@ namespace VectorMath
         //    }
         //    return false;
         //}
-        
+
 
         //public bool IsOppositeTo(Vector _vector)
         //{
