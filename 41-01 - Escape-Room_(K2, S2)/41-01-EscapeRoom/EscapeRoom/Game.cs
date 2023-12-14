@@ -180,7 +180,7 @@ namespace _2309_41_01_EscapeRoom
 
         private Vector2 GetUserInput() // returns a "DeltaVector" for PCMovement method
         {
-            ConsoleKey input = Console.ReadKey().Key; // get KeyInfo from UserInput
+            ConsoleKey input = Console.ReadKey(true).Key; // get KeyInfo from UserInput
 
             switch (input) // Enable ArrowKeys and WASD to move the PC
             {
