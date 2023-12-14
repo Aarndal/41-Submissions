@@ -47,8 +47,7 @@ namespace VectorMath
         {
             get
             {
-                Vector vector = new Vector();
-                return vector;
+                return new Vector();
             }
         }
 
@@ -56,8 +55,7 @@ namespace VectorMath
         {
             get
             {
-                Vector vector = new Vector(1, 0, 0);
-                return vector;
+                return new Vector(1, 0, 0);
             }
         }
 
@@ -65,8 +63,7 @@ namespace VectorMath
         {
             get
             {
-                Vector vector = new Vector(0, 1, 0);
-                return vector;
+                return new Vector(0, 1, 0);
             }
         }
 
@@ -74,8 +71,7 @@ namespace VectorMath
         {
             get
             {
-                Vector vector = new Vector(0, 0, 1);
-                return vector;
+                return new Vector(0, 0, 1);
             }
         }
         #endregion
@@ -108,11 +104,10 @@ namespace VectorMath
 
         public static Vector operator *(Vector _vector, int _lambda)
         {
-            //float x = _vector.x * _lambda;
-            //float y = _vector.y * _lambda;
-            //float z = _vector.z * _lambda;
-            //Vector newVector = new Vector(x, y, z);
-            Vector newVector = _vector * _lambda;
+            float x = _vector.x * _lambda;
+            float y = _vector.y * _lambda;
+            float z = _vector.z * _lambda;
+            Vector newVector = new Vector(x, y, z);
             return newVector;
         }
 
@@ -123,7 +118,7 @@ namespace VectorMath
                 Vector newVector = _vector * MathF.Pow(_lambda, -1f);
                 return newVector;
             }
-            return _vector; //ToDo: null Abfrage
+            throw new ArithmeticException("Can't divide by Null.");
         }
 
         public static Vector operator /(Vector _vector, int _lambda)
@@ -133,7 +128,7 @@ namespace VectorMath
                 Vector newVector = _vector * MathF.Pow(_lambda, -1);
                 return newVector;
             }
-            return _vector; //ToDo: null Abfrages
+            throw new ArithmeticException("Can't divide by Null.");
         }
         #endregion
 
@@ -231,22 +226,25 @@ namespace VectorMath
         #region UnitVector
         public static Vector GetUnitVector(Vector _vector)
         {
-            if (_vector.SqrLength > minFloat)
+            try
             {
                 Vector unitVector = _vector / MathF.Sqrt(_vector.SqrLength);
                 return unitVector;
             }
-            return _vector; //ToDo: null Abfrage
+            catch (ArithmeticException _exception)
+            {
+                throw new ArithmeticException("Can't create a UnitVector of a NullVector.", _exception);
+            }   
         }
 
         private Vector Normalize()
         {
-            if (this.SqrLength > minFloat)
+            if (!IsNullVector)
             {
                 Vector vector = this / MathF.Sqrt(this.SqrLength);
                 return vector;
             }
-            return this; //ToDo: null Abfrage
+            throw new ArithmeticException("Can't create a UnitVector of a NullVector.");
         }
 
         public Vector Normalized
@@ -261,22 +259,18 @@ namespace VectorMath
         #region DirectionVector & Distance
         public static Vector GetDirectionVector(Vector _origin, Vector _target)
         {
-            Vector directionVector = GetUnitVector(_target - _origin);
-            return directionVector;
+            return GetUnitVector(_target - _origin);
         }
 
         public static float GetDistanceBetween(Vector _origin, Vector _target)
         {
-            Vector distanceVector = _target - _origin;
-            float distance = distanceVector.Length;
-            return distance;
+            return _origin.GetDistanceTo(_target);
         }
 
         public float GetDistanceTo(Vector _target)
         {
             Vector distanceVector = _target - this;
-            float distance = distanceVector.Length;
-            return distance;
+            return distanceVector.Length;
         }
         #endregion
         
@@ -456,17 +450,17 @@ namespace VectorMath
         {
             get
             {
-                if (this.x == 0 && this.y == 0 && this.z == 0)
+                if (MathF.Abs(x) > minFloat || MathF.Abs(y) > minFloat || MathF.Abs(z) > minFloat)
                 {
-                    return true;
+                    return false;
                 }
-                return false;
+                return true;
             }
         }
 
         public bool IsOrthogonalTo(Vector _vector)
         {
-            if (this * _vector == 0)
+            if (MathF.Abs(this * _vector) <= minFloat)
             {
                 return true;
             }
