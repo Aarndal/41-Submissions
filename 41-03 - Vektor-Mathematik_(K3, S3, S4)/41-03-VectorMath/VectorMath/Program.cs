@@ -7,6 +7,7 @@
             Vector vector1 = new Vector(0, 0);
             Vector vector2 = new Vector(0, 1);
             float angle = Vector.GetSignedAngleBetween(vector2, vector1, Vector.CartesianAxis.Z);
+
             
             float staticDistance = Vector.GetDistanceBetween(vector1, vector2);
             float nonstaticDistance = vector1.GetDistanceTo(vector2);

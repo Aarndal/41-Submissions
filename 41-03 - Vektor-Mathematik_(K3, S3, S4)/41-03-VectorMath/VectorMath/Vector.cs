@@ -8,7 +8,7 @@ namespace VectorMath
 {
     public class Vector
     {
-        private static float minFloat = MathF.Pow(10f, -6f);
+        private static float minFloat = MathF.Pow(10f, -6f); //minFloat is used to compare floats to zero and therefore avoid division by zero
         private float x;
         private float y;
         private float z;
@@ -39,6 +39,42 @@ namespace VectorMath
             x = _x;
             y = _y;
             z = 0;
+        }
+        #endregion
+
+        #region VectorComponents
+        public float xComponent
+        {
+            get
+            {
+                return x;
+            }
+            set
+            {
+                x = value;
+            }
+        }
+        public float yComponent
+        {
+            get
+            {
+                return y;
+            }
+            set
+            {
+                x = value;
+            }
+        }
+        public float zComponent
+        {
+            get
+            {
+                return z;
+            }
+            set
+            {
+                x = value;
+            }
         }
         #endregion
 
@@ -79,10 +115,10 @@ namespace VectorMath
         #region Vector Addition & Subtraction
         public static Vector operator +(Vector _vector1, Vector _vector2)
         {
-            float x = _vector1.x + _vector2.x;
-            float y = _vector1.y + _vector2.y;
-            float z = _vector1.z + _vector2.z;
-            Vector sumVector = new Vector(x, y, z);
+            Vector sumVector = new Vector();
+            sumVector.x = _vector1.x + _vector2.x;
+            sumVector.y = _vector1.y + _vector2.y;
+            sumVector.z = _vector1.z + _vector2.z;
             return sumVector;
         }
         public static Vector operator -(Vector _vector1, Vector _vector2)
@@ -95,28 +131,28 @@ namespace VectorMath
         #region Scalar Multiplication & Division
         public static Vector operator *(Vector _vector, float _lambda)
         {
-            float x = _vector.x * _lambda;
-            float y = _vector.y * _lambda;
-            float z = _vector.z * _lambda;
-            Vector newVector = new Vector(x, y, z);
-            return newVector;
+            Vector scalarProductVector = new Vector();
+            scalarProductVector.x = _vector.x * _lambda;
+            scalarProductVector.y = _vector.y * _lambda;
+            scalarProductVector.z = _vector.z * _lambda;
+            return scalarProductVector;
         }
 
         public static Vector operator *(Vector _vector, int _lambda)
         {
-            float x = _vector.x * _lambda;
-            float y = _vector.y * _lambda;
-            float z = _vector.z * _lambda;
-            Vector newVector = new Vector(x, y, z);
-            return newVector;
+            Vector scalarProductVector = new Vector();
+            scalarProductVector.x = _vector.x * _lambda;
+            scalarProductVector.y = _vector.y * _lambda;
+            scalarProductVector.z = _vector.z * _lambda;
+            return scalarProductVector;
         }
 
         public static Vector operator /(Vector _vector, float _lambda)
         {
             if (_lambda > minFloat || _lambda < -minFloat) //minFloat is used to avoid division by zero
             {
-                Vector newVector = _vector * MathF.Pow(_lambda, -1f);
-                return newVector;
+                Vector scalarQuotientVector = _vector * MathF.Pow(_lambda, -1f);
+                return scalarQuotientVector;
             }
             throw new ArithmeticException("Can't divide by Null.");
         }
@@ -125,8 +161,8 @@ namespace VectorMath
         {
             if (_lambda != 0)
             {
-                Vector newVector = _vector * MathF.Pow(_lambda, -1);
-                return newVector;
+                Vector scalarQuotientVector = _vector * MathF.Pow(_lambda, -1);
+                return scalarQuotientVector;
             }
             throw new ArithmeticException("Can't divide by Null.");
         }
@@ -137,42 +173,39 @@ namespace VectorMath
         // Dot Product
         public static float operator *(Vector _vector1, Vector _vector2)
         {
-            float scalar = _vector1.x * _vector2.x
+            float dotProduct = _vector1.x * _vector2.x
                 + _vector1.y * _vector2.y
                 + _vector1.z * _vector2.z;
-            return scalar;
+            return dotProduct;
         }
 
         // Cross Product
         public static Vector operator %(Vector _vector1, Vector _vector2)
         {
-            float x = (_vector1.y * _vector2.z) - (_vector1.z * _vector2.y);
-            float y = -(_vector1.x * _vector2.z) + (_vector1.z * _vector2.x);
-            float z = (_vector1.x * _vector2.y) - (_vector1.y * _vector2.x);
-            Vector newVector = new Vector(x, y, z);
-            return newVector;
+            Vector crossProductVector = new Vector();
+            crossProductVector.x = (_vector1.y * _vector2.z) - (_vector1.z * _vector2.y);
+            crossProductVector.y = -(_vector1.x * _vector2.z) + (_vector1.z * _vector2.x);
+            crossProductVector.z = (_vector1.x * _vector2.y) - (_vector1.y * _vector2.x);
+            return crossProductVector;
         }
         #endregion
 
         #region OppositeVector
         public static Vector GetOppositeVector(Vector _vector)
         {
-            Vector oppositeVector = _vector * (-1);
-            return oppositeVector;
+            return _vector * (-1);
         }
 
-        //Turns the given vector by 180°
-        private Vector Turn() //Change name to GetOppositeDirection?
+        private Vector OppositeDirection()
         {
-            Vector oppositeVector = new Vector(this.x, this.y, this.z) * (-1);
-            return oppositeVector;
+            return this * (-1);
         }
 
-        public Vector Turned //Change name to Opposite?
+        public Vector Opposite
         {
             get
             {
-                return this.Turn();
+                return OppositeDirection();
             }
         }
         #endregion
@@ -180,45 +213,38 @@ namespace VectorMath
         #region Length & SqrLength
         public static float GetSqrLength(Vector _vector)
         {
-            float sqrLength = _vector.x * _vector.x +
+            return _vector.x * _vector.x +
                 _vector.y * _vector.y +
                 _vector.z * _vector.z;
-            return sqrLength;
         }
 
         private float GetSqrLength()
         {
-            Vector vector = new Vector(this.x, this.y, this.z);
-            float sqrLength = vector.x * vector.x +
-                vector.y * vector.y +
-                vector.z * vector.z;
-            return sqrLength;
+            return x * x + y * y + z * z;
         }
 
         public float SqrLength
         {
             get
             {
-                return this.GetSqrLength();
+                return GetSqrLength();
             }
         }
 
         public static float GetLength(Vector _vector)
         {
-            float length = MathF.Sqrt(GetSqrLength(_vector));
-            return length;
+            return MathF.Sqrt(GetSqrLength(_vector));
         }
 
         private float GetLength()
         {
-            float length = MathF.Sqrt(GetSqrLength(new Vector(this.x, this.y, this.z)));
-            return length;
+            return MathF.Sqrt(GetSqrLength(this));
         }
         public float Length
         {
             get
             {
-                return this.GetLength();
+                return GetLength();
             }
         }
         #endregion
@@ -228,21 +254,19 @@ namespace VectorMath
         {
             try
             {
-                Vector unitVector = _vector / MathF.Sqrt(_vector.SqrLength);
-                return unitVector;
+                return _vector / MathF.Sqrt(_vector.SqrLength);
             }
             catch (ArithmeticException _exception)
             {
                 throw new ArithmeticException("Can't create a UnitVector of a NullVector.", _exception);
-            }   
+            }
         }
 
         private Vector Normalize()
         {
             if (!IsNullVector)
             {
-                Vector vector = this / MathF.Sqrt(this.SqrLength);
-                return vector;
+                return this / MathF.Sqrt(SqrLength);
             }
             throw new ArithmeticException("Can't create a UnitVector of a NullVector.");
         }
@@ -251,7 +275,7 @@ namespace VectorMath
         {
             get
             {
-                return this.Normalize();
+                return Normalize();
             }
         }
         #endregion
@@ -260,6 +284,11 @@ namespace VectorMath
         public static Vector GetDirectionVector(Vector _origin, Vector _target)
         {
             return GetUnitVector(_target - _origin);
+        }
+
+        public Vector GetDirectionVectorTo(Vector _target)
+        {
+            return GetUnitVector(_target - this);
         }
 
         public static float GetDistanceBetween(Vector _origin, Vector _target)
@@ -273,43 +302,38 @@ namespace VectorMath
             return distanceVector.Length;
         }
         #endregion
-        
-        #region Projection
+
+        #region ProjectionVector
         public static Vector GetProjectionVector(Vector _origin, Vector _target)
         {
-            _target = _target.Normalized;
-            Vector projectionVector = _target * (_origin * _target);
-            return projectionVector;
+            return _target.Normalized * (_origin * _target.Normalized);
         }
 
         public Vector ProjectOn(Vector _target)
         {
-            _target = _target.Normalized;
-            Vector projectionVector = _target * (this * _target);
-            return projectionVector;
+            return _target.Normalized * (this * _target.Normalized);
         }
 
         public Vector ProjectOnAxis(CartesianAxis _axis)
         {
-            Vector unitVector = new Vector();
+            Vector target = new Vector();
 
             switch (_axis)
             {
                 case CartesianAxis.X:
-                    unitVector = StdUnitVectorX;
+                    target = StdUnitVectorX;
                     break;
                 case CartesianAxis.Y:
-                    unitVector = StdUnitVectorY;
+                    target = StdUnitVectorY;
 
                     break;
                 case CartesianAxis.Z:
-                    unitVector = StdUnitVectorZ;
+                    target = StdUnitVectorZ;
                     break;
                 default:
                     break;
             }
-            Vector projectionVector = unitVector * (this * unitVector);
-            return projectionVector;
+            return ProjectOn(target);
         }
         #endregion
 
@@ -407,7 +431,7 @@ namespace VectorMath
 
         //    foreach (Vector axis in cartesianAxes)
         //    {
-                
+
         //    }
 
         //    for (int i = 0; i < cartesianAxes.Length-1; i++)
@@ -415,8 +439,8 @@ namespace VectorMath
         //        cartesianAxes[i] = cartesianAxes[i].ProjectOnAxis((CartesianAxis)i);
         //    }
 
-            
-            
+
+
         //    //gets the axis to define the sign of the angle in regards of a right hand coordinate system
         //    //Vector rotationAxis = new Vector();
         //    //switch (_rotationAxis)
@@ -445,7 +469,7 @@ namespace VectorMath
         //}
         #endregion
 
-
+        #region Boolean
         public bool IsNullVector
         {
             get
@@ -458,6 +482,15 @@ namespace VectorMath
             }
         }
 
+        public bool IsOppositeTo(Vector _vector)
+        {
+            if (this == _vector.Opposite)
+            {
+                return true;
+            }
+            return false;
+        }
+
         public bool IsOrthogonalTo(Vector _vector)
         {
             if (MathF.Abs(this * _vector) <= minFloat)
@@ -467,44 +500,34 @@ namespace VectorMath
             return false;
         }
 
-        //nochmal drüber nachdenken
-        //public bool IsCollinearTo(Vector _vector)
-        //{
-        //    if (this.Normalized == _vector.Normalized || this.Normalized == _vector.Normalized.Turned)
-        //    {
-        //        return true;
-        //    }
-        //    return false;
-        //}
+        public bool IsCollinearTo(Vector _vector)
+        {
+            if (GetAngleTo(_vector) <= minFloat)
+            {
+                return true;
+            }
+            return false;
+        }
 
-        //public bool IsParallelTo(Vector _vector)
-        //{
-        //    float dotProduct = this * _vector;
-        //    if (this.IsCollinearTo(_vector) && dotProduct > 0)
-        //    {
-        //        return true;
-        //    }
-        //    return false;
-        //}
+        public bool IsParallelTo(Vector _vector)
+        {
+            float dotProduct = this * _vector;
+            if (IsCollinearTo(_vector) && dotProduct > minFloat)
+            {
+                return true;
+            }
+            return false;
+        }
 
-        //public bool IsAntiparallelTo(Vector _vector)
-        //{
-        //    float dotProduct = this * _vector;
-        //    if (this.IsCollinearTo(_vector) && dotProduct < 0)
-        //    {
-        //        return true;
-        //    }
-        //    return false;
-        //}
-
-
-        //public bool IsOppositeTo(Vector _vector)
-        //{
-        //    if (this.Normalized == _vector.Normalized.Turned)
-        //    {
-        //        return true;
-        //    }
-        //    return false;
-        //}
+        public bool IsAntiparallelTo(Vector _vector)
+        {
+            float dotProduct = this * _vector;
+            if (IsCollinearTo(_vector) && dotProduct <= minFloat)
+            {
+                return true;
+            }
+            return false;
+        }
+        #endregion
     }
 }
