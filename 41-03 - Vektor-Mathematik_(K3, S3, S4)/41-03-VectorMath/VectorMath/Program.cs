@@ -4,13 +4,13 @@
     {
         static void Main(string[] args)
         {
-            Vector vector1 = new Vector(0, 0);
-            Vector vector2 = new Vector(0, 1);
+            Vector vector1 = new Vector(1, 0, 25);
+            Vector vector2 = new Vector(0, 1, 75);
             float angle = Vector.GetSignedAngleBetween(vector2, vector1, Vector.CartesianAxis.Z);
 
             
-            float staticDistance = Vector.GetDistanceBetween(vector1, vector2);
-            float nonstaticDistance = vector1.GetDistanceTo(vector2);
+            float staticAngle = Vector.GetSignedAngleBetween(vector1, vector2, Vector.CartesianAxis.Y);
+            float nonstaticAngle = vector1.GetSignedAngleTo(vector2);
 
             try
             {
@@ -22,7 +22,7 @@
                 Console.WriteLine(_exception.StackTrace);
             }
 
-            Console.WriteLine($"{staticDistance} & {nonstaticDistance}");
+            Console.WriteLine($"{staticAngle} & {nonstaticAngle}");
 
             Console.ReadKey();
         }

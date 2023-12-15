@@ -404,7 +404,6 @@ namespace VectorMath
                     break;
                 case CartesianAxis.Y:
                     rotationAxis = StdUnitVectorY;
-
                     break;
                 case CartesianAxis.Z:
                     rotationAxis = StdUnitVectorZ;
@@ -413,7 +412,7 @@ namespace VectorMath
                     break;
             }
 
-            //checks if the angle is positive or negative in regards of the rotation axis (right hand coordinate system) and returns the signed angle
+            // checks if the angle is positive or negative in regards of the rotation axis (right hand coordinate system) and returns the signed angle
             float tripleProduct = (this % _target) * rotationAxis;
             if (tripleProduct < minFloat)
             {
@@ -421,55 +420,29 @@ namespace VectorMath
             }
             return angle;
         }
+        
+        public float GetSignedAngleTo(Vector _target)
+        {
+            Vector crossProduct = this % _target;
+            Vector[] cartesianAxes = new Vector[] { StdUnitVectorX, StdUnitVectorY, StdUnitVectorZ };
+            float[] angles = new float[cartesianAxes.Length];
+            
+            for (int i = 0; i < cartesianAxes.Length; i++)
+                angles[i] = GetAngleBetween(crossProduct, cartesianAxes[i]);
 
-        //public float GetSignedAngleTo(Vector _target)
-        //{
-        //    //gets the "direct" angle between two vectors
-        //    float angle = GetAngleBetween(this, _target);
-        //    Vector crossProduct = this % _target;
-        //    Vector [] cartesianAxes = new Vector[] { StdUnitVectorX, StdUnitVectorY, StdUnitVectorZ };
-
-        //    foreach (Vector axis in cartesianAxes)
-        //    {
-
-        //    }
-
-        //    for (int i = 0; i < cartesianAxes.Length-1; i++)
-        //    {
-        //        cartesianAxes[i] = cartesianAxes[i].ProjectOnAxis((CartesianAxis)i);
-        //    }
-
-
-
-        //    //gets the axis to define the sign of the angle in regards of a right hand coordinate system
-        //    //Vector rotationAxis = new Vector();
-        //    //switch (_rotationAxis)
-        //    //{
-        //    //    case CartesianAxis.X:
-        //    //        rotationAxis = StdUnitVectorX;
-        //    //        break;
-        //    //    case CartesianAxis.Y:
-        //    //        rotationAxis = StdUnitVectorY;
-
-        //    //        break;
-        //    //    case CartesianAxis.Z:
-        //    //        rotationAxis = StdUnitVectorZ;
-        //    //        break;
-        //    //    default:
-        //    //        break;
-        //    //}
-
-        //    //checks if the angle is positive or negative in regards of the rotation axis (right hand coordinate system) and returns the signed angle
-        //    float tripleProduct = crossProduct * rotationAxis;
-        //    if (tripleProduct < minFloat)
-        //    {
-        //        angle = -angle;
-        //    }
-        //    return angle;
-        //}
+            Vector rotationAxis = cartesianAxes[Array.IndexOf(angles, angles.Min())];
+            
+            // gets the "direct" angle between two vectors
+            float angle = GetAngleBetween(this, _target);
+            
+            // checks if the angle is positive or negative in regards of the rotation axis (right hand coordinate system) and returns the signed angle
+            if (crossProduct * rotationAxis < minFloat)
+                angle = -angle;
+            return angle;
+        }
         #endregion
 
-        #region Boolean
+        #region Booleans
         public bool IsNullVector
         {
             get
