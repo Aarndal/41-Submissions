@@ -11,7 +11,7 @@ namespace Monster_Combat_Simulator
     {
         public Goblin(float _health, float _attack, float _defense, float _speed) : base(_health, _attack, _defense, _speed)
         {
-
+            Type = "Goblin";
         }
 
     }

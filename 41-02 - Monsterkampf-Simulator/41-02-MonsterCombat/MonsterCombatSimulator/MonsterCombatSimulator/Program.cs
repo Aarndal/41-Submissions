@@ -1,4 +1,6 @@
-﻿namespace Monster_Combat_Simulator
+﻿using System.Security.Cryptography.X509Certificates;
+
+namespace Monster_Combat_Simulator
 {
     internal class Program
     {
@@ -29,11 +31,11 @@
 
             "Following you can choose two different Monster Types to fight against each other.".WriteLine();
 
-            // Gets the user's input for the first monster type.
+            // Gets the user's input for the first Monster Type.
             "Choose your first Monster Type: ".Write();
             string input01 = Console.ReadLine().Trim();
 
-            // Checks if the user's input is valid. If not, it asks the user to input a valid monster type.
+            // Checks if the user's input for the first monster's Monster Type is valid. If not, it asks the user to input a valid Monster Type.
             while (input01 != "Goblin" && input01 != "Orc" && input01 != "Troll")
             {
                 Console.SetCursorPosition(0, Console.CursorTop - 1);
@@ -42,16 +44,38 @@
                 input01 = Console.ReadLine().Trim();
             }
 
-            // Creates an instance of the monster type the user chose.
-            
-
-            $"You chose a {input01}. Now set the stats of the monster:".WriteLine();
-
-
             "\n".WriteLine();
+
+            $"You chose a {input01}. Now set the stats of the {input01}:".WriteLine();
+
+            // Gets the user's input for the first Monster Type's stats.
+            "Hit Points: ".Write();
+            float hp01 = float.Parse(Console.ReadLine().Trim());
+            "Attack Power: ".Write();
+            float ap01 = float.Parse(Console.ReadLine().Trim());
+            "Defense Points: ".Write();
+            float dp01 = float.Parse(Console.ReadLine().Trim());
+            "Speed: ".Write();
+            float s01 = float.Parse(Console.ReadLine().Trim());
+
+            // Creates a new object of the Monster class with the user's input for the first Monster Type.
+            Monster monster01;
+            switch (input01)
+            {
+                case "Goblin":
+                    monster01 = new Goblin(hp01, ap01, dp01, s01);
+                    break;
+                case "Orc":
+                    monster01 = new Orc(hp01, ap01, dp01, s01);
+                    break;
+                case "Troll":
+                    monster01 = new Troll(hp01, ap01, dp01, s01);
+                    break;
+            }   
+            
             "Choose your second Monster Type: ".Write();
             string monster02 = Console.ReadLine().Trim();
-            
+
 
             Console.ReadKey();
         }
