@@ -47,6 +47,9 @@ namespace Monster_Combat_Simulator
             Console.Clear();
         }
 
+        /// <summary>
+        /// Method to clear the current console line and set the cursor to the beginning of the line.
+        /// </summary>
         public static void ClearCurrentConsoleLine()
         {
             int currentLineCursor = Console.CursorTop;
