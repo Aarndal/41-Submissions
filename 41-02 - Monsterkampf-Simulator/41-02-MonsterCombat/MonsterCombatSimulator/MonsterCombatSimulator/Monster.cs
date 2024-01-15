@@ -8,7 +8,7 @@ namespace Monster_Combat_Simulator
 {
     internal class Monster
     {
-        protected static string monsterType = null;
+        protected static string? monsterType = null;
 
         /// <summary>
         /// Constructor for the Monster class.
@@ -30,7 +30,7 @@ namespace Monster_Combat_Simulator
         /// <summary>
         /// Defines the Monster Type of the Monster. Two Monsters of the same type cannot fight against each other.
         /// </summary>
-        public static string Type 
+        public static string? Type 
         { 
             get => monsterType;
             protected set
