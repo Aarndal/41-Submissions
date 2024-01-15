@@ -1,4 +1,10 @@
-﻿using System.Security.Cryptography.X509Certificates;
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using System.Security.Cryptography.X509Certificates;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Monster_Combat_Simulator
 {
@@ -31,11 +37,11 @@ namespace Monster_Combat_Simulator
 
             "Following you can choose two different Monster Types to fight against each other.".WriteLine();
 
-            // Gets the user's input for the first Monster Type.
+            // Gets the user's input for the first Monster's Monster Type.
             "Choose your first Monster Type: ".Write();
             string input01 = Console.ReadLine().Trim();
 
-            // Checks if the user's input for the first monster's Monster Type is valid. If not, it asks the user to input a valid Monster Type.
+            // Checks if the user's input for the first Monster's Monster Type is valid. If not, it asks the user to input a valid Monster Type.
             while (input01 != "Goblin" && input01 != "Orc" && input01 != "Troll")
             {
                 Console.SetCursorPosition(0, Console.CursorTop - 1);
@@ -44,11 +50,9 @@ namespace Monster_Combat_Simulator
                 input01 = Console.ReadLine().Trim();
             }
 
-            "\n".WriteLine();
-
             $"You chose a {input01}. Now set the stats of the {input01}:".WriteLine();
 
-            // Gets the user's input for the first Monster Type's stats.
+            // Gets the user's input for the first Monster's stats.
             "Hit Points: ".Write();
             float hp01 = float.Parse(Console.ReadLine().Trim());
             "Attack Power: ".Write();
@@ -58,8 +62,10 @@ namespace Monster_Combat_Simulator
             "Speed: ".Write();
             float s01 = float.Parse(Console.ReadLine().Trim());
 
+            // !!! ToDo: Check if the user's input for the first Monster's stats is valid. If not, ask the user to input valid stats.
+
             // Creates a new object of the Monster class with the user's input for the first Monster Type.
-            Monster monster01;
+            Monster? monster01 = null;
             switch (input01)
             {
                 case "Goblin":
@@ -71,11 +77,63 @@ namespace Monster_Combat_Simulator
                 case "Troll":
                     monster01 = new Troll(hp01, ap01, dp01, s01);
                     break;
-            }   
-            
-            "Choose your second Monster Type: ".Write();
-            string monster02 = Console.ReadLine().Trim();
+            }
 
+
+            // Gets the user's input for the second Monster's Monster Type.
+            "Choose your second Monster Type: ".Write();
+            string input02 = Console.ReadLine().Trim();
+
+
+            // ??? IF Abfrage für MonsterType01 == MonsterType02 ???
+
+            // Checks if the user's input for the second Monster's Monster Type is valid and if it is of the same Monster Type as the first one. If not, it asks the user to input a valid Monster Type.
+            while (input02 != "Goblin" && input02 != "Orc" && input02 != "Troll" && input01 == input02)
+            {
+                Console.SetCursorPosition(0, Console.CursorTop - 1);
+                ConsoleEx.ClearCurrentConsoleLine();
+                "Please choose a valid Monster Type (Goblin, Orc, or Troll). The second Monster must be of a different Type than the first one: ".Write(ConsoleColor.DarkYellow);
+                input02 = Console.ReadLine().Trim();
+            }
+
+            $"You chose a {input02}. Now set the stats of the {input02}:".WriteLine();
+
+            // Gets the user's input for the second Monster's stats.
+            "Hit Points: ".Write();
+            float hp02 = float.Parse(Console.ReadLine().Trim());
+            "Attack Power: ".Write();
+            float ap02 = float.Parse(Console.ReadLine().Trim());
+            "Defense Points: ".Write();
+            float dp02 = float.Parse(Console.ReadLine().Trim());
+            "Speed: ".Write();
+            float s02 = float.Parse(Console.ReadLine().Trim());
+
+            // !!! ToDo: Check if the user's input for the second Monster's stats is valid. If not, ask the user to input valid stats.
+
+            // Creates a new object of the Monster class with the user's input for the second Monster Type.
+            Monster? monster02 = null;
+            switch (input02)
+            {
+                case "Goblin":
+                    monster02 = new Goblin(hp02, ap02, dp02, s02);
+                    break;
+                case "Orc":
+                    monster02 = new Orc(hp02, ap02, dp02, s02);
+                    break;
+                case "Troll":
+                    monster02 = new Troll(hp02, ap02, dp02, s02);
+                    break;
+            }
+
+            // Writes the stats of the first Monster to the console.
+            "\n".WriteLine();
+            $"The stats of your {input01} are:".WriteLine();
+            monster01.PrintStats();
+
+            //// Writes the stats of the second Monster to the console.
+            //"\n".WriteLine();
+            //$"The stats of your {input02} are:".WriteLine();
+            //monster02.PrintStats();
 
             Console.ReadKey();
         }

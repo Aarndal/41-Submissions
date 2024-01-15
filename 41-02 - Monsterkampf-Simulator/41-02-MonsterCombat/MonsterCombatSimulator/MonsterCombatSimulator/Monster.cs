@@ -8,8 +8,10 @@ namespace Monster_Combat_Simulator
 {
     internal class Monster
     {
+        protected static string monsterType = null;
+
         /// <summary>
-        /// Constructor for the Monster class. Takes in 4 floats and sets them to the appropriate properties.
+        /// Constructor for the Monster class.
         /// </summary>
         /// <param name="_health"></param>
         /// <param name="_attack"></param>
@@ -24,14 +26,12 @@ namespace Monster_Combat_Simulator
             S = _speed;
         }
 
-        protected static string monsterType = null;
 
-        // Properties for the Monster class.
-        
         /// <summary>
         /// Defines the Monster Type of the Monster. Two Monsters of the same type cannot fight against each other.
         /// </summary>
-        public static string Type { 
+        public static string Type 
+        { 
             get => monsterType;
             protected set
             {
