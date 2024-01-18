@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.Intrinsics.Arm;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,8 +32,8 @@ namespace Monster_Combat_Simulator
             "Press any key to continue...".WriteLine();
             Console.ReadKey();
             Console.Clear();
-
             Console.SetCursorPosition(0, Console.CursorTop);
+            
             // Writes the instructions for the user.
             MonsterCombatSimulatorInstructions();
 
@@ -69,7 +70,10 @@ namespace Monster_Combat_Simulator
             }
 
             Monster? monster02 = SetMonsterStats(input02);
-            "\n".Write();
+
+            Console.ReadKey();
+            Console.Clear();
+            Console.SetCursorPosition(0, Console.CursorTop);
 
             // Writes the stats of the first Monster to the console.
             $"The stats of your {input01} are:".WriteLine();
@@ -83,6 +87,32 @@ namespace Monster_Combat_Simulator
                 monster02.PrintStats();
 
             Console.ReadKey();
+            Console.Clear();
+            Console.SetCursorPosition(0, Console.CursorTop);
+
+            Monster firstFighter = monster01.S >= monster02.S ? monster01 : monster02;
+            Monster secondFighter = monster01.S < monster02.S ? monster02 : monster01;
+
+            do
+            {
+                float dmg02 = firstFighter.Attack(secondFighter);
+                secondFighter.TakeDamage(dmg02);
+                if (secondFighter.IsDead)
+                {
+                    $"The {secondFighter} is dead!".WriteLine();
+                    break;
+                }
+
+                float dmg01 = secondFighter.Attack(firstFighter);
+                firstFighter.TakeDamage(dmg01);
+                if (firstFighter.IsDead)
+                {
+                    $"The {firstFighter} is dead!".WriteLine();
+                    break;
+                }
+
+            } while (!firstFighter.IsDead && !secondFighter.IsDead);
+
         }
 
         private static void MonsterCombatSimulatorInstructions()
@@ -96,7 +126,7 @@ namespace Monster_Combat_Simulator
             "- Hit Points: They describe the monster's health. If the monster's health drops to 0 or below, it is dead.".WriteLine();
             "- Attack Power: This is the amount of damage the monster can deal to another monster per attack.".WriteLine();
             "- Defense Points: This is the amount of damage the monster can block from another monster's attack.".WriteLine();
-            "- Speed: The higher the monster's speed, the more often it can attack per round. \n".WriteLine();
+            "- Speed: Determines how fast a monster is. The monster with the higher speed will attack first. \n".WriteLine();
 
             "Following you can choose two different Monsters to fight against each other. The Monsters cannot be of the same Monster Type!".WriteLine();
             "\n".Write();
@@ -104,6 +134,8 @@ namespace Monster_Combat_Simulator
 
         private static Monster? SetMonsterStats(string _userInput)
         {
+            Monster? monster = null;
+
             $"You chose a {_userInput}. Now set the stats of the {_userInput}:".WriteLine();
 
             // Gets the user's input for the Monster's stats.
@@ -116,25 +148,29 @@ namespace Monster_Combat_Simulator
             "Speed: ".Write();
             float s = float.Parse(TextInput().Trim());
 
-            // !!! ToDo: Check if the user's input for the Monster's stats is valid. If not, ask the user to input valid stats.
+            // !!! To-Do: Check if the user's input for the Monster's stats is valid. If not, ask the user to input valid stats.
+
+            // !!! To-DO convert string to Enum
 
             // Creates a new object of the Monster class with the user's input for the Monster Type.
-            Monster? _monster = null;
+            return monster = CreateMonster(_userInput, hp, ap, dp, s);
+        }
 
+
+        // !!! To-DO convert string to Enum
+        private static Monster? CreateMonster(string _userInput, float _hp, float _ap, float _dp, float _s)
+        {
             switch (_userInput)
             {
                 case "Goblin":
-                    _monster = new Goblin(hp, ap, dp, s);
-                    break;
+                    return new Goblin(_hp, _ap, _dp, _s);
                 case "Orc":
-                    _monster = new Orc(hp, ap, dp, s);
-                    break;
+                    return new Orc(_hp, _ap, _dp, _s);
                 case "Troll":
-                    _monster = new Troll(hp, ap, dp, s);
-                    break;
+                    return new Troll(_hp, _ap, _dp, _s);
+                default:
+                    return null;
             }
-
-            return _monster;
         }
     }
 }

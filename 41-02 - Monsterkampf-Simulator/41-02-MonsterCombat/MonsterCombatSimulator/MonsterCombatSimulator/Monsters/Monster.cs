@@ -42,23 +42,27 @@ namespace Monster_Combat_Simulator
         /// <summary>
         /// Defines the Health Points of the Monster. If the Monster's HP drop to 0 or below, it is dead.
         /// </summary>
-        public float HP { get; set; }
+        public float HP { get; protected set; }
 
         /// <summary>
         /// Defines the Attack Power of the Monster. This is the amount of damage the Monster can deal to another Monster per Attack action.
         /// </summary>
-        public float AP { get; set; }
+        public float AP { get; protected set; }
 
         /// <summary>
         /// Defines the Defense Points of the Monster. This is the amount of damage the Monster can block from another Monster's attack per Attack action.
         /// </summary>
-        public float DP { get; set; }
+        public float DP { get; protected set; }
 
         /// <summary>
         /// Defines the Speed of the Monster. The higher the Monster's Speed, the more often it can use the Attack action per round.
         /// </summary>
-        public float S { get; set; }
+        public float S { get; protected set; }
 
+        /// <summary>
+        /// Returns true if the Monster's HP are 0 or below.
+        /// </summary>
+        public bool IsDead { get; protected set; }
 
         /// <summary>
         /// Method to print the properties/stats of an object of the Monster class to the console.
@@ -72,17 +76,28 @@ namespace Monster_Combat_Simulator
         }
 
         /// <summary>
-        /// Method to attack another Monster object. Takes in a Monster object and subtracts the attacking Monster's AP from the defending Monster's HP.
+        /// Method to attack another Monster object. Returns the damage dealt to the other Monster.
         /// </summary>
         /// <param name="_monster"></param>
-        public void Attack(Monster _monster)
+        public float Attack(Monster _monster)
         {
             float damage = AP - _monster.DP;
-            if (damage < 0)
-            {
-                damage = 0;
-            }
-            _monster.HP -= damage;
+            if (damage <= 0) 
+                return damage = 0;
+            return damage;
+        }
+
+        /// <summary>
+        /// Method to take damage from another Monster object. Returns true if the Monster is dead.
+        /// </summary>
+        /// <param name="_damage"></param>
+        /// <returns></returns>
+        public bool TakeDamage(float _damage)
+        {
+            this.HP -= _damage;
+            if (this.HP <= 0)
+                return IsDead = true;
+            return IsDead = false;
         }
     }
 }
