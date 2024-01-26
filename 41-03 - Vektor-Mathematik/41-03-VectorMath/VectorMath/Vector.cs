@@ -9,10 +9,9 @@ namespace VectorMath
     public class Vector
     {
         private static float minFloat = MathF.Pow(10f, -6f); //minFloat is used to compare floats to zero and therefore avoid division by zero
-        private float x;
-        private float y;
-        private float z;
+        private float x, y, z;
 
+        // Enum for the rotation axis of the SignedAngle Methods
         public enum CartesianAxis
         {
             X,
@@ -21,60 +20,57 @@ namespace VectorMath
         }
 
         #region Constructors
+        /// <summary>
+        /// Generates a ZeroVector
+        /// </summary>
         public Vector()
         {
-            x = 0;
-            y = 0;
-            z = 0;
-        }
-        public Vector(float _x, float _y, float _z)
-        {
-            x = _x;
-            y = _y;
-            z = _z;
+            this.x = 0;
+            this.y = 0;
+            this.z = 0;
         }
 
-        public Vector(float _x, float _y)
+        /// <summary>
+        /// Generates a Vector with x, y, and z components
+        /// </summary>
+        /// <param name="_x"></param>
+        /// <param name="_y"></param>
+        /// <param name="_z"></param>
+        public Vector(float _x, float _y, float _z = 0)
         {
-            x = _x;
-            y = _y;
-            z = 0;
+            this.x = _x;
+            this.y = _y;
+            this.z = _z;
         }
+
         #endregion
 
         #region VectorComponents
+        /// <summary>
+        /// Property to get/set the x component of a Vector object
+        /// </summary>
         public float xComponent
         {
-            get
-            {
-                return x;
-            }
-            set
-            {
-                x = value;
-            }
+            get => this.x;
+            set => this.x = value;
         }
+
+        /// <summary>
+        /// Property to get/set the y component of a Vector object
+        /// </summary>
         public float yComponent
         {
-            get
-            {
-                return y;
-            }
-            set
-            {
-                x = value;
-            }
+            get => this.y;
+            set => this.y = value;
         }
+
+        /// <summary>
+        /// Property to get/set the z component of a Vector object
+        /// </summary>
         public float zComponent
         {
-            get
-            {
-                return z;
-            }
-            set
-            {
-                x = value;
-            }
+            get => this.z;
+            set => this.z = value;
         }
         #endregion
 
