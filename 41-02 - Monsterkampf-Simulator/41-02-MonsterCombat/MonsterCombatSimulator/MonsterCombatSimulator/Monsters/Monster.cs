@@ -17,7 +17,7 @@ namespace Monster_Combat_Simulator
         /// <summary>
         /// Constructor for the Monster class.
         /// </summary>
-        protected Monster()
+        protected Monster(float _health, float _attack, float _defense, float _speed)
         {
             Type = "Monster";
 
