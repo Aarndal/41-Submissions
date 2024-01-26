@@ -95,6 +95,7 @@ namespace Monster_Combat_Simulator
             _target.HP -= dmg;
             if (_target.HP <= 0)
                 _target.HP = 0;
+            // !!! To-DO: Include in HP Property
         }
 
         public void IsMonsterDead()
