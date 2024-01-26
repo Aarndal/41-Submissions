@@ -4,11 +4,11 @@
     {
         static void Main(string[] args)
         {
-            Vector vector1 = new Vector(1, 0, 25);
-            Vector vector2 = new Vector(0, 1, 75);
+            Vector vector1 = new Vector(1, 0, 5);
+            Vector vector2 = new Vector(0, 1, 5);
             float angle = Vector.GetSignedAngleBetween(vector2, vector1, Vector.CartesianAxis.Z);
 
-            
+
             float staticAngle = Vector.GetSignedAngleBetween(vector1, vector2, Vector.CartesianAxis.Y);
             float nonstaticAngle = vector1.GetSignedAngleTo(vector2);
 
