@@ -8,56 +8,65 @@ namespace Monster_Combat_Simulator
 {
     internal class Monster
     {
-        protected static string? monsterType = null;
+        protected string? m_monsterType;
+        private float m_healthPoints;
+        private float m_attackPower;
+        private float m_defensePoints;
+        private float m_speed;
 
         /// <summary>
         /// Constructor for the Monster class.
         /// </summary>
-        /// <param name="_health"></param>
-        /// <param name="_attack"></param>
-        /// <param name="_defense"></param>
-        /// <param name="_speed"></param>
-        protected Monster(float _health, float _attack, float _defense, float _speed)
+        protected Monster()
         {
-            Type = null;
-            HP = _health;
-            AP = _attack;
-            DP = _defense;
-            S = _speed;
-        }
+            Type = "Monster";
 
+        }
 
         /// <summary>
         /// Defines the Monster Type of the Monster. Two Monsters of the same type cannot fight against each other.
         /// </summary>
-        public static string? Type 
-        { 
-            get => monsterType;
-            protected set
-            {
-                monsterType = value;
-            }
+        public string? Type
+        {
+            get => m_monsterType;
+            protected set => m_monsterType = value;
         }
 
         /// <summary>
         /// Defines the Health Points of the Monster. If the Monster's HP drop to 0 or below, it is dead.
         /// </summary>
-        public float HP { get; protected set; }
+        public float HP
+        {
+            get => m_healthPoints;
+            protected set => m_healthPoints = value;
+        }
 
         /// <summary>
         /// Defines the Attack Power of the Monster. This is the amount of damage the Monster can deal to another Monster per Attack action.
         /// </summary>
-        public float AP { get; protected set; }
+        public float AP
+        {
+            get => m_attackPower;
+            protected set => m_attackPower = value;
+        }
 
         /// <summary>
         /// Defines the Defense Points of the Monster. This is the amount of damage the Monster can block from another Monster's attack per Attack action.
         /// </summary>
-        public float DP { get; protected set; }
+        public float DP
+        {
+            get => m_defensePoints;
+            protected set => m_defensePoints = value;
+        }
 
         /// <summary>
         /// Defines the Speed of the Monster. The higher the Monster's Speed, the more often it can use the Attack action per round.
         /// </summary>
-        public float S { get; protected set; }
+        public float S
+        {
+            get => m_speed;
+            protected set => m_speed = value;
+        }
 
         /// <summary>
         /// Returns true if the Monster's HP are 0 or below.
@@ -75,29 +84,24 @@ namespace Monster_Combat_Simulator
             Console.WriteLine("Speed: " + S);
         }
 
-        /// <summary>
-        /// Method to attack another Monster object. Returns the damage dealt to the other Monster.
-        /// </summary>
-        /// <param name="_monster"></param>
-        public float Attack(Monster _monster)
+        public void Attack(Monster _target)
         {
-            float damage = AP - _monster.DP;
-            if (damage <= 0) 
-                return damage = 0;
-            return damage;
+            float dmg;
+            dmg = this.AP - _target.DP;
+
+            if (dmg <= 0)
+                dmg = 1;
+
+            _target.HP -= dmg;
+            if (_target.HP <= 0)
+                _target.HP = 0;
         }
 
-        /// <summary>
-        /// Method to take damage from another Monster object. Returns true if the Monster is dead.
-        /// </summary>
-        /// <param name="_damage"></param>
-        /// <returns></returns>
-        public bool TakeDamage(float _damage)
+        public void IsMonsterDead()
         {
-            this.HP -= _damage;
             if (this.HP <= 0)
-                return IsDead = true;
-            return IsDead = false;
+                this.IsDead = true;
+            this.IsDead = false;
         }
     }
 }

@@ -33,7 +33,7 @@ namespace Monster_Combat_Simulator
             Console.ReadKey();
             Console.Clear();
             Console.SetCursorPosition(0, Console.CursorTop);
-            
+
             // Writes the instructions for the user.
             MonsterCombatSimulatorInstructions();
 
@@ -60,29 +60,43 @@ namespace Monster_Combat_Simulator
             // ??? IF Abfrage für MonsterType01 == MonsterType02 ???
 
             // Checks if the user's input for the second Monster's Monster Type is valid and if it is of the same Monster Type as the first one. If not, it asks the user to input a valid Monster Type.
-            while (input02 != "Goblin" && input02 != "Orc" && input02 != "Troll" && input01 != input02)
+            while (true)
             {
-                Console.SetCursorPosition(0, Console.CursorTop - 1);
-                ConsoleEx.ClearCurrentConsoleLine();
-                "Please choose a valid Monster Type (Goblin, Orc, or Troll).".Write(ConsoleColor.DarkYellow);
-                "The second Monster must be of a different Type than the first one: ".Write(ConsoleColor.DarkYellow);
-                input02 = TextInput().Trim();
+                if (input02 != "Goblin" && input02 != "Orc" && input02 != "Troll")
+                {
+                    Console.SetCursorPosition(0, Console.CursorTop - 1);
+                    ConsoleEx.ClearCurrentConsoleLine();
+                    "Please choose a valid Monster Type (Goblin, Orc, or Troll):".Write(ConsoleColor.DarkYellow);
+                    input02 = TextInput().Trim();
+                }
+                else if (input02 == input01)
+                {
+                    Console.SetCursorPosition(0, Console.CursorTop - 1);
+                    ConsoleEx.ClearCurrentConsoleLine();
+                    "The second Monster must be of a different Type than the first one: ".Write(ConsoleColor.DarkYellow);
+                    input02 = TextInput().Trim();
+                }
+                else
+                    break;
             }
 
             Monster? monster02 = SetMonsterStats(input02);
+
+            "\n".Write();
+            "Please, press any key to continue...".WriteLine();
 
             Console.ReadKey();
             Console.Clear();
             Console.SetCursorPosition(0, Console.CursorTop);
 
             // Writes the stats of the first Monster to the console.
-            $"The stats of your {input01} are:".WriteLine();
+            $"The stats of your {monster01.Type} are:".WriteLine();
             if (monster01 is not null)
                 monster01.PrintStats();
 
             // Writes the stats of the second Monster to the console.
-            "\n".WriteLine();
-            $"The stats of your {input02} are:".WriteLine();
+            "\n".Write();
+            $"The stats of your {monster02.Type} are:".WriteLine();
             if (monster02 is not null)
                 monster02.PrintStats();
 
@@ -90,29 +104,27 @@ namespace Monster_Combat_Simulator
             Console.Clear();
             Console.SetCursorPosition(0, Console.CursorTop);
 
-            Monster firstFighter = monster01.S >= monster02.S ? monster01 : monster02;
+            Monster firstFighter = monster01.S >= monster02.S ? monster01 : monster02; // Abkürzung für If Else Abfrage | if true -> monster01, if false -> monster02
             Monster secondFighter = monster01.S < monster02.S ? monster02 : monster01;
 
-            do
+            while (!firstFighter.IsDead && !secondFighter.IsDead)
             {
-                float dmg02 = firstFighter.Attack(secondFighter);
-                secondFighter.TakeDamage(dmg02);
+                firstFighter.Attack(secondFighter);
+                secondFighter.IsMonsterDead();
                 if (secondFighter.IsDead)
                 {
                     $"The {secondFighter} is dead!".WriteLine();
                     break;
                 }
 
-                float dmg01 = secondFighter.Attack(firstFighter);
-                firstFighter.TakeDamage(dmg01);
+                secondFighter.Attack(firstFighter);
+                firstFighter.IsMonsterDead();
                 if (firstFighter.IsDead)
                 {
                     $"The {firstFighter} is dead!".WriteLine();
                     break;
                 }
-
-            } while (!firstFighter.IsDead && !secondFighter.IsDead);
-
+            }
         }
 
         private static void MonsterCombatSimulatorInstructions()
@@ -158,16 +170,16 @@ namespace Monster_Combat_Simulator
 
 
         // !!! To-DO convert string to Enum
-        private static Monster? CreateMonster(string _userInput, float _hp, float _ap, float _dp, float _s)
+        private static Monster? CreateMonster(string _userInput)
         {
             switch (_userInput)
             {
                 case "Goblin":
-                    return new Goblin(_hp, _ap, _dp, _s);
+                    return new Goblin();
                 case "Orc":
-                    return new Orc(_hp, _ap, _dp, _s);
+                    return new Orc();
                 case "Troll":
-                    return new Troll(_hp, _ap, _dp, _s);
+                    return new Troll();
                 default:
                     return null;
             }
