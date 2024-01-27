@@ -20,7 +20,10 @@ namespace Monster_Combat_Simulator
         protected Monster(float _health, float _attack, float _defense, float _speed)
         {
             Type = "Monster";
-
+            HP = _health;
+            AP = _attack;
+            DP = _defense;
+            SP = _speed;
         }
 
         /// <summary>
@@ -38,7 +41,12 @@ namespace Monster_Combat_Simulator
         public float HP
         {
             get => m_healthPoints;
-            protected set => m_healthPoints = value;
+            protected set
+            {
+                m_healthPoints = value;
+                if (m_healthPoints <= 0)
+                    m_healthPoints = 0;
+            }
         }
 
         /// <summary>
@@ -60,9 +68,9 @@ namespace Monster_Combat_Simulator
         }
 
         /// <summary>
-        /// Defines the Speed of the Monster. The higher the Monster's Speed, the more often it can use the Attack action per round.
+        /// Defines the SpeedPoints of the Monster. The higher the Monster's Speed, the more often it can use the Attack action per round.
         /// </summary>
-        public float S
+        public float SP
         {
             get => m_speed;
             protected set => m_speed = value;
@@ -81,7 +89,7 @@ namespace Monster_Combat_Simulator
             Console.WriteLine("Health Points: " + HP);
             Console.WriteLine("Attack Power: " + AP);
             Console.WriteLine("Defense Points: " + DP);
-            Console.WriteLine("Speed: " + S);
+            Console.WriteLine("Speed: " + SP);
         }
 
         public void Attack(Monster _target)
@@ -93,9 +101,6 @@ namespace Monster_Combat_Simulator
                 dmg = 1;
 
             _target.HP -= dmg;
-            if (_target.HP <= 0)
-                _target.HP = 0;
-            // !!! To-DO: Include in HP Property
         }
 
         public void IsMonsterDead()

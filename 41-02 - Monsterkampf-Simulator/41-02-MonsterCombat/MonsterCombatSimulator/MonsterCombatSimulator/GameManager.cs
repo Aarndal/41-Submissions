@@ -104,8 +104,8 @@ namespace Monster_Combat_Simulator
             Console.Clear();
             Console.SetCursorPosition(0, Console.CursorTop);
 
-            Monster firstFighter = monster01.S >= monster02.S ? monster01 : monster02; // Abkürzung für If Else Abfrage | if true -> monster01, if false -> monster02
-            Monster secondFighter = monster01.S < monster02.S ? monster02 : monster01;
+            Monster firstFighter = monster01.SP >= monster02.SP ? monster01 : monster02; // Abkürzung für If Else Abfrage | if true -> monster01, if false -> monster02
+            Monster secondFighter = monster01.SP < monster02.SP ? monster02 : monster01;
 
             while (!firstFighter.IsDead && !secondFighter.IsDead)
             {
