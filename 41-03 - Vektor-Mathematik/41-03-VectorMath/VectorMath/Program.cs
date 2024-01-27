@@ -4,25 +4,26 @@
     {
         static void Main(string[] args)
         {
-            Vector vector1 = new Vector(1, 0, 5);
-            Vector vector2 = new Vector(0, 1, 5);
-            float angle = Vector.GetSignedAngleBetween(vector2, vector1, Vector.CartesianAxis.Z);
+            Vector vector1 = new Vector(1, 0);
+            Vector vector2 = new Vector(0, 1);
+            float angle = Vector.GetAngleBetween(;
 
+            //float staticAngle = Vector.GetSignedAngleBetween(vector1, vector2, Vector.CartesianAxis.Y);
+            //float nonstaticAngle = vector1.GetSignedAngleTo(vector2);
 
-            float staticAngle = Vector.GetSignedAngleBetween(vector1, vector2, Vector.CartesianAxis.Y);
-            float nonstaticAngle = vector1.GetSignedAngleTo(vector2);
+            //try
+            //{
+            //    vector1 = Vector.GetUnitVector(vector1);
+            //}
+            //catch (ArithmeticException _exception)
+            //{
+            //    Console.WriteLine(_exception.Message);
+            //    Console.WriteLine(_exception.StackTrace);
+            //}
 
-            try
-            {
-                vector1 = Vector.GetUnitVector(vector1);
-            }
-            catch (ArithmeticException _exception)
-            {
-                Console.WriteLine(_exception.Message);
-                Console.WriteLine(_exception.StackTrace);
-            }
+            //Console.WriteLine($"{staticAngle} & {nonstaticAngle}");
 
-            Console.WriteLine($"{staticAngle} & {nonstaticAngle}");
+            Console.WriteLine(angle);
 
             Console.ReadKey();
         }
