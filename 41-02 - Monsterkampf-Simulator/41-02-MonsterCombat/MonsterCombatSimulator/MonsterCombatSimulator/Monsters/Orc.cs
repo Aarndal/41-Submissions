@@ -8,6 +8,11 @@ namespace Monster_Combat_Simulator
 {
     internal class Orc: Monster
     {
+        public Orc() : base(5, 4, 3, 5)
+        {
+            Type = "Orc";
+        }
+
         public Orc(float _health, float _attack, float _defense, float _speed) : base(_health, _attack, _defense, _speed)
         {
             Type = "Orc";

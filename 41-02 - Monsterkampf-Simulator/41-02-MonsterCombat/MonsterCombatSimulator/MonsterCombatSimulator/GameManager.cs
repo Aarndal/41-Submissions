@@ -119,6 +119,7 @@ namespace Monster_Combat_Simulator
             }
         }
 
+        #region GameManager Methods
         private static void MonsterCombatSimulatorInstructions()
         {
             "There are three Monster Types to choose from:".WriteLine();
@@ -127,19 +128,19 @@ namespace Monster_Combat_Simulator
             "3. Troll \n".WriteLine();
 
             "Each Monster has certain stats:".WriteLine();
-            "- Hit Points: They describe the monster's health. If the monster's health drops to 0 or below, it is dead.".WriteLine();
-            "- Attack Power: This is the amount of damage the monster can deal to another monster per attack.".WriteLine();
-            "- Defense Points: This is the amount of damage the monster can block from another monster's attack.".WriteLine();
-            "- Speed: Determines how fast a monster is. The monster with the higher speed will attack first. \n".WriteLine();
+            "- Hit Points: They describe a monster's health. If a monster's health points drop to 0 or below, it is dead.".WriteLine();
+            "- Attack Power: This is the amount of damage a monster can deal to another monster per attack.".WriteLine();
+            "- Defense Points: This is the amount of damage a monster can block from another monster's attack.".WriteLine();
+            "- Speed Points: Determines how fast a monster is. The monster with the higher speed will attack first. \n".WriteLine();
 
             "Following you can choose two different Monsters to fight against each other. The Monsters cannot be of the same Monster Type!".WriteLine();
             "\n".Write();
         }
 
-        private static Monster? SetMonsterStats(Monster.MonsterType _userInput)
+        private static Monster? SetMonsterStats(Monster.MonsterType _type)
         {
             
-            $"You chose a {_userInput}. Now set the stats of the {_userInput}:".WriteLine();
+            $"You've chosen a {_type}. Now set the stats of the {_type}:".WriteLine();
 
             // Gets the user's input for the Monster's stats.
             "Hit Points: ".Write();
@@ -150,16 +151,20 @@ namespace Monster_Combat_Simulator
             float dp = float.Parse(TextInput().Trim());
             "Speed: ".Write();
             float sp = float.Parse(TextInput().Trim());
-
             // !!! To-Do: Check if the user's input for the Monster's stats is valid. If not, ask the user to input valid stats.
 
-            // !!! To-DO convert string to Enum
-
-            // Creates a new object of the Monster class with the user's input for the Monster Type.
-            return CreateMonster(_userInput, hp, ap, dp, sp);
+            return CreateMonster(_type, hp, ap, dp, sp);
         }
 
-
+        /// <summary>
+        /// Creates a new object of the Monster class.
+        /// </summary>
+        /// <param name="_type"></param>
+        /// <param name="_hp"></param>
+        /// <param name="_ap"></param>
+        /// <param name="_dp"></param>
+        /// <param name="_sp"></param>
+        /// <returns>Returns either a Goblin, Orc, or Troll, depending on the chosen Monster Type.</returns>
         private static Monster? CreateMonster(Monster.MonsterType _type, float _hp, float _ap, float _dp, float _sp)
         {
             return _type switch
@@ -183,5 +188,6 @@ namespace Monster_Combat_Simulator
                     return null;
             */
         }
+        #endregion
     }
 }

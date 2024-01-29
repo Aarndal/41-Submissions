@@ -8,6 +8,10 @@ namespace Monster_Combat_Simulator
 {
     internal class Troll : Monster
     {
+        public Troll() : base(6, 5, 3, 2)
+        {
+            Type = "Troll";
+        }
         public Troll(float _health, float _attack, float _defense, float _speed) : base(_health, _attack, _defense, _speed)
         {
             Type = "Troll";
