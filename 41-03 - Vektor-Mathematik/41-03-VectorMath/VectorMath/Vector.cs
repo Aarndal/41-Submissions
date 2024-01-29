@@ -11,7 +11,9 @@ namespace VectorMath
         private static float minFloat = MathF.Pow(10f, -6f); //minFloat is used to compare floats to zero and therefore avoid division by zero
         private float x, y, z;
 
-        // Enum for the rotation axis of the SignedAngle Methods
+        /// <summary>
+        /// Enum for the rotation axis of the SignedAngle Methods
+        /// </summary>
         public enum CartesianAxis
         {
             X,
@@ -109,11 +111,11 @@ namespace VectorMath
 
         #region Vector Addition & Subtraction
         /// <summary>
-        /// Adds two Vectors and returns the Sum Vector.
+        /// Adds two Vectors.
         /// </summary>
         /// <param name="_vector1"></param>
         /// <param name="_vector2"></param>
-        /// <returns></returns>
+        /// <returns>Returns the sum as a Vector.</returns>
         public static Vector operator +(Vector _vector1, Vector _vector2)
         {
             Vector sumVector = new Vector();
@@ -553,6 +555,11 @@ namespace VectorMath
             return angle;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="_target"></param>
+        /// <returns></returns>
         public float GetSignedAngleTo(Vector _target)
         {
             Vector crossProduct = this % _target;
