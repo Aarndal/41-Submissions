@@ -8,6 +8,14 @@ namespace Monster_Combat_Simulator
 {
     internal class Monster
     {
+        public enum MonsterType
+        {
+            MONSTER = 0,
+            GOBLIN = 1,
+            ORC = 2,
+            TROLL = 3,
+        }
+
         protected string? m_monsterType;
         private float m_healthPoints;
         private float m_attackPower;
@@ -68,7 +76,7 @@ namespace Monster_Combat_Simulator
         }
 
         /// <summary>
-        /// Defines the SpeedPoints of the Monster. The higher the Monster's Speed, the more often it can use the Attack action per round.
+        /// Defines the SpeedPoints of the Monster. The Monster with the higher Speed will attack first.
         /// </summary>
         public float SP
         {
@@ -77,9 +85,9 @@ namespace Monster_Combat_Simulator
         }
 
         /// <summary>
-        /// Returns true if the Monster's HP are 0 or below.
+        /// Defines if the Monster is dead or not. If the Monster's HP drop to 0 or below, it returns true.
         /// </summary>
-        public bool IsDead { get; protected set; }
+        public bool IsDead { get => this.HP <= 0; }
 
         /// <summary>
         /// Method to print the properties/stats of an object of the Monster class to the console.
@@ -92,22 +100,19 @@ namespace Monster_Combat_Simulator
             Console.WriteLine("Speed: " + SP);
         }
 
-        public void Attack(Monster _target)
+        public void Attack(Monster? _target)
         {
             float dmg;
-            dmg = this.AP - _target.DP;
 
-            if (dmg <= 0)
-                dmg = 1;
+            if (_target is not null)
+            {
+                dmg = this.AP - _target.DP;
 
-            _target.HP -= dmg;
-        }
+                if (dmg <= 0)
+                    dmg = 1;
 
-        public void IsMonsterDead()
-        {
-            if (this.HP <= 0)
-                this.IsDead = true;
-            this.IsDead = false;
+                _target.HP -= dmg;
+            }
         }
     }
 }
