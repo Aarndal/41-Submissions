@@ -5,15 +5,14 @@ namespace _2309_41_01_EscapeRoom
 
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
-            //Console.OutputEncoding = System.Text.Encoding.UTF8;
             Console.Title = "Escape Room";
 
-            //Login Login = new Login();
-            //Login.StartGame();
+            Login Login = new();
+            Login.StartGame();
 
-            Game EscapeRoom = new Game();
+            Game EscapeRoom = new ();
             EscapeRoom.RunGame();
 
             Console.ForegroundColor = ConsoleColor.DarkGreen;

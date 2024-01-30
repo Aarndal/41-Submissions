@@ -23,24 +23,25 @@ namespace _2309_41_01_EscapeRoom
 
     class Login
     {
-        public void StartGame()
+        public static void StartGame()
         {
             StartScreen();
-            LoginScreen();
+            //LoginScreen();
         }
 
-        private void StartScreen()
+        private static void StartScreen()
         {
             //insert ASCII art
-            Console.WriteLine("Press any key to continue.");
+            Console.WriteLine("Welcome to my Escape Room!");
+            Console.WriteLine("Press any key to continue...");
             Console.ReadKey();
             Console.Clear();
         }
 
-        private void LoginScreen()
+        private static void LoginScreen()
         {
             Console.WriteLine("Welcome brave adventurer! Please, tell me your name:");
-            Player player = new Player(Console.ReadLine());
+            Player player = new (_playerName: Console.ReadLine().Trim());
             Console.WriteLine($"Hello {player}! And be welcome to my little Escape Room.");
             Console.WriteLine("To escape, you have to pick up the key and open the door.");
             Console.WriteLine($"Your character will be represented through a blue <P> that will turn yellow as soon you've picked up the key.");

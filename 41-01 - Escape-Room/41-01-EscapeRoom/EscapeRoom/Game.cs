@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace _2309_41_01_EscapeRoom
 {
+    #region Structs
     struct Vector2
     {
         public int x;
@@ -35,36 +36,36 @@ namespace _2309_41_01_EscapeRoom
         }
 
     }
+    #endregion
 
     class Game
     {
-        #region Variables
-        private static bool runGame = true;
+        #region MemberVariables
+        private static bool m_gameIsRunning = true;
 
         // RoomVariables
-        Vector2 levelStart = new Vector2(10, 10);
+        private ColoredCharTile[,]? m_room;
+        private ColoredCharTile m_background = new(' ', ConsoleColor.Black);
+        private ColoredCharTile m_wall = new('\u2593', ConsoleColor.Green);
 
-        public static int RoomXValue = 20; // Default Room Width
-        public static int RoomYValue = 10; // Default Room Length
+        public static int m_roomXValue = 20; // Default Room Width
+        public static int m_roomYValue = 10; // Default Room Length
 
-        private ColoredCharTile[,] room;
-
-        private ColoredCharTile background = new ColoredCharTile(' ', ConsoleColor.Black);
-        private ColoredCharTile wall = new ColoredCharTile('\u2593', ConsoleColor.Green);
+        Vector2 m_levelStart = new(10, 10);
 
         // DoorVariables
-        private ColoredCharTile door = new ColoredCharTile('D', ConsoleColor.Red);
-        Vector2 doorPosition = new Vector2(0, 1); // Default DoorPosition
-        static bool doorState = false;
+        private ColoredCharTile m_door = new('D', ConsoleColor.Red);
+        Vector2 m_doorPosition = new(0, 1); // Default DoorPosition
 
         // KeyVariables
-        private ColoredCharTile key = new ColoredCharTile('K', ConsoleColor.DarkYellow); //'\u26B7'
-        Vector2 keyPosition = new Vector2(2, 2); // Default KeyPosition
-        static bool pcHasKey = false;
+        private ColoredCharTile m_key = new('K', ConsoleColor.DarkYellow); //'\u26B7'
+        Vector2 m_keyPosition = new(2, 2); // Default KeyPosition
 
         // PlayerCharacterVariables
-        private ColoredCharTile playerCharacter = new ColoredCharTile('P', ConsoleColor.DarkCyan);
-        Vector2 pcPosition = new Vector2(1, RoomYValue / 2); // Default PlayerCharacterPosition
+        private ColoredCharTile m_playerCharacter = new('P', ConsoleColor.DarkCyan);
+        Vector2 m_pcPosition = new(1, m_roomYValue / 2); // Default PlayerCharacterPosition
+
+        static bool m_pcHasKey = false;
 
         #endregion
 
@@ -72,12 +73,10 @@ namespace _2309_41_01_EscapeRoom
         {
             Console.CursorVisible = false; // removes CursorVisibility
 
-            InitializeRoom();
-            InitializeDoor();
-            InitializePC();
-            InitializeKey();
+            Awake();
+            Start();
 
-            while (runGame)
+            while (m_gameIsRunning)
             {
                 Update();
             }
@@ -85,21 +84,29 @@ namespace _2309_41_01_EscapeRoom
             Console.Clear();
         }
 
+        #region Awake
+        private void Awake()
+        {
+            InitializeRoom();
+            InitializeDoor();
+            InitializePC();
+        }
+
         private void InitializeRoom()
         {
-            room = new ColoredCharTile[RoomXValue, RoomYValue]; // Initialization and Definition of 2DArray for Room
+            m_room = new ColoredCharTile[m_roomXValue, m_roomYValue]; // Initialization and Definition of 2DArray for Room
 
-            for (int j = 0; j < RoomYValue; j++)
+            for (int j = 0; j < m_roomYValue; j++)
             {
-                for (int i = 0; i < RoomXValue; i++)
+                for (int i = 0; i < m_roomXValue; i++)
                 {
-                    if (j == 0 || i == 0 || j == RoomYValue - 1 || i == RoomXValue - 1)
+                    if (j == 0 || i == 0 || j == m_roomYValue - 1 || i == m_roomXValue - 1)
                     {
-                        room[i, j] = wall; // WallTile Insert
+                        m_room[i, j] = m_wall; // WallTile Insert
                     }
                     else
                     {
-                        room[i, j] = background; // BackgroundTile Insert
+                        m_room[i, j] = m_background; // BackgroundTile Insert
                     }
                 }
             }
@@ -107,78 +114,134 @@ namespace _2309_41_01_EscapeRoom
 
         private void InitializeDoor() // Randomizing DoorSpawnPoint
         {
-            Random _rnd = new Random();
-            int _doorSeed = _rnd.Next(4);
+            Random rnd = new();
+            int doorSeed = rnd.Next(4);
 
-            switch (_doorSeed)
+            switch (doorSeed)
             {
                 case 0: // Place Door in <NorthWall>
-                    doorPosition.x = _rnd.Next(1, RoomXValue - 1);
-                    doorPosition.y = 0;
+                    m_doorPosition.x = rnd.Next(1, m_roomXValue - 1);
+                    m_doorPosition.y = 0;
                     break;
                 case 1: // Place Door in <WestWall>
-                    doorPosition.x = 0;
-                    doorPosition.y = _rnd.Next(1, RoomYValue - 1);
+                    m_doorPosition.x = 0;
+                    m_doorPosition.y = rnd.Next(1, m_roomYValue - 1);
                     break;
                 case 2: // Place Door in <EastWall>
-                    doorPosition.y = RoomXValue - 1;
-                    doorPosition.y = _rnd.Next(1, RoomYValue - 1);
+                    m_doorPosition.y = m_roomXValue - 1;
+                    m_doorPosition.y = rnd.Next(1, m_roomYValue - 1);
                     break;
                 case 3: // Place Door in <SouthWall>
-                    doorPosition.x = _rnd.Next(1, RoomXValue - 1);
-                    doorPosition.y = RoomYValue - 1;
+                    m_doorPosition.x = rnd.Next(1, m_roomXValue - 1);
+                    m_doorPosition.y = m_roomYValue - 1;
                     break;
                 default:
                     break;
             }
 
-            room[doorPosition.x, doorPosition.y] = door;
+            if (m_room is not null)
+                m_room[m_doorPosition.x, m_doorPosition.y] = m_door;
         }
 
         private void InitializePC() // Randomizing PlayerSpawnPoint
         {
-            Random _rnd = new Random();
-            pcPosition.x = _rnd.Next(1, RoomXValue - 1);
-            pcPosition.y = _rnd.Next(1, RoomYValue - 1);
-            room[pcPosition.x, pcPosition.y] = playerCharacter;
+            Random _rnd = new();
+            m_pcPosition.x = _rnd.Next(1, m_roomXValue - 1);
+            m_pcPosition.y = _rnd.Next(1, m_roomYValue - 1);
+
+            if (m_room is not null)
+                m_room[m_pcPosition.x, m_pcPosition.y] = m_playerCharacter;
+        }
+
+        #endregion
+
+        #region Start
+        private void Start()
+        {
+            InitializeKey();
         }
 
         private void InitializeKey() // Randomizing KeySpawnPoint
         {
-            Random _rnd = new Random();
+            Random _rnd = new();
 
             // Preventing KeySpawnPoint from overriding PlayerSpawnPoint
             do
             {
-                keyPosition.x = _rnd.Next(1, RoomXValue - 1);
-                keyPosition.y = _rnd.Next(1, RoomYValue - 1);
+                m_keyPosition.x = _rnd.Next(1, m_roomXValue - 1);
+                m_keyPosition.y = _rnd.Next(1, m_roomYValue - 1);
             }
-            while (keyPosition.x == pcPosition.x && keyPosition.y == pcPosition.y);
+            while ((m_keyPosition.x == m_pcPosition.x) && (m_keyPosition.y == m_pcPosition.y));
 
-            room[keyPosition.x, keyPosition.y] = key;
+            if (m_room is not null)
+                m_room[m_keyPosition.x, m_keyPosition.y] = m_key;
         }
 
+        #endregion
+
+        #region Update
         private void Update()
         {
-            Console.SetCursorPosition(levelStart.x, levelStart.y);
+            Console.SetCursorPosition(m_levelStart.x, m_levelStart.y);
             PrintLevel();
             PCMovement();
         }
 
         private void PrintLevel() // Prints Walls, Floor, Door, Player at StartPosition, and Key
         {
-            for (int j = 0; j < RoomYValue; j++)
+            for (int j = 0; j < m_roomYValue; j++)
             {
-                for (int i = 0; i < RoomXValue; i++)
+                for (int i = 0; i < m_roomXValue; i++)
                 {
-                    Console.ForegroundColor = room[i, j].tileColor; // set color
-                    Console.Write(room[i, j].tile); // print tile with set color
+                    if (m_room is not null)
+                    {
+                        Console.ForegroundColor = m_room[i, j].tileColor; // set color
+                        Console.Write(m_room[i, j].tile); // print tile with set color
+                    }
                 }
-                Console.SetCursorPosition(levelStart.x, levelStart.y + 1 + j); // positions the cursor one row downwards
+                Console.SetCursorPosition(m_levelStart.x, m_levelStart.y + 1 + j); // positions the cursor one row downwards
             }
         }
 
-        private Vector2 GetUserInput() // returns a "DeltaVector" for PCMovement method
+        private void PCMovement()
+        {
+            Vector2 delta = GetUserInput();
+            int _newX = m_pcPosition.x + delta.x;
+            int _newY = m_pcPosition.y + delta.y;
+
+            if (m_room is null)
+                return;
+            if (m_room[_newX, _newY].tile == m_wall.tile)
+            {
+                return;
+            }
+            else if (m_room[_newX, _newY].tile == m_door.tile)
+            {
+                switch (m_pcHasKey)
+                {
+                    case true:
+                        m_room[m_pcPosition.x, m_pcPosition.y] = m_background; // clears PC position
+                        m_pcPosition.x = _newX;
+                        m_pcPosition.y = _newY;
+                        m_room[m_pcPosition.x, m_pcPosition.y] = m_playerCharacter; // sets new PC position
+                        m_gameIsRunning = false;
+                        break;
+                    case false:
+                        break;
+                }
+            }
+            else
+            {
+                PickUpKey(_newX, _newY);
+
+                m_room[m_pcPosition.x, m_pcPosition.y] = m_background; // clears PC position
+                m_pcPosition.x = _newX;
+                m_pcPosition.y = _newY;
+                m_room[m_pcPosition.x, m_pcPosition.y] = m_playerCharacter; // sets new PC position
+            }
+        }
+
+        private static Vector2 GetUserInput() // returns a "DeltaVector" for PCMovement method
         {
             ConsoleKey input = Console.ReadKey(true).Key; // get KeyInfo from UserInput
 
@@ -208,53 +271,18 @@ namespace _2309_41_01_EscapeRoom
 
         private void PickUpKey(int _x, int _y) // enables the PC to "pick up" the Key
         {
-            if (room[_x, _y].tile == key.tile)
+            if (m_room is null)
+                return;
+            if (m_room[_x, _y].tile == m_key.tile)
             {
-                pcHasKey = true;
+                m_pcHasKey = true;
                 Console.Beep();
-                playerCharacter.tileColor = ConsoleColor.DarkYellow;
+                m_playerCharacter.tileColor = ConsoleColor.DarkYellow;
             }
             else
-            {
                 return;
-            }
         }
 
-        private void PCMovement()
-        {
-            Vector2 delta = GetUserInput();
-            int _newX = pcPosition.x + delta.x;
-            int _newY = pcPosition.y + delta.y;
-
-
-            if (room[_newX, _newY].tile == wall.tile)
-            {
-                return;
-            }
-            else if (room[_newX, _newY].tile == door.tile)
-            {
-                switch (pcHasKey)
-                {
-                    case true:
-                        room[pcPosition.x, pcPosition.y] = background; // clears PC position
-                        pcPosition.x = _newX;
-                        pcPosition.y = _newY;
-                        room[pcPosition.x, pcPosition.y] = playerCharacter; // sets new PC position
-                        runGame = false;
-                        break;
-                    case false:
-                        break;
-                }
-            }
-            else
-            {
-                PickUpKey(_newX, _newY);
-
-                room[pcPosition.x, pcPosition.y] = background; // clears PC position
-                pcPosition.x = _newX;
-                pcPosition.y = _newY;
-                room[pcPosition.x, pcPosition.y] = playerCharacter; // sets new PC position
-            }
-        }
+        #endregion
     }
 }
