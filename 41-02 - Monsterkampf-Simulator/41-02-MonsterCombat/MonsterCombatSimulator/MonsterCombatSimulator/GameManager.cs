@@ -102,14 +102,26 @@ namespace Monster_Combat_Simulator
 
             Monster?[] combatans = new Monster[2];
 
-            combatans[0] = monster01?.SP >= monster02?.SP ? monster01 : monster02; // Abkürzung für If Else Abfrage | if true -> monster01, if false -> monster02
-            combatans[1] = monster01?.SP < monster02?.SP ? monster02 : monster01;
+            if (monster01?.SP >= monster02?.SP)
+            {
+                combatans[0] = monster01;
+                combatans[1] = monster02;
+            }
+            else
+            {
+                combatans[0] = monster02;
+                combatans[1] = monster01;
+            }
 
             int currentCombatant = 0;
 
             while (true)
             {
+                float hpBeforeAttack = combatans[1 - currentCombatant]?.HP ?? 0;
                 combatans[currentCombatant]?.Attack(combatans[1 - currentCombatant]);
+                float damage = hpBeforeAttack - (combatans[1 - currentCombatant]?.HP ?? 0);
+                $"The {combatans[currentCombatant]?.Type} deals {damage} damage to the {combatans[1 - currentCombatant]?.Type}!".WriteLine();
+                $"The {combatans[1 - currentCombatant]?.Type} has {combatans[1 - currentCombatant]?.HP} HP left! \n".WriteLine();
 
                 if (combatans[1 - currentCombatant]?.IsDead == true)
                 {
@@ -119,6 +131,10 @@ namespace Monster_Combat_Simulator
 
                 currentCombatant = 1 - currentCombatant;
             }
+
+            "\n".Write();
+            "Please, press any key to exit...".WriteLine();
+            Console.ReadKey();
         }
 
         #region GameManager Methods
