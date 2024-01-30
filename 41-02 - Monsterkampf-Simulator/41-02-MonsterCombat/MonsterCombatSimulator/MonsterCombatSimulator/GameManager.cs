@@ -46,7 +46,7 @@ namespace Monster_Combat_Simulator
             {
                 Console.SetCursorPosition(0, Console.CursorTop - 1);
                 ConsoleEx.ClearCurrentConsoleLine();
-                "Please choose a valid Monster Type (Goblin, Orc, or Troll): ".Write(ConsoleColor.DarkYellow);
+                "Please choose a valid Monster Type (Goblin, Orc, or Troll): ".Write(ConsoleColor.White);
                 input01 = TextInput().Trim().ToUpper();
             }
 
@@ -65,14 +65,14 @@ namespace Monster_Combat_Simulator
                 {
                     Console.SetCursorPosition(0, Console.CursorTop - 1);
                     ConsoleEx.ClearCurrentConsoleLine();
-                    "The second Monster must be of a different Type than the first one: ".Write(ConsoleColor.DarkYellow);
+                    "The second Monster must be of a different Type than the first one: ".Write(ConsoleColor.White);
                     input02 = TextInput().Trim().ToUpper();
                 }
                 else
                 {
                     Console.SetCursorPosition(0, Console.CursorTop - 1);
                     ConsoleEx.ClearCurrentConsoleLine();
-                    "Please choose a valid Monster Type (Goblin, Orc, or Troll):".Write(ConsoleColor.DarkYellow);
+                    "Please choose a valid Monster Type (Goblin, Orc, or Troll):".Write(ConsoleColor.White);
                     input02 = TextInput().Trim().ToUpper();
                 }
             }
@@ -106,15 +106,17 @@ namespace Monster_Combat_Simulator
             combatans[1] = monster01?.SP < monster02?.SP ? monster02 : monster01;
 
             int currentCombatant = 0;
-            
-            while(true)
+
+            while (true)
             {
                 combatans[currentCombatant]?.Attack(combatans[1 - currentCombatant]);
+
                 if (combatans[1 - currentCombatant]?.IsDead == true)
                 {
                     $"The combat is over! The {combatans[currentCombatant]?.Type} won!".WriteLine();
                     break;
                 }
+
                 currentCombatant = 1 - currentCombatant;
             }
         }
@@ -139,21 +141,48 @@ namespace Monster_Combat_Simulator
 
         private static Monster? SetMonsterStats(Monster.MonsterType _type)
         {
-            
+
             $"You've chosen a {_type}. Now set the stats of the {_type}:".WriteLine();
 
             // Gets the user's input for the Monster's stats.
-            "Hit Points: ".Write();
-            float hp = float.Parse(TextInput().Trim());
-            "Attack Power: ".Write();
-            float ap = float.Parse(TextInput().Trim());
-            "Defense Points: ".Write();
-            float dp = float.Parse(TextInput().Trim());
-            "Speed: ".Write();
-            float sp = float.Parse(TextInput().Trim());
-            // !!! To-Do: Check if the user's input for the Monster's stats is valid. If not, ask the user to input valid stats.
+            float hp = CheckMonsterStatInput("Hit Points");
+            float ap = CheckMonsterStatInput("Attack Power");
+            float dp = CheckMonsterStatInput("Defense Points");
+            float sp = CheckMonsterStatInput("Speed Points");
 
             return CreateMonster(_type, hp, ap, dp, sp);
+        }
+
+        private static float CheckMonsterStatInput(string _statName)
+        {
+            int statInput;
+
+            do
+            {
+                $"{_statName}: ".Write();
+
+                if (int.TryParse(Console.ReadLine(), out statInput))
+                {
+                    if (statInput > 0)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        Console.SetCursorPosition(0, Console.CursorTop - 1);
+                        ConsoleEx.ClearCurrentConsoleLine();
+                    }
+                }
+
+                else
+                {
+                    Console.SetCursorPosition(0, Console.CursorTop - 1);
+                    ConsoleEx.ClearCurrentConsoleLine();
+                }
+
+            } while (true);
+
+            return statInput;
         }
 
         /// <summary>

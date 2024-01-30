@@ -94,10 +94,10 @@ namespace Monster_Combat_Simulator
         /// </summary>
         public void PrintStats()
         {
-            Console.WriteLine("Health Points: " + HP);
+            Console.WriteLine("Hit Points: " + HP);
             Console.WriteLine("Attack Power: " + AP);
             Console.WriteLine("Defense Points: " + DP);
-            Console.WriteLine("Speed: " + SP);
+            Console.WriteLine("Speed Points: " + SP);
         }
 
         public void Attack(Monster? _target)
