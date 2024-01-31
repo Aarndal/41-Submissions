@@ -102,16 +102,19 @@ namespace Monster_Combat_Simulator
 
             Monster?[] combatans = new Monster[2];
 
-            if (monster01?.SP >= monster02?.SP)
-            {
-                combatans[0] = monster01;
-                combatans[1] = monster02;
-            }
-            else
-            {
-                combatans[0] = monster02;
-                combatans[1] = monster01;
-            }
+            //if (monster01?.SP >= monster02?.SP)
+            //{
+            //    combatans[0] = monster01;
+            //    combatans[1] = monster02;
+            //}
+            //else
+            //{
+            //    combatans[0] = monster02;
+            //    combatans[1] = monster01;
+            //}
+
+            combatans[0] = monster01?.SP >= monster02?.SP ? monster01 : monster02;
+            combatans[1] = monster01?.SP >= monster02?.SP ? monster02 : monster01;
 
             int currentCombatant = 0;
 
