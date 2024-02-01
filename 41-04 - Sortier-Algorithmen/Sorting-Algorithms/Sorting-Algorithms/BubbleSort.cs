@@ -12,13 +12,15 @@ namespace Sorting_Algorithms
         {
             int[] sortedArray = _array;
 
-            for (int i = 0; i < _array.Length - 1; i++)
+            for (int i = 0; i < _array.Length - 1; i++) // -1 because the last value will be sorted automatically.
+            // for (int i = _array.Length - 1; i > 0; i--) // descending
             {
-                for (int j = 0; j < _array.Length - 1 - i; j++)
+                for (int j = 0; j < _array.Length - 1 - i; j++) // -1 because the last value will be sorted automatically. -i because the last i values are already sorted.
+                // for (int j = 0; j < i; j++) // descending
                 {
-                    if (_array[j] > _array[j + 1])
+                    if (_array[j] > _array[j + 1]) // if the current value is greater than the next value then swap them.
                     {
-                        (_array[j + 1], _array[j]) = (_array[j], _array[j + 1]);
+                        (_array[j + 1], _array[j]) = (_array[j], _array[j + 1]); // tuple to swap values (see https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0180)
                     }
                 }
             }
@@ -34,9 +36,9 @@ namespace Sorting_Algorithms
             {
                 for (int j = 0; j < _array.Length - 1 - i; j++)
                 {
-                    if (_array[j] < _array[j + 1])
+                    if (_array[j] < _array[j + 1]) // if the current value is less than the next value then swap them
                     {
-                        (_array[j], _array[j + 1]) = (_array[j + 1], _array[j]);
+                        (_array[j], _array[j + 1]) = (_array[j + 1], _array[j]); // tuple to swap values (see https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0180)
                     }
                 }
             }
@@ -53,7 +55,7 @@ namespace Sorting_Algorithms
                 if (i % 2 != 0)
                     sortedArray[i] = _array[i / 2];
                 else
-                    sortedArray[i] = _array[_array.Length - 1 - i / 2];
+                    sortedArray[i] = _array[_array.Length - 1 - (i / 2)];
             }
 
             return sortedArray;

@@ -7,11 +7,7 @@ namespace Sorting_Algorithms
         static void Main()
         {
             Console.Write("Bitte gib an, wie viele zufällige Zahlen von 1 bis 100 generiert werden sollen: ");
-            string? input = Console.ReadLine();
-
-            int count = 0;
-            if (input is not null)
-                count = int.Parse(input);
+            int count = int.Parse(Console.ReadLine() ?? string.Empty);
 
             int[] array = new int[count];
             Random rnd = new();
@@ -22,40 +18,28 @@ namespace Sorting_Algorithms
             }
 
             Console.WriteLine("\nUnsortiert:");
-
-            foreach (int number in array)
-            {
-                Console.Write(number + " ");
-            }
+            DisplayArray(array);
 
             Console.WriteLine("\n\nAufsteigend sortiert:");
-
-            int[] ascendingArray = BubbleSort.SortAscending(array);
-
-            foreach (int number in ascendingArray)
-            {
-                Console.Write(number + " ");
-            }
+            //int[] ascendingArray = BubbleSort.SortAscending(array);
+            DisplayArray(BubbleSort.SortAscending(array));
 
             Console.WriteLine("\n\nAbsteigend sortiert:");
-
-            int[] descendingArray = BubbleSort.SortDescending(array);
-
-            foreach (int number in descendingArray)
-            {
-                Console.Write(number + " ");
-            }
+            //int[] descendingArray = BubbleSort.SortDescending(array);
+            DisplayArray(BubbleSort.SortDescending(array));
 
             Console.WriteLine("\n\nZickZack sortiert:");
+            //int[] zickzackArray = BubbleSort.SortZickZack(array);
+            DisplayArray(BubbleSort.SortZickZack(array));
 
-            int[] zickzackArray = BubbleSort.SortZickZack(array);
-
-            foreach (int number in zickzackArray)
+            Console.ReadKey();
+        }
+        private static void DisplayArray(int[] _array)
+        {
+            foreach (int number in _array)
             {
                 Console.Write(number + " ");
             }
-
-            Console.ReadKey();
         }
     }
 }
