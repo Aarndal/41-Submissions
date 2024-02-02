@@ -20,6 +20,15 @@ namespace Sorting_Algorithms
             Console.WriteLine("\nUnsortiert:");
             DisplayArray(array);
 
+            DisplaySortingMethod("Aufsteigend", "Insertion Sort");
+            DisplayArray(InsertionSort.SortAscending(array));
+
+            DisplaySortingMethod("Absteigend", "Insertion Sort");
+            DisplayArray(InsertionSort.SortDescending(array));
+
+            DisplaySortingMethod("ZickZack", "Insertion Sort");
+            DisplayArray(InsertionSort.SortZickZack(array));
+
             string[] sortingMethods = new string[]
             {
                 "Aufsteigend", //=> SortAscending

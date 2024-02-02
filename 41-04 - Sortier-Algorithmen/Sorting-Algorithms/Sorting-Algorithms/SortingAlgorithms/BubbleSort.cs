@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Sorting_Algorithms
 {
@@ -47,15 +48,26 @@ namespace Sorting_Algorithms
 
         public static int[] SortZickZack(int[] _array)
         {
-            int[] sortedArray = new int[_array.Length];
+            int[] sortedArray = _array;
 
-            for (int i = 0; i < sortedArray.Length; i++)
+            for (int i = sortedArray.Length - 1; i > 0; i--)
             {
-                if (i % 2 != 0)
-                    sortedArray[i] = _array[i / 2];
-                else
-                    sortedArray[i] = _array[_array.Length - 1 - (i / 2)];
+                for (int j = 0; j < i; j++)
+                {
+                    if (i % 2 == 0)
+                    {
+                        if (sortedArray[j] < sortedArray[j + 1])
+                            (sortedArray[j], sortedArray[j + 1]) = (sortedArray[j + 1], sortedArray[j]);
+                    }
+                    else
+                    {
+                        if (sortedArray[j] > sortedArray[j + 1])
+                            (sortedArray[j], sortedArray[j + 1]) = (sortedArray[j + 1], sortedArray[j]);
+                    }
+                }
             }
+
+            Array.Reverse<int>(sortedArray);
 
             return sortedArray;
         }
