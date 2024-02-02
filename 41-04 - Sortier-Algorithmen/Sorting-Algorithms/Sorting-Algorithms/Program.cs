@@ -20,26 +20,63 @@ namespace Sorting_Algorithms
             Console.WriteLine("\nUnsortiert:");
             DisplayArray(array);
 
-            Console.WriteLine("\n\nAufsteigend sortiert:");
-            //int[] ascendingArray = BubbleSort.SortAscending(array);
-            DisplayArray(BubbleSort.SortAscending(array));
+            string[] sortingMethods = new string[]
+            {
+                "Aufsteigend", //=> SortAscending
+                "Absteigend", //=> SortDescending
+                "Zickzack" //=> SortZickZack
+            };
 
-            Console.WriteLine("\n\nAbsteigend sortiert:");
-            //int[] descendingArray = BubbleSort.SortDescending(array);
-            DisplayArray(BubbleSort.SortDescending(array));
 
-            Console.WriteLine("\n\nZickZack sortiert:");
-            //int[] zickzackArray = BubbleSort.SortZickZack(array);
-            DisplayArray(BubbleSort.SortZickZack(array));
+            SortingAlgorithm[] sortingAlgorithms = new SortingAlgorithm[]
+            {
+                new BubbleSort(),
+                new InsertionSort(),
+                new GnomeSort()
+            };
+
+            ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+            int selectSortingMethodIndex = 0;
+            bool selection = true;
+
+            while (selection)
+            {
+                switch (keyInfo.Key)
+                {
+                    case ConsoleKey.A:
+                        selectSortingMethodIndex--;
+                        if (selectSortingMethodIndex < 0)
+                            selectSortingMethodIndex = sortingMethods.Length - 1;
+                        break;
+                    case ConsoleKey.D:
+                        selectSortingMethodIndex++;
+                        if (selectSortingMethodIndex > sortingMethods.Length - 1)
+                            selectSortingMethodIndex = 0;
+                        break;
+                    case ConsoleKey.Enter:
+
+                        selection = false;
+                        break;
+                }
+
+            }
 
             Console.ReadKey();
         }
+
+        private static void DisplaySortingMethod(string _sort, string _sortingAlgorithm)
+        {
+            Console.WriteLine($"{_sort} nach {_sortingAlgorithm} sortiert:");
+        }
+
         private static void DisplayArray(int[] _array)
         {
             foreach (int number in _array)
             {
                 Console.Write(number + " ");
             }
+
+            Console.WriteLine('\n');
         }
     }
 }
