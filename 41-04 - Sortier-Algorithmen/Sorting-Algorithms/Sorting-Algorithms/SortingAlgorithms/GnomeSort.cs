@@ -15,7 +15,8 @@ namespace Sorting_Algorithms
 
         public static int[] SortAscending(int[] _array)
         {
-            int[] sortedArray = _array;
+            int[] sortedArray = new int[_array.Length];
+            _array.CopyTo(sortedArray, 0);
 
             int i = 0;
             while (i < sortedArray.Length)
@@ -34,7 +35,8 @@ namespace Sorting_Algorithms
 
         public static int[] SortDescending(int[] _array)
         {
-            int[] sortedArray = _array;
+            int[] sortedArray = new int[_array.Length];
+            _array.CopyTo(sortedArray, 0);
 
             int i = 0;
             while (i < sortedArray.Length)

@@ -16,7 +16,8 @@ namespace Sorting_Algorithms
         
         public static int[] SortAscending(int[] _array)
         {
-            int[] sortedArray = _array;
+            int[] sortedArray = new int[_array.Length];
+            _array.CopyTo(sortedArray, 0);
 
             for (int i = sortedArray.Length - 1; i > 0; i--) // -1 because the last value will be sorted automatically.
             {
@@ -32,7 +33,8 @@ namespace Sorting_Algorithms
 
         public static int[] SortDescending(int[] _array)
         {
-            int[] sortedArray = _array;
+            int[] sortedArray = new int[_array.Length];
+            _array.CopyTo(sortedArray, 0);
 
             for (int i = sortedArray.Length - 1; i > 0; i--)
             {
@@ -48,7 +50,8 @@ namespace Sorting_Algorithms
 
         public static int[] SortZickZack(int[] _array)
         {
-            int[] sortedArray = _array;
+            int[] sortedArray = new int[_array.Length];
+            _array.CopyTo(sortedArray, 0);
 
             for (int i = sortedArray.Length - 1; i > 0; i--)
             {
