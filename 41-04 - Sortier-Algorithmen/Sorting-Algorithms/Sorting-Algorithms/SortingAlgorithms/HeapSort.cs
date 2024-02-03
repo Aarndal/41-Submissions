@@ -59,5 +59,22 @@ namespace Sorting_Algorithms
             
             return sortedArray;
         }
+
+        // To-Do: Implement SortZigZag
+        public static int[] SortZigZag(int[] _array)
+        {
+            int[] tmpArray = SortAscending(_array);
+            int[] sortedArray = new int[tmpArray.Length];
+
+            for (int i = 0; i < tmpArray.Length; i++)
+            {
+                if (i % 2 == 0)
+                    sortedArray[i] = tmpArray[i / 2];
+                else
+                    sortedArray[i] = tmpArray[tmpArray.Length - 1 - i / 2];
+            }
+
+            return sortedArray;
+        }
     }
 }

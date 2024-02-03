@@ -54,7 +54,7 @@ namespace Sorting_Algorithms.SortingAlgorithms
             return sortedArray;
         }
 
-        public static int[] SortZickZack(int[] _array)
+        public static int[] SortZigZag(int[] _array)
         {
             int[] sortedArray = new int[_array.Length];
             _array.CopyTo(sortedArray, 0);

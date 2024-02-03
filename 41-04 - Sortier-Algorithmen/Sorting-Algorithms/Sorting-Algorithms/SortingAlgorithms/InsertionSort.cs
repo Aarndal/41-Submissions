@@ -53,24 +53,43 @@ namespace Sorting_Algorithms
             return sortedArray;
         }
 
-        // To-Do: Implement SortZickZack
-        public static int[] SortZickZack(int[] _array)
+        // To-Do: Implement SortZigZag
+        public static int[] SortZigZag(int[] _array)
         {
-            int[] sortedArray = new int[_array.Length];
-            _array.CopyTo(sortedArray, 0);
+            int[] tmpArray = SortAscending(_array);
+            int[] sortedArray = new int[tmpArray.Length];
 
-            sortedArray = SortAscending(sortedArray);
-
-            for (int i = sortedArray.Length - 1; i > 0; i--)
+            for (int i = 0; i < tmpArray.Length; i++)
             {
-                int elementToSort = sortedArray[i];
-
-                for (int j = i; j < length; j++)
-                {
-
-                }
-                sortedArray[j] = elementToSort;
+                if (i % 2 == 0)
+                    sortedArray[i] = tmpArray[i / 2];
+                else
+                    sortedArray[i] = tmpArray[tmpArray.Length - (i / 2) - 1];
             }
+
+            //for(int i = 1; i < sortedArray.Length; i++)
+            //{
+            //    int elementToSort = sortedArray[i];
+            //    int j = i;
+
+            //    if (i % 2 == 0)
+            //    {
+            //        while (j > 0 && elementToSort < sortedArray[j - 1])
+            //        {
+            //            (sortedArray[j], sortedArray[j - 1]) = (sortedArray[j - 1], sortedArray[j]);
+            //            j--;
+            //        }
+            //    }
+            //    else
+            //    {
+            //        while (j > 0 && elementToSort > sortedArray[j - 1])
+            //        {
+            //            (sortedArray[j], sortedArray[j - 1]) = (sortedArray[j - 1], sortedArray[j]);
+            //            j--;
+            //        }
+            //    }
+            //    sortedArray[j] = elementToSort;
+            //}
 
             return sortedArray;
         }

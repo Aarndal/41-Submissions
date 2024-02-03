@@ -50,13 +50,19 @@ namespace Sorting_Algorithms
             return sortedArray;
         }
 
-        // To-Do: Implement SortZickZack
-        public static int[] SortZickZack(int[] _array)
+        // To-Do: Implement SortZigZag
+        public static int[] SortZigZag(int[] _array)
         {
-            int[] sortedArray = new int[_array.Length];
-            _array.CopyTo(sortedArray, 0);
+            int[] tmpArray = SortAscending(_array);
+            int[] sortedArray = new int[tmpArray.Length];
 
-            
+            for (int i = 0; i < tmpArray.Length; i++)
+            {
+                if (i % 2 == 0)
+                    sortedArray[i] = tmpArray[i / 2];
+                else
+                    sortedArray[i] = tmpArray[tmpArray.Length - (i / 2) - 1];
+            }
 
             return sortedArray;
         }

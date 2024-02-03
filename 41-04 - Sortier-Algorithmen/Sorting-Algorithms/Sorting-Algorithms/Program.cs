@@ -19,28 +19,28 @@ namespace Sorting_Algorithms
             //    array[i] = rnd.Next(100);
             //}
 
-            int[] array = { 5, 3, 7, 6, 4, 1, 2 };
+            int[] array = [5, 3, 6, 4, 1, 2];
 
             Console.WriteLine("\nUnsortiert:");
             DisplayArray(array);
 
-            //DisplaySortingMethod("Aufsteigend", "Selection Sort");
-            //DisplayArray(SelectionSort.SortAscending(array));
+            DisplaySortingMethod("Aufsteigend", "Selection Sort");
+            DisplayArray(SelectionSort.SortAscending(array));
 
-            //DisplaySortingMethod("Absteigend", "Selection Sort");
-            //DisplayArray(SelectionSort.SortDescending(array));
+            DisplaySortingMethod("Absteigend", "Selection Sort");
+            DisplayArray(SelectionSort.SortDescending(array));
 
-            //DisplaySortingMethod("ZickZack", "Selection Sort");
-            //DisplayArray(SelectionSort.SortZickZack(array));
+            DisplaySortingMethod("ZickZack", "Selection Sort");
+            DisplayArray(SelectionSort.SortZigZag(array));
 
-            //DisplaySortingMethod("Aufsteigend", "Bubble Sort");
-            //DisplayArray(BubbleSort.SortAscending(array));
+            DisplaySortingMethod("Aufsteigend", "Bubble Sort");
+            DisplayArray(BubbleSort.SortAscending(array));
 
-            //DisplaySortingMethod("Absteigend", "Bubble Sort");
-            //DisplayArray(BubbleSort.SortDescending(array));
+            DisplaySortingMethod("Absteigend", "Bubble Sort");
+            DisplayArray(BubbleSort.SortDescending(array));
 
-            //DisplaySortingMethod("ZickZack", "Bubble Sort");
-            //DisplayArray(BubbleSort.SortZickZack(array));
+            DisplaySortingMethod("ZickZack", "Bubble Sort");
+            DisplayArray(BubbleSort.SortZigZag(array));
 
             DisplaySortingMethod("Aufsteigend", "Insertion Sort");
             DisplayArray(InsertionSort.SortAscending(array));
@@ -49,22 +49,25 @@ namespace Sorting_Algorithms
             DisplayArray(InsertionSort.SortDescending(array));
 
             DisplaySortingMethod("ZickZack", "Insertion Sort");
-            DisplayArray(InsertionSort.SortZickZack(array));
+            DisplayArray(InsertionSort.SortZigZag(array));
 
-            //DisplaySortingMethod("Aufsteigend", "Gnome Sort");
-            //DisplayArray(GnomeSort.SortAscending(array));
+            DisplaySortingMethod("Aufsteigend", "Gnome Sort");
+            DisplayArray(GnomeSort.SortAscending(array));
 
-            //DisplaySortingMethod("Absteigend", "Gnome Sort");
-            //DisplayArray(GnomeSort.SortDescending(array));
+            DisplaySortingMethod("Absteigend", "Gnome Sort");
+            DisplayArray(GnomeSort.SortDescending(array));
 
-            //DisplaySortingMethod("ZickZack", "Gnome Sort");
-            //DisplayArray(GnomeSort.SortZickZack(array));
+            DisplaySortingMethod("ZickZack", "Gnome Sort");
+            DisplayArray(GnomeSort.SortZigZag(array));
 
-            //DisplaySortingMethod("Aufsteigend", "Heap Sort");
-            //DisplayArray(HeapSort.SortAscending(array));
+            DisplaySortingMethod("Aufsteigend", "Heap Sort");
+            DisplayArray(HeapSort.SortAscending(array));
 
-            //DisplaySortingMethod("Absteigend", "Heap Sort");
-            //DisplayArray(HeapSort.SortDescending(array));
+            DisplaySortingMethod("Absteigend", "Heap Sort");
+            DisplayArray(HeapSort.SortDescending(array));
+
+            DisplaySortingMethod("ZickZack", "Heap Sort");
+            DisplayArray(HeapSort.SortZigZag(array));
 
             Console.WriteLine("Test:");
             DisplayArray(array);
