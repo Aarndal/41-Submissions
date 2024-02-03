@@ -8,10 +8,7 @@ namespace Sorting_Algorithms
 {
     internal class HeapSort : SortingAlgorithm
     {
-        public override string Name
-        {
-            get => "Heap Sort";
-        }
+        public override string Name => "Heap Sort";
 
         public static int[] SortAscending(int[] _array)
         {

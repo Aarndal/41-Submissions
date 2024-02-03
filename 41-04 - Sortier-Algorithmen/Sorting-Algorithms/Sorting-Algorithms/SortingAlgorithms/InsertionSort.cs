@@ -9,10 +9,7 @@ namespace Sorting_Algorithms
 {
     internal class InsertionSort : SortingAlgorithm
     {
-        public override string Name
-        {
-            get => "Insertion Sort";
-        }
+        public override string Name => "Insertion Sort";
 
         public static int[] SortAscending(int[] _array)
         {
@@ -21,15 +18,15 @@ namespace Sorting_Algorithms
 
             for (int i = 1; i < sortedArray.Length; i++)
             {
-                int x = sortedArray[i];
-                int j = i - 1;
+                int elementToSort = sortedArray[i];
+                int j = i;
 
-                while (j >= 0 && sortedArray[j] > x)
+                while (j > 0 && elementToSort < sortedArray[j - 1])
                 {
-                    sortedArray[j + 1] = sortedArray[j];
+                    sortedArray[j] = sortedArray[j - 1];
                     j--;
                 }
-                sortedArray[j + 1] = x;
+                sortedArray[j] = elementToSort;
             }
 
             return sortedArray;
@@ -42,15 +39,15 @@ namespace Sorting_Algorithms
 
             for (int i = 1; i < sortedArray.Length; i++)
             {
-                int x = sortedArray[i];
-                int j = i - 1;
+                int elementToSort = sortedArray[i];
+                int j = i;
 
-                while (j >= 0 && sortedArray[j] < x)
+                while (j > 0 && elementToSort > sortedArray[j - 1])
                 {
-                    sortedArray[j + 1] = sortedArray[j];
+                    sortedArray[j] = sortedArray[j - 1];
                     j--;
                 }
-                sortedArray[j + 1] = x;
+                sortedArray[j] = elementToSort;
             }
 
             return sortedArray;
@@ -60,13 +57,19 @@ namespace Sorting_Algorithms
         public static int[] SortZickZack(int[] _array)
         {
             int[] sortedArray = new int[_array.Length];
+            _array.CopyTo(sortedArray, 0);
 
-            for (int i = 0; i < sortedArray.Length; i++)
+            sortedArray = SortAscending(sortedArray);
+
+            for (int i = sortedArray.Length - 1; i > 0; i--)
             {
-                if (i % 2 != 0)
-                    sortedArray[i] = _array[i / 2];
-                else
-                    sortedArray[i] = _array[_array.Length - 1 - (i / 2)];
+                int elementToSort = sortedArray[i];
+
+                for (int j = i; j < length; j++)
+                {
+
+                }
+                sortedArray[j] = elementToSort;
             }
 
             return sortedArray;

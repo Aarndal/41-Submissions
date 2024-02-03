@@ -8,10 +8,7 @@ namespace Sorting_Algorithms
 {
     internal class GnomeSort : SortingAlgorithm
     {
-        public override string Name
-        {
-            get => "Gnome Sort";
-        }
+        public override string Name => "Gnome Sort";
 
         public static int[] SortAscending(int[] _array)
         {
@@ -57,14 +54,9 @@ namespace Sorting_Algorithms
         public static int[] SortZickZack(int[] _array)
         {
             int[] sortedArray = new int[_array.Length];
+            _array.CopyTo(sortedArray, 0);
 
-            for (int i = 0; i < sortedArray.Length; i++)
-            {
-                if (i % 2 != 0)
-                    sortedArray[i] = _array[i / 2];
-                else
-                    sortedArray[i] = _array[_array.Length - 1 - (i / 2)];
-            }
+            
 
             return sortedArray;
         }

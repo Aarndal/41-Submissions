@@ -9,10 +9,7 @@ namespace Sorting_Algorithms
 {
     internal class BubbleSort : SortingAlgorithm
     {
-        public override string Name
-        {
-            get => "Bubble Sort";
-        }
+        public override string Name => "Bubble Sort";
         
         public static int[] SortAscending(int[] _array)
         {
@@ -70,7 +67,7 @@ namespace Sorting_Algorithms
                 }
             }
 
-            Array.Reverse<int>(sortedArray);
+            Array.Reverse(sortedArray);
 
             return sortedArray;
         }
