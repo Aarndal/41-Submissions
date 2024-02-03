@@ -65,18 +65,6 @@ namespace Sorting_Algorithms
             }
 
             return sortedArray;
-
-            //int[] sortedArray = new int[_array.Length];
-
-            //for (int i = 0; i < sortedArray.Length; i++)
-            //{
-            //    if (i % 2 != 0)
-            //        sortedArray[i] = _array[i / 2];
-            //    else
-            //        sortedArray[i] = _array[_array.Length - 1 - (i / 2)];
-            //}
-
-            //return sortedArray;
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Sorting_Algorithms
 {
@@ -12,22 +13,22 @@ namespace Sorting_Algorithms
         {
             get => "Insertion Sort";
         }
-        
+
         public static int[] SortAscending(int[] _array)
         {
             int[] sortedArray = _array;
 
             for (int i = 1; i < sortedArray.Length; i++)
             {
-                int key = sortedArray[i];
+                int x = sortedArray[i];
                 int j = i - 1;
 
-                while(j >= 0 && sortedArray[j] > key)
+                while (j >= 0 && sortedArray[j] > x)
                 {
                     sortedArray[j + 1] = sortedArray[j];
                     j--;
                 }
-                sortedArray[j + 1] = key;
+                sortedArray[j + 1] = x;
             }
 
             return sortedArray;
@@ -39,15 +40,15 @@ namespace Sorting_Algorithms
 
             for (int i = 1; i < sortedArray.Length; i++)
             {
-                int key = sortedArray[i];
+                int x = sortedArray[i];
                 int j = i - 1;
 
-                while (j >= 0 && sortedArray[j] < key)
+                while (j >= 0 && sortedArray[j] < x)
                 {
                     sortedArray[j + 1] = sortedArray[j];
                     j--;
                 }
-                sortedArray[j + 1] = key;
+                sortedArray[j + 1] = x;
             }
 
             return sortedArray;
