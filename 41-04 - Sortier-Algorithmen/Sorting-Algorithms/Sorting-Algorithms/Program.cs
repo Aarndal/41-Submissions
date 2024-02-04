@@ -19,7 +19,7 @@ namespace Sorting_Algorithms
             //    array[i] = rnd.Next(100);
             //}
 
-            int[] array = [5, 3, 6, 4, 1, 2];
+            int[] array = [5, 3, 6, 4, 1, 2, 7];
 
             Console.WriteLine("Unsortiert:");
             DisplayArray(array);
@@ -39,8 +39,8 @@ namespace Sorting_Algorithms
             //DisplaySortingMethod("Absteigend", "Bubble Sort");
             //DisplayArray(BubbleSort.SortDescending(array));
 
-            //DisplaySortingMethod("ZickZack", "Bubble Sort");
-            //DisplayArray(BubbleSort.SortZigZag(array));
+            DisplaySortingMethod("ZickZack", "Bubble Sort");
+            DisplayArray(BubbleSort.SortZigZag(array));
 
             //DisplaySortingMethod("Aufsteigend", "Insertion Sort");
             //DisplayArray(InsertionSort.SortAscending(array));

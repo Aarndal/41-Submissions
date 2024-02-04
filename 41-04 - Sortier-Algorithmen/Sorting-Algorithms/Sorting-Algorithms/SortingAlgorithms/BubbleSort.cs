@@ -50,30 +50,11 @@ namespace Sorting_Algorithms
             int[] sortedArray = new int[_array.Length];
             _array.CopyTo(sortedArray, 0);
 
-            //for (int i = sortedArray.Length - 1; i > 0; i--)
-            //{
-            //    for (int j = 0; j < i; j++)
-            //    {
-            //        if (i % 2 == 0)
-            //        {
-            //            if (sortedArray[j] < sortedArray[j + 1])
-            //                (sortedArray[j], sortedArray[j + 1]) = (sortedArray[j + 1], sortedArray[j]);
-            //        }
-            //        else
-            //        {
-            //            if (sortedArray[j] > sortedArray[j + 1])
-            //                (sortedArray[j], sortedArray[j + 1]) = (sortedArray[j + 1], sortedArray[j]);
-            //        }
-            //    }
-            //}
-
-            //Array.Reverse(sortedArray);
-
-            for (int i = 0; i < sortedArray.Length - 1; i++)
+            if (sortedArray.Length % 2 == 0)
             {
-                for (int j = sortedArray.Length - 1; j > 0; j--)
+                for (int i = 0; i < sortedArray.Length - 1; i++)
                 {
-                    if (sortedArray.Length % 2 == 0)
+                    for (int j = sortedArray.Length - 1; j > 0; j--)
                     {
                         if (i % 2 == 0)
                         {
@@ -86,7 +67,13 @@ namespace Sorting_Algorithms
                                 (sortedArray[j], sortedArray[j - 1]) = (sortedArray[j - 1], sortedArray[j]);
                         }
                     }
-                    else
+                }
+            }
+            else
+            {
+                for (int i = 0; i < sortedArray.Length - 1; i++)
+                {
+                    for (int j = sortedArray.Length - 1; j > 0; j--)
                     {
                         if (i % 2 == 0)
                         {
@@ -103,6 +90,7 @@ namespace Sorting_Algorithms
             }
 
             return sortedArray;
+
         }
     }
 }
