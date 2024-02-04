@@ -21,7 +21,7 @@ namespace Sorting_Algorithms
 
             int[] array = [5, 3, 6, 4, 1, 2];
 
-            Console.WriteLine("\nUnsortiert:");
+            Console.WriteLine("Unsortiert:");
             DisplayArray(array);
 
             //DisplaySortingMethod("Aufsteigend", "Selection Sort");
@@ -33,14 +33,14 @@ namespace Sorting_Algorithms
             //DisplaySortingMethod("ZickZack", "Selection Sort");
             //DisplayArray(SelectionSort.SortZigZag(array));
 
-            DisplaySortingMethod("Aufsteigend", "Bubble Sort");
-            DisplayArray(BubbleSort.SortAscending(array));
+            //DisplaySortingMethod("Aufsteigend", "Bubble Sort");
+            //DisplayArray(BubbleSort.SortAscending(array));
 
-            DisplaySortingMethod("Absteigend", "Bubble Sort");
-            DisplayArray(BubbleSort.SortDescending(array));
+            //DisplaySortingMethod("Absteigend", "Bubble Sort");
+            //DisplayArray(BubbleSort.SortDescending(array));
 
-            DisplaySortingMethod("ZickZack", "Bubble Sort");
-            DisplayArray(BubbleSort.SortZigZag(array));
+            //DisplaySortingMethod("ZickZack", "Bubble Sort");
+            //DisplayArray(BubbleSort.SortZigZag(array));
 
             //DisplaySortingMethod("Aufsteigend", "Insertion Sort");
             //DisplayArray(InsertionSort.SortAscending(array));
@@ -72,19 +72,19 @@ namespace Sorting_Algorithms
             Console.WriteLine("Test:");
             DisplayArray(array);
 
-            string[] sortingMethods = new string[]
-            {
+            string[] sortingMethods =
+            [
                 "Aufsteigend", //=> SortAscending
                 "Absteigend", //=> SortDescending
                 "Zickzack" //=> SortZickZack
-            };
+            ];
 
-            SortingAlgorithm[] sortingAlgorithms = new SortingAlgorithm[]
-            {
+            SortingAlgorithm[] sortingAlgorithms =
+            [
                 new BubbleSort(),
                 new InsertionSort(),
                 new GnomeSort()
-            };
+            ];
 
             ConsoleKeyInfo keyInfo = Console.ReadKey(true);
             int selectSortingMethodIndex = 0;
@@ -129,7 +129,7 @@ namespace Sorting_Algorithms
                 display += number + "|";
             }
 
-            display = display.Substring(0, display.Length - 1);
+            display = display.Substring(startIndex: 0, display.Length - 1);
             display += "]";
 
             Console.WriteLine(display + '\n');

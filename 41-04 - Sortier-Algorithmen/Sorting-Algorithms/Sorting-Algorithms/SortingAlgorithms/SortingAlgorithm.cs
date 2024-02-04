@@ -8,7 +8,9 @@ namespace Sorting_Algorithms
 {
     internal abstract class SortingAlgorithm
     {
-        public abstract string Name { get; }
+        public abstract string? Name { get; }
+
+        //public virtual string? Name => null;
 
         //public abstract int[] SortAscending(int[] _array);
 
