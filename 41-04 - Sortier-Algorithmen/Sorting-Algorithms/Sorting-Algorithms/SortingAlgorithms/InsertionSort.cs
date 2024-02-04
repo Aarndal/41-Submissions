@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace Sorting_Algorithms
+namespace Sorting_Algorithms.SortingAlgorithms
 {
     internal class InsertionSort : SortingAlgorithm
     {
@@ -53,7 +52,6 @@ namespace Sorting_Algorithms
             return sortedArray;
         }
 
-        // To-Do: Implement SortZigZag
         public static int[] SortZigZag(int[] _array)
         {
             int[] tmpArray = SortAscending(_array);

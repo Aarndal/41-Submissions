@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sorting_Algorithms
+namespace Sorting_Algorithms.SortingAlgorithms
 {
     internal class HeapSort : SortingAlgorithm
     {
@@ -60,7 +60,6 @@ namespace Sorting_Algorithms
             return sortedArray;
         }
 
-        // To-Do: Implement SortZigZag
         public static int[] SortZigZag(int[] _array)
         {
             int[] tmpArray = SortAscending(_array);

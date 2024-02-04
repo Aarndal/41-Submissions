@@ -39,8 +39,8 @@ namespace Sorting_Algorithms
             //DisplaySortingMethod("Absteigend", "Bubble Sort");
             //DisplayArray(BubbleSort.SortDescending(array));
 
-            DisplaySortingMethod("ZickZack", "Bubble Sort");
-            DisplayArray(BubbleSort.SortZigZag(array));
+            //DisplaySortingMethod("ZickZack", "Bubble Sort");
+            //DisplayArray(BubbleSort.SortZigZag(array));
 
             //DisplaySortingMethod("Aufsteigend", "Insertion Sort");
             //DisplayArray(InsertionSort.SortAscending(array));

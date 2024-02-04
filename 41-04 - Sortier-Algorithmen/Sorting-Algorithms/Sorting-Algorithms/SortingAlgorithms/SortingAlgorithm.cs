@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sorting_Algorithms
+namespace Sorting_Algorithms.SortingAlgorithms
 {
     internal abstract class SortingAlgorithm
     {
