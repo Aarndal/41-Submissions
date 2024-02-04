@@ -10,83 +10,70 @@ namespace Sorting_Algorithms.SortingAlgorithms
     {
         public override string Name => "Selection Sort";
 
-        public static int[] SortAscending(int[] _array)
+        protected override void SortAscending(int[] _array)
         {
-            int[] sortedArray = new int[_array.Length];
-            _array.CopyTo(sortedArray, 0);
-
-            for (int i = 0; i < sortedArray.Length - 1; i++)
+            for (int i = 0; i < _array.Length - 1; i++)
             {
                 int minIndex = i;
 
-                for (int j = i + 1; j < sortedArray.Length; j++)
+                for (int j = i + 1; j < _array.Length; j++)
                 {
-                    if (sortedArray[j] < sortedArray[minIndex])
+                    if (_array[j] < _array[minIndex])
                         minIndex = j;
                 }
 
                 if (minIndex != i)
-                    (sortedArray[i], sortedArray[minIndex]) = (sortedArray[minIndex], sortedArray[i]);
+                    (_array[i], _array[minIndex]) = (_array[minIndex], _array[i]);
             }
-
-            return sortedArray;
         }
 
-        public static int[] SortDescending(int[] _array)
-        {
-            int[] sortedArray = new int[_array.Length];
-            _array.CopyTo(sortedArray, 0);
+        #region Unused methods
+        //protected override void SortDescending(int[] _array)
+        //{
+        //    for (int i = 0; i < _array.Length - 1; i++)
+        //    {
+        //        int maxIndex = i;
 
-            for (int i = 0; i < sortedArray.Length - 1; i++)
-            {
-                int maxIndex = i;
+        //        for (int j = i + 1; j < _array.Length; j++)
+        //        {
+        //            if (_array[j] > _array[maxIndex])
+        //                maxIndex = j;
+        //        }
 
-                for (int j = i + 1; j < sortedArray.Length; j++)
-                {
-                    if (sortedArray[j] > sortedArray[maxIndex])
-                        maxIndex = j;
-                }
+        //        if (maxIndex != i)
+        //            (_array[i], _array[maxIndex]) = (_array[maxIndex], _array[i]);
+        //    }
+        //}
 
-                if (maxIndex != i)
-                    (sortedArray[i], sortedArray[maxIndex]) = (sortedArray[maxIndex], sortedArray[i]);
-            }
+        //protected override void SortZigZag(int[] _array)
+        //{
+        //    for (int i = 0; i < _array.Length - 1; i++)
+        //    {
+        //        int minIndex = i;
 
-            return sortedArray;
-        }
+        //        for (int j = i + 1; j < _array.Length; j++)
+        //        {
+        //            if (_array[j] < _array[minIndex])
+        //                minIndex = j;
+        //        }
 
-        public static int[] SortZigZag(int[] _array)
-        {
-            int[] sortedArray = new int[_array.Length];
-            _array.CopyTo(sortedArray, 0);
+        //        if (minIndex != i)
+        //            (_array[i], _array[minIndex]) = (_array[minIndex], _array[i]);
 
-            for (int i = 0; i < sortedArray.Length - 1; i++)
-            {
-                int minIndex = i;
+        //        i++;
 
-                for (int j = i + 1; j < sortedArray.Length; j++)
-                {
-                    if (sortedArray[j] < sortedArray[minIndex])
-                        minIndex = j;
-                }
+        //        int maxIndex = i;
 
-                if (minIndex != i)
-                    (sortedArray[i], sortedArray[minIndex]) = (sortedArray[minIndex], sortedArray[i]);
+        //        for (int j = i + 1; j < _array.Length; j++)
+        //        {
+        //            if (_array[j] > _array[maxIndex])
+        //                maxIndex = j;
+        //        }
 
-                i++;
-
-                int maxIndex = i;
-
-                for (int j = i + 1; j < sortedArray.Length; j++)
-                {
-                    if (sortedArray[j] > sortedArray[maxIndex])
-                        maxIndex = j;
-                }
-
-                if (maxIndex != i)
-                    (sortedArray[i], sortedArray[maxIndex]) = (sortedArray[maxIndex], sortedArray[i]);
-            }
-
-            return sortedArray;
-        }
+        //        if (maxIndex != i)
+        //            (_array[i], _array[maxIndex]) = (_array[maxIndex], _array[i]);
+        //    }
+        //}
+        #endregion
     }
 }

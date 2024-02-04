@@ -10,86 +10,72 @@ namespace Sorting_Algorithms.SortingAlgorithms
     {
         public override string Name => "Bubble Sort";
 
-        public static int[] SortAscending(int[] _array)
+        protected override void SortAscending(int[] _array)
         {
-            int[] sortedArray = new int[_array.Length];
-            _array.CopyTo(sortedArray, 0);
-
-            for (int i = sortedArray.Length - 1; i > 0; i--) // -1 because the last value will be sorted automatically.
+            for (int i = _array.Length - 1; i > 0; i--) // -1 because the last value will be sorted automatically.
             {
                 for (int j = 0; j < i; j++) // -1 because the last value will be sorted automatically. -i because the last i values are already sorted.
                 {
-                    if (sortedArray[j] > sortedArray[j + 1]) // if the current value is greater than the next value then swap them.
-                        (sortedArray[j + 1], sortedArray[j]) = (sortedArray[j], sortedArray[j + 1]); // tuple to swap values (see https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0180)
+                    if (_array[j] > _array[j + 1]) // if the current value is greater than the next value then swap them.
+                        (_array[j + 1], _array[j]) = (_array[j], _array[j + 1]); // tuple to swap values (see https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0180)
                 }
             }
-
-            return sortedArray;
         }
 
-        public static int[] SortDescending(int[] _array)
-        {
-            int[] sortedArray = new int[_array.Length];
-            _array.CopyTo(sortedArray, 0);
+        #region Unused methods
+        //protected override void SortDescending(int[] _array)
+        //{
+        //    for (int i = _array.Length - 1; i > 0; i--)
+        //    {
+        //        for (int j = 0; j < i; j++)
+        //        {
+        //            if (_array[j] < _array[j + 1])
+        //                (_array[j], _array[j + 1]) = (_array[j + 1], _array[j]);
+        //        }
+        //    }
+        //}
 
-            for (int i = sortedArray.Length - 1; i > 0; i--)
-            {
-                for (int j = 0; j < i; j++)
-                {
-                    if (sortedArray[j] < sortedArray[j + 1]) // if the current value is less than the next value then swap them
-                        (sortedArray[j], sortedArray[j + 1]) = (sortedArray[j + 1], sortedArray[j]); // tuple to swap values (see https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0180)
-                }
-            }
-
-            return sortedArray;
-        }
-
-        public static int[] SortZigZag(int[] _array)
-        {
-            int[] sortedArray = new int[_array.Length];
-            _array.CopyTo(sortedArray, 0);
-
-            if (sortedArray.Length % 2 == 0)
-            {
-                for (int i = 0; i < sortedArray.Length - 1; i++)
-                {
-                    for (int j = sortedArray.Length - 1; j > 0; j--)
-                    {
-                        if (i % 2 == 0)
-                        {
-                            if (sortedArray[j] < sortedArray[j - 1])
-                                (sortedArray[j], sortedArray[j - 1]) = (sortedArray[j - 1], sortedArray[j]);
-                        }
-                        else
-                        {
-                            if (sortedArray[j] > sortedArray[j - 1])
-                                (sortedArray[j], sortedArray[j - 1]) = (sortedArray[j - 1], sortedArray[j]);
-                        }
-                    }
-                }
-            }
-            else
-            {
-                for (int i = 0; i < sortedArray.Length - 1; i++)
-                {
-                    for (int j = sortedArray.Length - 1; j > 0; j--)
-                    {
-                        if (i % 2 == 0)
-                        {
-                            if (sortedArray[j] > sortedArray[j - 1])
-                                (sortedArray[j], sortedArray[j - 1]) = (sortedArray[j - 1], sortedArray[j]);
-                        }
-                        else
-                        {
-                            if (sortedArray[j] < sortedArray[j - 1])
-                                (sortedArray[j], sortedArray[j - 1]) = (sortedArray[j - 1], sortedArray[j]);
-                        }
-                    }
-                }
-            }
-
-            return sortedArray;
-
-        }
+        //protected override void SortZigZag(int[] _array)
+        //{
+        //    if (_array.Length % 2 == 0)
+        //    {
+        //        for (int i = 0; i < _array.Length - 1; i++)
+        //        {
+        //            for (int j = _array.Length - 1; j > 0; j--)
+        //            {
+        //                if (i % 2 == 0)
+        //                {
+        //                    if (_array[j] < _array[j - 1])
+        //                        (_array[j], _array[j - 1]) = (_array[j - 1], _array[j]);
+        //                }
+        //                else
+        //                {
+        //                    if (_array[j] > _array[j - 1])
+        //                        (_array[j], _array[j - 1]) = (_array[j - 1], _array[j]);
+        //                }
+        //            }
+        //        }
+        //    }
+        //    else
+        //    {
+        //        for (int i = 0; i < _array.Length - 1; i++)
+        //        {
+        //            for (int j = _array.Length - 1; j > 0; j--)
+        //            {
+        //                if (i % 2 == 0)
+        //                {
+        //                    if (_array[j] > _array[j - 1])
+        //                        (_array[j], _array[j - 1]) = (_array[j - 1], _array[j]);
+        //                }
+        //                else
+        //                {
+        //                    if (_array[j] < _array[j - 1])
+        //                        (_array[j], _array[j - 1]) = (_array[j - 1], _array[j]);
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
+        #endregion
     }
 }

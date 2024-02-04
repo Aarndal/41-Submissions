@@ -10,24 +10,19 @@ namespace Sorting_Algorithms.SortingAlgorithms
     {
         public override string Name => "Heap Sort";
 
-        public static int[] SortAscending(int[] _array)
+        protected override void SortAscending(int[] _array)
         {
-            int[] sortedArray = new int[_array.Length];
-            _array.CopyTo(sortedArray, 0);
-
-            for (int i = sortedArray.Length/2 - 1; i >= 0; i--)
+            for (int i = _array.Length/2 - 1; i >= 0; i--)
             {
-                Heapify(sortedArray, sortedArray.Length, i);
+                Heapify(_array, _array.Length, i);
             }
 
-            for(int i = sortedArray.Length - 1; i >= 1; i--)
+            for(int i = _array.Length - 1; i >= 1; i--)
             {
-                (sortedArray[i], sortedArray[0]) = (sortedArray[0], sortedArray[i]);
+                (_array[i], _array[0]) = (_array[0], _array[i]);
 
-                Heapify(sortedArray, i, 0);
+                Heapify(_array, i, 0);
             }
-
-            return sortedArray;
         }
 
         private static void Heapify(int[] _array, int _length, int _parentPos)
@@ -48,32 +43,6 @@ namespace Sorting_Algorithms.SortingAlgorithms
 
                 Heapify(_array, _length, largestPos);
             }
-        }
-
-        public static int[] SortDescending(int[] _array)
-        {
-            int[] sortedArray = new int[_array.Length];
-            _array.CopyTo(sortedArray, 0);
-            sortedArray = SortAscending(sortedArray);
-            Array.Reverse(sortedArray);
-            
-            return sortedArray;
-        }
-
-        public static int[] SortZigZag(int[] _array)
-        {
-            int[] tmpArray = SortAscending(_array);
-            int[] sortedArray = new int[tmpArray.Length];
-
-            for (int i = 0; i < tmpArray.Length; i++)
-            {
-                if (i % 2 == 0)
-                    sortedArray[i] = tmpArray[i / 2];
-                else
-                    sortedArray[i] = tmpArray[tmpArray.Length - 1 - i / 2];
-            }
-
-            return sortedArray;
         }
     }
 }

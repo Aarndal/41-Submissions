@@ -10,86 +10,66 @@ namespace Sorting_Algorithms.SortingAlgorithms
     {
         public override string Name => "Insertion Sort";
 
-        public static int[] SortAscending(int[] _array)
+        protected override void SortAscending(int[] _array)
         {
-            int[] sortedArray = new int[_array.Length];
-            _array.CopyTo(sortedArray, 0);
-
-            for (int i = 1; i < sortedArray.Length; i++)
+            for (int i = 1; i < _array.Length; i++)
             {
-                int elementToSort = sortedArray[i];
+                int elementToSort = _array[i];
                 int j = i;
 
-                while (j > 0 && elementToSort < sortedArray[j - 1])
+                while (j > 0 && elementToSort < _array[j - 1])
                 {
-                    sortedArray[j] = sortedArray[j - 1];
+                    _array[j] = _array[j - 1];
                     j--;
                 }
-                sortedArray[j] = elementToSort;
+                _array[j] = elementToSort;
             }
-
-            return sortedArray;
         }
 
-        public static int[] SortDescending(int[] _array)
-        {
-            int[] sortedArray = new int[_array.Length];
-            _array.CopyTo(sortedArray, 0);
+        #region Unused methods
+        //protected override void SortDescending(int[] _array)
+        //{
+        //    for (int i = 1; i < _array.Length; i++)
+        //    {
+        //        int elementToSort = _array[i];
+        //        int j = i;
 
-            for (int i = 1; i < sortedArray.Length; i++)
-            {
-                int elementToSort = sortedArray[i];
-                int j = i;
+        //        while (j > 0 && elementToSort > _array[j - 1])
+        //        {
+        //            _array[j] = _array[j - 1];
+        //            j--;
+        //        }
+        //        _array[j] = elementToSort;
+        //    }
+        //}
 
-                while (j > 0 && elementToSort > sortedArray[j - 1])
-                {
-                    sortedArray[j] = sortedArray[j - 1];
-                    j--;
-                }
-                sortedArray[j] = elementToSort;
-            }
+        // SortZigZag method doesn't work as intended. Sorts in a zigzag pattern, but from the middle point of the array outwards.
+        //protected override void SortZigZag(int[] _array)
+        //{
+        //    for (int i = 1; i < _array.Length; i++)
+        //    {
+        //        int elementToSort = _array[i];
+        //        int j = i;
 
-            return sortedArray;
-        }
-
-        public static int[] SortZigZag(int[] _array)
-        {
-            int[] tmpArray = SortAscending(_array);
-            int[] sortedArray = new int[tmpArray.Length];
-
-            for (int i = 0; i < tmpArray.Length; i++)
-            {
-                if (i % 2 == 0)
-                    sortedArray[i] = tmpArray[i / 2];
-                else
-                    sortedArray[i] = tmpArray[tmpArray.Length - (i / 2) - 1];
-            }
-
-            //for(int i = 1; i < sortedArray.Length; i++)
-            //{
-            //    int elementToSort = sortedArray[i];
-            //    int j = i;
-
-            //    if (i % 2 == 0)
-            //    {
-            //        while (j > 0 && elementToSort < sortedArray[j - 1])
-            //        {
-            //            (sortedArray[j], sortedArray[j - 1]) = (sortedArray[j - 1], sortedArray[j]);
-            //            j--;
-            //        }
-            //    }
-            //    else
-            //    {
-            //        while (j > 0 && elementToSort > sortedArray[j - 1])
-            //        {
-            //            (sortedArray[j], sortedArray[j - 1]) = (sortedArray[j - 1], sortedArray[j]);
-            //            j--;
-            //        }
-            //    }
-            //    sortedArray[j] = elementToSort;
-            //}
-
-            return sortedArray;
-        }
+        //        if (i % 2 == 0)
+        //        {
+        //            while (j > 0 && elementToSort < _array[j - 1])
+        //            {
+        //                (_array[j], _array[j - 1]) = (_array[j - 1], _array[j]);
+        //                j--;
+        //            }
+        //        }
+        //        else
+        //        {
+        //            while (j > 0 && elementToSort > _array[j - 1])
+        //            {
+        //                (_array[j], _array[j - 1]) = (_array[j - 1], _array[j]);
+        //                j--;
+        //            }
+        //        }
+        //        _array[j] = elementToSort;
+        //    }
+        //}
+        #endregion
     }
 }
