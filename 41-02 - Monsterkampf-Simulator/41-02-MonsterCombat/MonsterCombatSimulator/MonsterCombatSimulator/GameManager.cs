@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Monster_Combat_Simulator.Monsters;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -102,17 +103,6 @@ namespace Monster_Combat_Simulator
 
             Monster?[] combatans = new Monster[2];
 
-            //if (monster01?.SP >= monster02?.SP)
-            //{
-            //    combatans[0] = monster01;
-            //    combatans[1] = monster02;
-            //}
-            //else
-            //{
-            //    combatans[0] = monster02;
-            //    combatans[1] = monster01;
-            //}
-
             combatans[0] = monster01?.SP >= monster02?.SP ? monster01 : monster02;
             combatans[1] = monster01?.SP >= monster02?.SP ? monster02 : monster01;
 
@@ -125,6 +115,8 @@ namespace Monster_Combat_Simulator
                 float damage = hpBeforeAttack - (combatans[1 - currentCombatant]?.HP ?? 0);
                 $"The {combatans[currentCombatant]?.Type} deals {damage} damage to the {combatans[1 - currentCombatant]?.Type}!".WriteLine();
                 $"The {combatans[1 - currentCombatant]?.Type} has {combatans[1 - currentCombatant]?.HP} HP left! \n".WriteLine();
+
+                // sleep einbauen
 
                 if (combatans[1 - currentCombatant]?.IsDead == true)
                 {
@@ -163,26 +155,31 @@ namespace Monster_Combat_Simulator
 
             $"You've chosen a {_type}. Now set the stats of the {_type}:".WriteLine();
 
-            // Gets the user's input for the Monster's stats.
-            float hp = CheckMonsterStatInput("Hit Points");
-            float ap = CheckMonsterStatInput("Attack Power");
-            float dp = CheckMonsterStatInput("Defense Points");
-            float sp = CheckMonsterStatInput("Speed Points");
+            Monster? monster = CreateMonster(_type);
 
-            return CreateMonster(_type, hp, ap, dp, sp);
+            if(monster == null)
+                return null;
+
+            // Gets the user's input for the Monster's stats.
+            float hp = CheckMonsterStatInput("Hit Points", monster.HealthBoundaries);
+            float ap = CheckMonsterStatInput("Attack Power", monster.AttackBoundaries);
+            float dp = CheckMonsterStatInput("Defense Points", monster.DefenseBoundaries);
+            float sp = CheckMonsterStatInput("Speed Points", monster.SpeedBoundaries);
+
+            return monster.SetStats(hp, ap, dp, sp);
         }
 
-        private static float CheckMonsterStatInput(string _statName)
+        private static float CheckMonsterStatInput(string _statName, Boundaries _boundaries) // ToDo: parameter für Min/Max-Werte
         {
-            int statInput;
+            float statInput;
 
             do
             {
-                $"{_statName}: ".Write();
+                $"{_statName} ( Min: {_boundaries.MinValue}, Max: {_boundaries.MaxValue} ): ".Write();
 
-                if (int.TryParse(Console.ReadLine(), out statInput))
+                if (float.TryParse(Console.ReadLine(), out statInput))
                 {
-                    if (statInput > 0)
+                    if (_boundaries.IsWithinBoundaries(statInput))
                     {
                         break;
                     }
@@ -213,28 +210,15 @@ namespace Monster_Combat_Simulator
         /// <param name="_dp"></param>
         /// <param name="_sp"></param>
         /// <returns>Returns either a Goblin, Orc, or Troll, depending on the chosen Monster Type.</returns>
-        private static Monster? CreateMonster(Monster.MonsterType _type, float _hp, float _ap, float _dp, float _sp)
+        private static Monster? CreateMonster(Monster.MonsterType _type)
         {
             return _type switch
             {
-                Monster.MonsterType.GOBLIN => new Goblin(_hp, _ap, _dp, _sp),
-                Monster.MonsterType.ORC => new Orc(_hp, _ap, _dp, _sp),
-                Monster.MonsterType.TROLL => new Troll(_hp, _ap, _dp, _sp),
+                Monster.MonsterType.GOBLIN => new Goblin(),
+                Monster.MonsterType.ORC => new Orc(),
+                Monster.MonsterType.TROLL => new Troll(),
                 _ => null,
             };
-
-            /*
-            switch (_type)
-            {
-                case Monster.MonsterType.GOBLIN:
-                    return new Goblin(_hp, _ap, _dp, _sp);
-                case Monster.MonsterType.ORC:
-                    return new Orc(_hp, _ap, _dp, _sp);
-                case Monster.MonsterType.TROLL:
-                    return new Troll(_hp, _ap, _dp, _sp);
-                default:
-                    return null;
-            */
         }
         #endregion
     }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Monster_Combat_Simulator.Monsters;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,13 +9,33 @@ namespace Monster_Combat_Simulator
 {
     internal class Goblin: Monster
     {
-        public Goblin() : base(3, 2, 4, 6)
+        private static readonly Boundaries m_healthBoundaries = new( 4, 5);
+        private static readonly Boundaries m_attackBoundaries = new( 4, 5);
+        private static readonly Boundaries m_defenseBoundaries = new( 4, 5);
+        private static readonly Boundaries m_speedBoundaries = new( 4, 5);
+
+        public Goblin() 
+            : base(0, 0, 0, 0)
         {
             Type = "Goblin";
         }
-        public Goblin(float _health, float _attack, float _defense, float _speed) : base (_health, _attack, _defense, _speed)
+
+        public override Boundaries HealthBoundaries
         {
-            Type = "Goblin";
+            get => m_healthBoundaries;
+        }
+
+        public override Boundaries AttackBoundaries
+        {
+            get => m_attackBoundaries;
+        }
+        public override Boundaries DefenseBoundaries
+        {
+            get => m_defenseBoundaries;
+        }
+        public override Boundaries SpeedBoundaries
+        {
+            get => m_speedBoundaries;
         }
     }
 }

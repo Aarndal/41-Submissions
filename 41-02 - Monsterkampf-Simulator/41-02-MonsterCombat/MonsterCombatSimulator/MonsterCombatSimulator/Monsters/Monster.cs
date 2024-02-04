@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Monster_Combat_Simulator.Monsters;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Monster_Combat_Simulator
 {
-    internal class Monster
+    abstract class Monster
     {
         public enum MonsterType
         {
@@ -88,6 +89,21 @@ namespace Monster_Combat_Simulator
         /// Defines if the Monster is dead or not. If the Monster's HP drop to 0 or below, it returns true.
         /// </summary>
         public bool IsDead { get => this.HP <= 0; }
+
+        public abstract Boundaries HealthBoundaries { get; }
+        public abstract Boundaries AttackBoundaries { get; }
+        public abstract Boundaries DefenseBoundaries { get; }
+        public abstract Boundaries SpeedBoundaries { get; }
+
+        public Monster SetStats(float _health, float _attack, float _defense, float _speed)
+        {
+            this.HP = _health;
+            this.AP = _attack;
+            this.DP = _defense;
+            this.SP = _speed;
+
+            return this;
+        }
 
         /// <summary>
         /// Method to print the properties/stats of an object of the Monster class to the console.
