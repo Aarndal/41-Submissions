@@ -10,7 +10,7 @@ namespace Sorting_Algorithms
     internal class BubbleSort : SortingAlgorithm
     {
         public override string Name => "Bubble Sort";
-        
+
         public static int[] SortAscending(int[] _array)
         {
             int[] sortedArray = new int[_array.Length];
@@ -50,24 +50,57 @@ namespace Sorting_Algorithms
             int[] sortedArray = new int[_array.Length];
             _array.CopyTo(sortedArray, 0);
 
-            for (int i = sortedArray.Length - 1; i > 0; i--)
+            //for (int i = sortedArray.Length - 1; i > 0; i--)
+            //{
+            //    for (int j = 0; j < i; j++)
+            //    {
+            //        if (i % 2 == 0)
+            //        {
+            //            if (sortedArray[j] < sortedArray[j + 1])
+            //                (sortedArray[j], sortedArray[j + 1]) = (sortedArray[j + 1], sortedArray[j]);
+            //        }
+            //        else
+            //        {
+            //            if (sortedArray[j] > sortedArray[j + 1])
+            //                (sortedArray[j], sortedArray[j + 1]) = (sortedArray[j + 1], sortedArray[j]);
+            //        }
+            //    }
+            //}
+
+            //Array.Reverse(sortedArray);
+
+            for (int i = 0; i < sortedArray.Length - 1; i++)
             {
-                for (int j = 0; j < i; j++)
+                for (int j = sortedArray.Length - 1; j > 0; j--)
                 {
-                    if (i % 2 == 0)
+                    if (sortedArray.Length % 2 == 0)
                     {
-                        if (sortedArray[j] < sortedArray[j + 1])
-                            (sortedArray[j], sortedArray[j + 1]) = (sortedArray[j + 1], sortedArray[j]);
+                        if (i % 2 == 0)
+                        {
+                            if (sortedArray[j] < sortedArray[j - 1])
+                                (sortedArray[j], sortedArray[j - 1]) = (sortedArray[j - 1], sortedArray[j]);
+                        }
+                        else
+                        {
+                            if (sortedArray[j] > sortedArray[j - 1])
+                                (sortedArray[j], sortedArray[j - 1]) = (sortedArray[j - 1], sortedArray[j]);
+                        }
                     }
                     else
                     {
-                        if (sortedArray[j] > sortedArray[j + 1])
-                            (sortedArray[j], sortedArray[j + 1]) = (sortedArray[j + 1], sortedArray[j]);
+                        if (i % 2 == 0)
+                        {
+                            if (sortedArray[j] > sortedArray[j - 1])
+                                (sortedArray[j], sortedArray[j - 1]) = (sortedArray[j - 1], sortedArray[j]);
+                        }
+                        else
+                        {
+                            if (sortedArray[j] < sortedArray[j - 1])
+                                (sortedArray[j], sortedArray[j - 1]) = (sortedArray[j - 1], sortedArray[j]);
+                        }
                     }
                 }
             }
-
-            Array.Reverse(sortedArray);
 
             return sortedArray;
         }
