@@ -28,13 +28,15 @@ namespace Sorting_Algorithms.SortingAlgorithms
         protected void SortZigZag(int[] _array)
         {
             this.SortAscending(_array);
+            int[] tmpArray = new int[_array.Length];
+            _array.CopyTo(tmpArray, 0);
 
             for (int i = 0; i < _array.Length; i++)
             {
                 if (i % 2 == 0)
-                    _array[i] = _array[i / 2];
+                    _array[i] = tmpArray[i / 2];
                 else
-                    _array[i] = _array[_array.Length - 1 - i / 2];
+                    _array[i] = tmpArray[_array.Length - (i / 2) - 1];
             }
         }
 

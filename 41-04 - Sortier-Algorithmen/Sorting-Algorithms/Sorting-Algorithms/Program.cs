@@ -34,6 +34,11 @@ namespace Sorting_Algorithms
                 new SelectionSort(),
             ];
 
+            //HeapSort alogrithm = new();
+            //alogrithm.Sort(array, SortingMethods.ZickZack);
+
+            //DisplaySorting(array, SortingMethods.ZickZack, alogrithm);
+
             ConsoleKeyInfo keyInfo = Console.ReadKey(true);
             int selectSortingMethodIndex = 0;
             bool selection = true;
