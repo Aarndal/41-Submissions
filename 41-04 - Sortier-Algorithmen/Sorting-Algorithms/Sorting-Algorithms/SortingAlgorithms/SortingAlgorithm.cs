@@ -10,9 +10,9 @@ namespace Sorting_Algorithms.SortingAlgorithms
     {
         public enum SortingMethods : int
         {
-            Aufsteigend = 1,
-            Absteigend = 2,
-            ZickZack = 3,
+            Aufsteigend,
+            Absteigend,
+            ZickZack,
         }
 
         public abstract string? Name { get; }
