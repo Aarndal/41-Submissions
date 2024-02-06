@@ -16,7 +16,9 @@ namespace _2309_41_01_EscapeRoom
             EscapeRoom.RunGame();
 
             Console.ForegroundColor = ConsoleColor.DarkGreen;
-            Console.WriteLine("Congratulations! You've escaped!... Or have you?...");
+            Console.WriteLine("Congratulations! You've escaped!... ");
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine("Or have you?...");
             Console.ReadKey();
         }
     }

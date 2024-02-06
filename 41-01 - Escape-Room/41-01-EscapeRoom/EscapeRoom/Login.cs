@@ -11,13 +11,15 @@ using System.Threading.Tasks;
 
 namespace _2309_41_01_EscapeRoom
 {
-    class Player
+    struct ColoredStringText
     {
-        public string playerName;
+        public string text;
+        public ConsoleColor tileColor;
 
-        public Player(string _playerName)
+        public ColoredStringText(string _text = "", ConsoleColor _textColor = ConsoleColor.White)
         {
-            playerName = _playerName;
+            text = _text;
+            tileColor = _textColor;
         }
     }
 
@@ -26,7 +28,7 @@ namespace _2309_41_01_EscapeRoom
         public static void StartGame()
         {
             StartScreen();
-            //LoginScreen();
+            LoginScreen();
         }
 
         private static void StartScreen()
@@ -41,10 +43,25 @@ namespace _2309_41_01_EscapeRoom
         private static void LoginScreen()
         {
             Console.WriteLine("Welcome brave adventurer! Please, tell me your name:");
-            Player player = new (_playerName: Console.ReadLine().Trim());
-            Console.WriteLine($"Hello {player}! And be welcome to my little Escape Room.");
-            Console.WriteLine("To escape, you have to pick up the key and open the door.");
-            Console.WriteLine($"Your character will be represented through a blue <P> that will turn yellow as soon you've picked up the key.");
+            string player = new (value: Console.ReadLine().Trim());
+            
+            Console.WriteLine($"\nHello {player}! And be welcome to my little Escape Room!\n");
+
+            ColoredStringText key = new("<K>", ConsoleColor.DarkYellow);
+            ColoredStringText door = new("<D>", ConsoleColor.Red);
+            ColoredStringText playerChar = new("<P>", ConsoleColor.Blue);
+
+            Console.WriteLine("To escape, you must pick up the key, open the door and go through it.");
+            Console.WriteLine($"The key is represented by a yellow {key.text} and the door by a red {door.text}.");
+            Console.WriteLine($"Your character is represented by a blue {playerChar.text}, which turns yellow as soon as you have picked up the key.");
+            Console.WriteLine("You can move your character either with the W, A, S and D keys on your keyboard or with the arrow keys.\n");
+            
+            Console.WriteLine("Controls:");
+            Console.WriteLine("Move Up:     W or Up Arrow");
+            Console.WriteLine("Move Down:   S or Down Arrow");
+            Console.WriteLine("Move Left:   A or Left Arrow");
+            Console.WriteLine("Move Right:  D or Right Arrow");
+            
             Console.ReadKey();
             Console.Clear();
         }

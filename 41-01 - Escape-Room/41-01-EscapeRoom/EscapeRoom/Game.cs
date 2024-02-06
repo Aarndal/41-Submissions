@@ -34,7 +34,6 @@ namespace _2309_41_01_EscapeRoom
             tile = _tile;
             tileColor = _tileColor;
         }
-
     }
     #endregion
 
