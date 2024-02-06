@@ -73,7 +73,7 @@ namespace Monster_Combat_Simulator
                 {
                     Console.SetCursorPosition(0, Console.CursorTop - 1);
                     ConsoleEx.ClearCurrentConsoleLine();
-                    "Please choose a valid Monster Type (Goblin, Orc, or Troll):".Write(ConsoleColor.White);
+                    "Please choose a valid Monster Type (Goblin, Orc, or Troll): ".Write(ConsoleColor.White);
                     input02 = TextInput().Trim().ToUpper();
                 }
             }
@@ -152,13 +152,11 @@ namespace Monster_Combat_Simulator
 
         private static Monster? SetMonsterStats(Monster.MonsterType _type)
         {
-
-            $"You've chosen a {_type}. Now set the stats of the {_type}:".WriteLine();
-
             Monster? monster = CreateMonster(_type);
-
             if(monster == null)
                 return null;
+
+            $"You've chosen a {monster.Type}. Now set the stats of the {monster.Type}:".WriteLine();
 
             // Gets the user's input for the Monster's stats.
             float hp = CheckMonsterStatInput("Hit Points", monster.HealthBoundaries);
@@ -175,7 +173,7 @@ namespace Monster_Combat_Simulator
 
             do
             {
-                $"{_statName} ( Min: {_boundaries.MinValue}, Max: {_boundaries.MaxValue} ): ".Write();
+                $"{_statName} (Min: {_boundaries.MinValue} | Max: {_boundaries.MaxValue}): ".Write();
 
                 if (float.TryParse(Console.ReadLine(), out statInput))
                 {
@@ -189,7 +187,7 @@ namespace Monster_Combat_Simulator
                         ConsoleEx.ClearCurrentConsoleLine();
                     }
                 }
-
+                
                 else
                 {
                     Console.SetCursorPosition(0, Console.CursorTop - 1);

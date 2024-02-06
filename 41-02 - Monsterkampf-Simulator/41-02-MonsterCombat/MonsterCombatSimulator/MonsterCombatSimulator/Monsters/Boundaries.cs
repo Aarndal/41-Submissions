@@ -13,16 +13,10 @@ namespace Monster_Combat_Simulator.Monsters
             MinValue = _minValue;
             MaxValue = _maxValue;
         }
-        
-        public float MinValue
-        {
-            get;
-        }
 
-        public float MaxValue
-        {
-            get;
-        }
+        public float MinValue { get; }
+
+        public float MaxValue { get; }
 
         public bool IsWithinBoundaries(float _value)
         {

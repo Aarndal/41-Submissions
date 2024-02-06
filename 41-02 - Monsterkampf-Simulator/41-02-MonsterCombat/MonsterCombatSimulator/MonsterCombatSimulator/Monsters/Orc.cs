@@ -4,18 +4,37 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Monster_Combat_Simulator
+namespace Monster_Combat_Simulator.Monsters
 {
     internal class Orc: Monster
     {
-        public Orc() : base(5, 4, 3, 5)
+        private static readonly Boundaries m_healthBoundaries = new(4, 6);
+        private static readonly Boundaries m_attackBoundaries = new(3, 5);
+        private static readonly Boundaries m_defenseBoundaries = new(2, 4);
+        private static readonly Boundaries m_speedBoundaries = new(2, 4);
+
+        public Orc() 
+            : base(0, 0, 0, 0)
         {
             Type = "Orc";
         }
 
-        public Orc(float _health, float _attack, float _defense, float _speed) : base(_health, _attack, _defense, _speed)
+        public override Boundaries HealthBoundaries
         {
-            Type = "Orc";
+            get => m_healthBoundaries;
+        }
+
+        public override Boundaries AttackBoundaries
+        {
+            get => m_attackBoundaries;
+        }
+        public override Boundaries DefenseBoundaries
+        {
+            get => m_defenseBoundaries;
+        }
+        public override Boundaries SpeedBoundaries
+        {
+            get => m_speedBoundaries;
         }
     }
 }

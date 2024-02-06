@@ -1,18 +1,17 @@
-﻿using Monster_Combat_Simulator.Monsters;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Monster_Combat_Simulator
+namespace Monster_Combat_Simulator.Monsters
 {
     internal class Goblin: Monster
     {
-        private static readonly Boundaries m_healthBoundaries = new( 4, 5);
-        private static readonly Boundaries m_attackBoundaries = new( 4, 5);
-        private static readonly Boundaries m_defenseBoundaries = new( 4, 5);
-        private static readonly Boundaries m_speedBoundaries = new( 4, 5);
+        private static readonly Boundaries m_healthBoundaries = new(2, 4);
+        private static readonly Boundaries m_attackBoundaries = new(2, 4);
+        private static readonly Boundaries m_defenseBoundaries = new(3, 6);
+        private static readonly Boundaries m_speedBoundaries = new(3, 6);
 
         public Goblin() 
             : base(0, 0, 0, 0)
