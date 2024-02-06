@@ -8,11 +8,11 @@ namespace Sorting_Algorithms.SortingAlgorithms
 {
     internal abstract class SortingAlgorithm
     {
-        public enum SortingMethods
+        public enum SortingMethods : int
         {
-            Aufsteigend,
-            Absteigend,
-            ZickZack,
+            Aufsteigend = 1,
+            Absteigend = 2,
+            ZickZack = 3,
         }
 
         public abstract string? Name { get; }

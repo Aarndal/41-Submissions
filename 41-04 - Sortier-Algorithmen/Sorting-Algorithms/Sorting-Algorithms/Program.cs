@@ -10,19 +10,22 @@ namespace Sorting_Algorithms
     {
         static void Main()
         {
+            Console.Title = "Sorting Algorithms";
+            ConsoleEx.SetColors(ConsoleColor.White, ConsoleColor.DarkBlue);
+            Console.CursorVisible = false;
+            
             Console.Write("Bitte gib an, wie viele zufällige Zahlen von 1 bis 100 generiert werden sollen: ");
             int count = int.Parse(Console.ReadLine() ?? string.Empty);
+            //int input = int.TryParse(Console.ReadLine(), out int count) ? 0 : count;
             int[] array = new int[count];
-            
+
             Random rnd = new();
             for (int i = 0; i < array.Length; i++)
             {
-                array[i] = rnd.Next(100);
+                array[i] = rnd.Next(1, 101);
             }
 
-            //int[] array = [5, 3, 6, 4, 1, 2, 7];
-
-            Console.WriteLine("Unsortiert:");
+            Console.WriteLine("\nUnsortiert:");
             PrintArray(array);
 
             SortingAlgorithm[] sortingAlgorithms =
@@ -34,43 +37,85 @@ namespace Sorting_Algorithms
                 new SelectionSort(),
             ];
 
-            //HeapSort alogrithm = new();
-            //alogrithm.Sort(array, SortingMethods.ZickZack);
-
-            //DisplaySorting(array, SortingMethods.ZickZack, alogrithm);
-
-            ConsoleKeyInfo keyInfo = Console.ReadKey(true);
-            int selectSortingMethodIndex = 0;
+            int selectSortingAlgorithmIndex = 0;
             bool selection = true;
+            SortingAlgorithm? selectedSortingAlgorithm = null;
 
-            //while (selection)
-            //{
-            //    switch (keyInfo.Key)
-            //    {
-            //        case ConsoleKey.A:
-            //            selectSortingMethodIndex--;
-            //            if (selectSortingMethodIndex < 0)
-            //                selectSortingMethodIndex = sortingMethods.Length - 1;
-            //            break;
-            //        case ConsoleKey.D:
-            //            selectSortingMethodIndex++;
-            //            if (selectSortingMethodIndex > sortingMethods.Length - 1)
-            //                selectSortingMethodIndex = 0;
-            //            break;
-            //        case ConsoleKey.Enter:
+            Console.WriteLine("Wähle einen Sortieralgorithmus mit A und D und bestätige mit Enter:\n");
 
-            //            selection = false;
-            //            break;
-            //    }
+            while (selection && selectedSortingAlgorithm == null)
+            {
+                ConsoleEx.ClearCurrentConsoleLine();
+                Console.WriteLine($"{sortingAlgorithms[selectSortingAlgorithmIndex].Name}");
 
-            //}
+                ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+                switch (keyInfo.Key)
+                {
+                    case ConsoleKey.A:
+                        selectSortingAlgorithmIndex--;
+                        if (selectSortingAlgorithmIndex < 0)
+                            selectSortingAlgorithmIndex = sortingAlgorithms.Length - 1;
+                        break;
+                    case ConsoleKey.D:
+                        selectSortingAlgorithmIndex++;
+                        if (selectSortingAlgorithmIndex > sortingAlgorithms.Length - 1)
+                            selectSortingAlgorithmIndex = 0;
+                        break;
+                    case ConsoleKey.Enter:
+                        selectedSortingAlgorithm = sortingAlgorithms[selectSortingAlgorithmIndex];
+                        selection = false;
+                        break;
+                }
+                Console.SetCursorPosition(0, Console.CursorTop - 1);
+            }
+            Console.WriteLine("\n");
+            selection = true;
 
+            int selectSortingMethodIndex = 0;
+            SortingMethods[] sortingMethods = Enum.GetValues<SortingMethods>();
+            SortingMethods selectedSortingMethod = SortingMethods.Aufsteigend;
+
+            Console.WriteLine("Wähle eine Sortiermethode mit A und D und bestätige mit Enter:\n");
+
+            while (selection)
+            {
+                ConsoleEx.ClearCurrentConsoleLine();
+                Console.WriteLine($"{sortingMethods[selectSortingMethodIndex]}");
+
+                ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+                switch (keyInfo.Key)
+                {
+                    case ConsoleKey.A:
+                        selectSortingMethodIndex--;
+                        if (selectSortingMethodIndex < 0)
+                            selectSortingMethodIndex = sortingMethods.Length - 1;
+                        break;
+                    case ConsoleKey.D:
+                        selectSortingMethodIndex++;
+                        if (selectSortingMethodIndex > sortingMethods.Length - 1)
+                            selectSortingMethodIndex = 0;
+                        break;
+                    case ConsoleKey.Enter:
+                        selectedSortingMethod = sortingMethods[selectSortingMethodIndex];
+                        selection = false;
+                        break;
+                }
+                Console.SetCursorPosition(0, Console.CursorTop - 1);
+            }
+
+            Console.WriteLine("\n");
+
+            if (selectedSortingAlgorithm != null)
+                DisplaySorting(array, selectedSortingMethod, selectedSortingAlgorithm);
+
+            Console.WriteLine("Drücke eine beliebige Taste, um das Programm zu beenden...");
             Console.ReadKey();
         }
 
         private static void DisplaySorting(int[] _array, SortingMethods _method, SortingAlgorithm _algorithm)
         {
-            Console.WriteLine($"{_method} nach {_algorithm.Name} sortiert:");
+            Console.WriteLine($"{_method} mit {_algorithm.Name} sortiert:");
+            _algorithm.Sort(_array, _method);
             PrintArray(_array);
         }
 
