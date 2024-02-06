@@ -12,11 +12,10 @@ namespace Sorting_Algorithms
         {
             Console.Title = "Sorting Algorithms";
             ConsoleEx.SetColors(ConsoleColor.White, ConsoleColor.DarkBlue);
-            Console.CursorVisible = false;
             
             Console.Write("Bitte gib an, wie viele zufällige Zahlen von 1 bis 100 generiert werden sollen: ");
             int count = int.Parse(Console.ReadLine() ?? string.Empty);
-            //int input = int.TryParse(Console.ReadLine(), out int count) ? 0 : count;
+            //int.TryParse(Console.ReadLine().Trim(), out int count) ? 0 : count;
             int[] array = new int[count];
 
             Random rnd = new();
@@ -25,6 +24,7 @@ namespace Sorting_Algorithms
                 array[i] = rnd.Next(1, 101);
             }
 
+            Console.CursorVisible = false;
             Console.WriteLine("\nUnsortiert:");
             PrintArray(array);
 
