@@ -9,7 +9,7 @@
 
             Vector sum = vector1 + vector2;
 
-            float staticAngle = Vector.GetSignedAngleBetween(vector1, vector2, Vector.CartesianAxis.Y);
+            float staticAngle = Vector.GetSignedAngleBetween(vector1, vector2, Vector.CartesianAxis.YAxis);
             float nonstaticAngle = vector1.GetSignedAngleTo(vector2);
 
             try

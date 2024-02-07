@@ -8,17 +8,17 @@ namespace VectorMath
 {
     public class Vector
     {
-        private static float minFloat = MathF.Pow(10f, -6f); //minFloat is used to compare floats to zero and therefore avoid division by zero
-        private float x, y, z;
+        private static float m_MinFloat = MathF.Pow(10f, -6f); //minFloat is used to compare floats to zero and therefore avoid division by zero
+        private float m_x, m_y, m_z;
 
         /// <summary>
         /// Enum for the rotation axis of the SignedAngle Methods
         /// </summary>
         public enum CartesianAxis
         {
-            X,
-            Y,
-            Z
+            XAxis,
+            YAxis,
+            ZAxis
         }
 
         #region Constructors
@@ -27,9 +27,9 @@ namespace VectorMath
         /// </summary>
         public Vector()
         {
-            this.x = 0;
-            this.y = 0;
-            this.z = 0;
+            this.m_x = 0;
+            this.m_y = 0;
+            this.m_z = 0;
         }
 
         /// <summary>
@@ -40,9 +40,9 @@ namespace VectorMath
         /// <param name="_z"></param>
         public Vector(float _x, float _y, float _z = 0)
         {
-            this.x = _x;
-            this.y = _y;
-            this.z = _z;
+            this.m_x = _x;
+            this.m_y = _y;
+            this.m_z = _z;
         }
         #endregion
 
@@ -52,8 +52,8 @@ namespace VectorMath
         /// </summary>
         public float X
         {
-            get => this.x;
-            set => this.x = value;
+            get => this.m_x;
+            set => this.m_x = value;
         }
 
         /// <summary>
@@ -61,8 +61,8 @@ namespace VectorMath
         /// </summary>
         public float Y
         {
-            get => this.y;
-            set => this.y = value;
+            get => this.m_y;
+            set => this.m_y = value;
         }
 
         /// <summary>
@@ -70,8 +70,8 @@ namespace VectorMath
         /// </summary>
         public float Z
         {
-            get => this.z;
-            set => this.z = value;
+            get => this.m_z;
+            set => this.m_z = value;
         }
         #endregion
 
@@ -119,18 +119,18 @@ namespace VectorMath
         public static Vector operator +(Vector _vector1, Vector _vector2)
         {
             Vector sumVector = new Vector();
-            sumVector.x = _vector1.x + _vector2.x;
-            sumVector.y = _vector1.y + _vector2.y;
-            sumVector.z = _vector1.z + _vector2.z;
+            sumVector.m_x = _vector1.m_x + _vector2.m_x;
+            sumVector.m_y = _vector1.m_y + _vector2.m_y;
+            sumVector.m_z = _vector1.m_z + _vector2.m_z;
             return sumVector;
         }
 
         /// <summary>
-        /// Subtracts a Vector (Subtrahend) from another Vector (Minuend) and returns the Difference Vector.
+        /// Subtracts a Vector (Subtrahend) from another Vector (Minuend).
         /// </summary>
-        /// <param name="_minuendVector"></param>
-        /// <param name="_subtrahendVector"></param>
-        /// <returns></returns>
+        /// <param name="_minuendVector">The Vector that is subtracted by the subtrahend Vector.</param>
+        /// <param name="_subtrahendVector">The Vector that is subtracted from the minuend Vector.</param>
+        /// <returns>Returns the difference of the minuend Vector and the subtrahend Vector as a Vector.</returns>
         public static Vector operator -(Vector _minuendVector, Vector _subtrahendVector)
         {
             Vector differenceVector = _minuendVector + GetOppositeVector(_subtrahendVector); // uses the GetOppositeVector method to reduce code clutter
@@ -144,13 +144,13 @@ namespace VectorMath
         /// </summary>
         /// <param name="_vector"></param>
         /// <param name="_float"></param>
-        /// <returns></returns>
+        /// <returns>Returns the given Vector whose components have been multiplied by the given number.</returns>
         public static Vector operator *(Vector _vector, float _float)
         {
             Vector scalarProductVector = new Vector();
-            scalarProductVector.x = _vector.x * _float;
-            scalarProductVector.y = _vector.y * _float;
-            scalarProductVector.z = _vector.z * _float;
+            scalarProductVector.m_x = _vector.m_x * _float;
+            scalarProductVector.m_y = _vector.m_y * _float;
+            scalarProductVector.m_z = _vector.m_z * _float;
             return scalarProductVector;
         }
 
@@ -159,13 +159,13 @@ namespace VectorMath
         /// </summary>
         /// <param name="_vector"></param>
         /// <param name="_integer"></param>
-        /// <returns></returns>
+        /// <returns>Returns the given Vector whose components have been multiplied by the given number.</returns>
         public static Vector operator *(Vector _vector, int _integer)
         {
             Vector scalarProductVector = new Vector();
-            scalarProductVector.x = _vector.x * _integer;
-            scalarProductVector.y = _vector.y * _integer;
-            scalarProductVector.z = _vector.z * _integer;
+            scalarProductVector.m_x = _vector.m_x * _integer;
+            scalarProductVector.m_y = _vector.m_y * _integer;
+            scalarProductVector.m_z = _vector.m_z * _integer;
             return scalarProductVector;
         }
 
@@ -174,11 +174,11 @@ namespace VectorMath
         /// </summary>
         /// <param name="_vector"></param>
         /// <param name="_float"></param>
-        /// <returns></returns>
+        /// <returns>Returns the given Vector whose components have been divided by the given number.</returns>
         /// <exception cref="ArithmeticException"></exception>
         public static Vector operator /(Vector _vector, float _float)
         {
-            if (_float > minFloat || _float < -minFloat) //minFloat is used to avoid division by zero
+            if (_float > m_MinFloat || _float < -m_MinFloat) //minFloat is used to avoid division by zero
             {
                 Vector scalarQuotientVector = _vector * MathF.Pow(_float, -1f);
                 return scalarQuotientVector;
@@ -191,7 +191,7 @@ namespace VectorMath
         /// </summary>
         /// <param name="_vector"></param>
         /// <param name="_integer"></param>
-        /// <returns></returns>
+        /// <returns>Returns the given Vector whose components have been divided by the given number.</returns>
         /// <exception cref="ArithmeticException"></exception>
         public static Vector operator /(Vector _vector, int _integer)
         {
@@ -207,41 +207,41 @@ namespace VectorMath
         #region DotProduct & CrossProduct
 
         /// <summary>
-        /// Returns the Dot Product of two Vectors as a float.
+        /// Calculates the Dot Product of two Vectors.
         /// </summary>
         /// <param name="_vector1"></param>
         /// <param name="_vector2"></param>
-        /// <returns></returns>
+        /// <returns>Returns the Dot Product as a float.</returns>
         public static float operator *(Vector _vector1, Vector _vector2)
         {
-            float dotProduct = _vector1.x * _vector2.x
-                + _vector1.y * _vector2.y
-                + _vector1.z * _vector2.z;
+            float dotProduct = _vector1.m_x * _vector2.m_x
+                + _vector1.m_y * _vector2.m_y
+                + _vector1.m_z * _vector2.m_z;
             return dotProduct;
         }
 
         /// <summary>
-        /// Returns the Cross Product of two Vectors as a Vector.
+        /// Calculates the Cross Product of two Vectors.
         /// </summary>
         /// <param name="_vector1"></param>
         /// <param name="_vector2"></param>
-        /// <returns></returns>
+        /// <returns>Returns the Cross Product as a new Vector.</returns>
         public static Vector operator %(Vector _vector1, Vector _vector2)
         {
             Vector crossProductVector = new Vector();
-            crossProductVector.x = (_vector1.y * _vector2.z) - (_vector1.z * _vector2.y);
-            crossProductVector.y = -(_vector1.x * _vector2.z) + (_vector1.z * _vector2.x);
-            crossProductVector.z = (_vector1.x * _vector2.y) - (_vector1.y * _vector2.x);
+            crossProductVector.m_x = (_vector1.m_y * _vector2.m_z) - (_vector1.m_z * _vector2.m_y);
+            crossProductVector.m_y = -(_vector1.m_x * _vector2.m_z) + (_vector1.m_z * _vector2.m_x);
+            crossProductVector.m_z = (_vector1.m_x * _vector2.m_y) - (_vector1.m_y * _vector2.m_x);
             return crossProductVector;
         }
         #endregion
 
         #region OppositeVector
         /// <summary>
-        /// Returns the Opposite Vector of a given Vector.
+        /// Calculates the Opposite Vector of a given Vector.
         /// </summary>
         /// <param name="_vector"></param>
-        /// <returns></returns>
+        /// <returns>Returns the Opposite Vector of a given Vector.</returns>
         public static Vector GetOppositeVector(Vector _vector)
         {
             return _vector * (-1);
@@ -264,25 +264,25 @@ namespace VectorMath
 
         #region Length & SqrLength
         /// <summary>
-        /// Returns the squared Length of a given Vector as a float.
+        /// Calculates the squared length of a given Vector.
         /// </summary>
         /// <param name="_vector"></param>
-        /// <returns></returns>
+        /// <returns>Returns the squared length of a given Vector as a float.</returns>
         public static float GetSqrLength(Vector _vector)
         {
-            return _vector.x * _vector.x +
-                _vector.y * _vector.y +
-                _vector.z * _vector.z;
+            return _vector.m_x * _vector.m_x +
+                _vector.m_y * _vector.m_y +
+                _vector.m_z * _vector.m_z;
         }
 
         // Calculates the squared Length of the Vector.
         private float GetSqrLength()
         {
-            return x * x + y * y + z * z;
+            return m_x * m_x + m_y * m_y + m_z * m_z;
         }
 
         /// <summary>
-        /// Gets the squared Length of the Vector.
+        /// Gets the squared length of the Vector.
         /// </summary>
         public float SqrLength
         {
@@ -290,23 +290,23 @@ namespace VectorMath
         }
 
         /// <summary>
-        /// Returns the Length of a given Vector as a float.
+        /// Calculates the length of a given Vector.
         /// </summary>
         /// <param name="_vector"></param>
-        /// <returns></returns>
+        /// <returns>Returns the length of a given Vector as a float.</returns>
         public static float GetLength(Vector _vector)
         {
             return MathF.Sqrt(GetSqrLength(_vector));
         }
 
-        // Calculates the Legnth of the Vector.
+        // Calculates the length of the Vector.
         private float GetLength()
         {
             return MathF.Sqrt(GetSqrLength(this));
         }
 
         /// <summary>
-        /// Gets the Length of the Vector.
+        /// Gets the length of the Vector.
         /// </summary>
         public float Length
         {
@@ -316,10 +316,10 @@ namespace VectorMath
 
         #region UnitVector
         /// <summary>
-        /// Returns the Unit Vector of a given Vector.
+        /// Calculates the Unit Vector of a given Vector.
         /// </summary>
         /// <param name="_vector"></param>
-        /// <returns></returns>
+        /// <returns>Returns the Unit Vector of a given Vector.</returns>
         /// <exception cref="ArithmeticException"></exception>
         public static Vector GetUnitVector(Vector _vector)
         {
@@ -333,7 +333,7 @@ namespace VectorMath
             }
         }
 
-        // Normalizes the Vector by dividing it through its Length.
+        // Normalizes the Vector by dividing it through its length.
         private Vector Normalize()
         {
             if (!this.IsZeroVector)
@@ -352,42 +352,42 @@ namespace VectorMath
 
         #region DirectionVector & Distance
         /// <summary>
-        /// Returns the normalized Direction Vector of a given Origin Vector to a given Target Vector.
+        /// Calculates the normalized Direction Vector of a given Origin Vector to a given Target Vector.
         /// </summary>
-        /// <param name="_origin"></param>
-        /// <param name="_target"></param>
-        /// <returns></returns>
+        /// <param name="_origin">Origin Vector</param>
+        /// <param name="_target">Target Vector</param>
+        /// <returns>Returns the normalized Direction Vector.</returns>
         public static Vector GetDirectionVector(Vector _origin, Vector _target)
         {
             return GetUnitVector(_target - _origin);
         }
 
         /// <summary>
-        /// Returns the normalized Direction Vector to a given Target Vector.
+        /// Calculates the normalized Direction Vector to a given Vector.
         /// </summary>
-        /// <param name="_target"></param>
-        /// <returns></returns>
+        /// <param name="_target">Target Vector</param>
+        /// <returns>Returns the normalized Direction Vector.</returns>
         public Vector GetDirectionVectorTo(Vector _target)
         {
             return GetUnitVector(_target - this);
         }
 
         /// <summary>
-        /// Returns the Distance between two given Vectors as a float.
+        /// Calculates the distance between two given Vectors.
         /// </summary>
-        /// <param name="_origin"></param>
-        /// <param name="_target"></param>
-        /// <returns></returns>
+        /// <param name="_origin">Origin Vector</param>
+        /// <param name="_target">Target Vector</param>
+        /// <returns>Returns the distance as a float.</returns>
         public static float GetDistanceBetween(Vector _origin, Vector _target)
         {
             return _origin.GetDistanceTo(_target);
         }
 
         /// <summary>
-        /// Returns the Distance to a given Vector as a float.
+        /// Calculates the distance to a given Vector.
         /// </summary>
-        /// <param name="_target"></param>
-        /// <returns></returns>
+        /// <param name="_target">Target Vector</param>
+        /// <returns>Returns the distance as a float.</returns>
         public float GetDistanceTo(Vector _target)
         {
             Vector distanceVector = _target - this;
@@ -397,11 +397,11 @@ namespace VectorMath
 
         #region ProjectionVector
         /// <summary>
-        /// Projects a given Origin Vector onto a given Target Vector and returns the Projection Vector.
+        /// Projects a given Origin Vector onto a given Target Vector.
         /// </summary>
-        /// <param name="_origin"></param>
-        /// <param name="_target"></param>
-        /// <returns></returns>
+        /// <param name="_origin">Origin Vector</param>
+        /// <param name="_target">Target Vector</param>
+        /// <returns>Returns the Projection Vector.</returns>
         public static Vector GetProjectionVector(Vector _origin, Vector _target)
         {
             try
@@ -417,32 +417,32 @@ namespace VectorMath
         /// <summary>
         /// Projects the Vector on a given Target Vector and returns the Projection Vector.
         /// </summary>
-        /// <param name="_target"></param>
-        /// <returns></returns>
+        /// <param name="_target">Target Vector</param>
+        /// <returns>Returns the Projection Vector.</returns>
         public Vector ProjectOn(Vector _target)
         {
             return _target.Normalized * (this * _target.Normalized);
         }
 
         /// <summary>
-        /// Projects the Vector on the x-, y- or z-Axis and returns the Projection Vector.
+        /// Projects the Vector on the x-, y- or z-Axis.
         /// </summary>
         /// <param name="_axis"></param>
-        /// <returns></returns>
+        /// <returns>Returns the Projection Vector.</returns>
         public Vector ProjectOnAxis(CartesianAxis _axis)
         {
             Vector target = new Vector();
 
             switch (_axis)
             {
-                case CartesianAxis.X:
+                case CartesianAxis.XAxis:
                     target = StdUnitVectorX;
                     break;
-                case CartesianAxis.Y:
+                case CartesianAxis.YAxis:
                     target = StdUnitVectorY;
 
                     break;
-                case CartesianAxis.Z:
+                case CartesianAxis.ZAxis:
                     target = StdUnitVectorZ;
                     break;
                 default:
@@ -469,7 +469,7 @@ namespace VectorMath
                 float angle = MathF.Round((MathF.Acos(MathF.Sqrt(sqrCosPhi)) * 180) / MathF.PI, 4, MidpointRounding.AwayFromZero);
 
                 // Checks if the Dot Product of the two Vectors is negative to make a range between 0° and 180° possible.
-                if (dotProduct < minFloat)
+                if (dotProduct < m_MinFloat)
                     return angle = 180 - angle;
                 return angle;
             }
@@ -489,13 +489,13 @@ namespace VectorMath
             Vector rotationAxisVector = new Vector();
             switch (_rotationAxis)
             {
-                case CartesianAxis.X:
+                case CartesianAxis.XAxis:
                     rotationAxisVector = StdUnitVectorX;
                     break;
-                case CartesianAxis.Y:
+                case CartesianAxis.YAxis:
                     rotationAxisVector = StdUnitVectorY;
                     break;
-                case CartesianAxis.Z:
+                case CartesianAxis.ZAxis:
                     rotationAxisVector = StdUnitVectorZ;
                     break;
                 default:
@@ -504,7 +504,7 @@ namespace VectorMath
 
             //checks if the angle is positive or negative in regards of the rotation axis (right hand coordinate system) and returns the signed angle
             float tripleProduct = (_origin % _target) * rotationAxisVector;
-            if (tripleProduct < minFloat)
+            if (tripleProduct < m_MinFloat)
                 angle = -angle;
             return angle;
         }
@@ -516,7 +516,7 @@ namespace VectorMath
                 float dotProduct = this * _target;
                 float sqrCosPhi = (dotProduct * dotProduct) / (this.SqrLength * _target.SqrLength);
                 float angle = MathF.Round((MathF.Acos(MathF.Sqrt(sqrCosPhi)) * 180) / MathF.PI, 4, MidpointRounding.AwayFromZero);
-                if (dotProduct < minFloat)
+                if (dotProduct < m_MinFloat)
                     return angle = 180 - angle;
                 return angle;
             }
@@ -535,13 +535,13 @@ namespace VectorMath
             Vector rotationAxis = new Vector();
             switch (_rotationAxis)
             {
-                case CartesianAxis.X:
+                case CartesianAxis.XAxis:
                     rotationAxis = StdUnitVectorX;
                     break;
-                case CartesianAxis.Y:
+                case CartesianAxis.YAxis:
                     rotationAxis = StdUnitVectorY;
                     break;
-                case CartesianAxis.Z:
+                case CartesianAxis.ZAxis:
                     rotationAxis = StdUnitVectorZ;
                     break;
                 default:
@@ -550,7 +550,7 @@ namespace VectorMath
 
             // checks if the angle is positive or negative in regards of the rotation axis (right hand coordinate system) and returns the signed angle
             float tripleProduct = (this % _target) * rotationAxis;
-            if (tripleProduct < minFloat)
+            if (tripleProduct < m_MinFloat)
                 angle = -angle;
             return angle;
         }
@@ -575,23 +575,32 @@ namespace VectorMath
             float angle = GetAngleBetween(this, _target);
 
             // checks if the angle is positive or negative in regards of the rotation axis (right hand coordinate system) and returns the signed angle
-            if (crossProduct * rotationAxis < minFloat)
+            if (crossProduct * rotationAxis < m_MinFloat)
                 angle = -angle;
             return angle;
         }
         #endregion
 
         #region Booleans
+        /// <summary>
+        /// Checks if the Vector is a Zero Vector.
+        /// </summary>
+        /// <returns>Returns true if the Vector is a Zero Vector, otherwise false.</returns>
         public bool IsZeroVector
         {
             get
             {
-                if (MathF.Abs(x) > minFloat || MathF.Abs(y) > minFloat || MathF.Abs(z) > minFloat)
+                if (MathF.Abs(m_x) > m_MinFloat || MathF.Abs(m_y) > m_MinFloat || MathF.Abs(m_z) > m_MinFloat)
                     return false;
                 return true;
             }
         }
 
+        /// <summary>
+        /// Checks if a given Vector is the Opposite Vector of this Vector. 
+        /// </summary>
+        /// <param name="_vector"></param>
+        /// <returns>Returns true if the Vector is the Opposite Vector, otherwise false.</returns>
         public bool IsOppositeTo(Vector _vector)
         {
             if (this == _vector.Opposite)
@@ -599,32 +608,52 @@ namespace VectorMath
             return false;
         }
 
+        /// <summary>
+        /// Checks if a given Vector is orthogonal to this Vector.
+        /// </summary>
+        /// <param name="_vector"></param>
+        /// <returns>Returns true if the Vector is orthogonal, otherwise false.</returns>
         public bool IsOrthogonalTo(Vector _vector)
         {
-            if (MathF.Abs(this * _vector) <= minFloat)
+            if (MathF.Abs(this * _vector) <= m_MinFloat) // two Vectors are orthogonal to each other if their Dot Product is 0
                 return true;
             return false;
         }
 
+        /// <summary>
+        /// Checks if a given Vector is collinear to this Vector.
+        /// </summary>
+        /// <param name="_vector"></param>
+        /// <returns>Returns true if the Vector is collinear, otherwise false.</returns>
         public bool IsCollinearTo(Vector _vector)
         {
-            if (GetAngleTo(_vector) <= minFloat)
+            if (GetAngleTo(_vector) <= m_MinFloat) // two Vectors are collinear if the angle between them is 0°
                 return true;
             return false;
         }
 
+        /// <summary>
+        /// Checks if a given Vector is parallel to this Vector.
+        /// </summary>
+        /// <param name="_vector"></param>
+        /// <returns>Returns true if the Vector is parallel, otherwise false.</returns>
         public bool IsParallelTo(Vector _vector)
         {
             float dotProduct = this * _vector;
-            if (IsCollinearTo(_vector) && dotProduct > minFloat)
+            if (IsCollinearTo(_vector) && dotProduct > m_MinFloat) // two Vectors are parallel if the angle between them is 0° and the Dot Product is greater than 0
                 return true;
             return false;
         }
 
+        /// <summary>
+        /// Checks if a given Vector is antiparallel to this Vector.
+        /// </summary>
+        /// <param name="_vector"></param>
+        /// <returns>Returns true if the Vector is antiparallel, otherwise false.</returns>
         public bool IsAntiparallelTo(Vector _vector)
         {
             float dotProduct = this * _vector;
-            if (IsCollinearTo(_vector) && dotProduct <= minFloat)
+            if (IsCollinearTo(_vector) && dotProduct < -m_MinFloat) // two Vectors are antiparallel if the angle between them is 0° and the Dot Product is less than 0
                 return true;
             return false;
         }
