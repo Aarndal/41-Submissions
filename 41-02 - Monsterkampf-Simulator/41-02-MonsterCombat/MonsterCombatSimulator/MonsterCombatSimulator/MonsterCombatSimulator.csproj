@@ -9,7 +9,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Console\" />
+    <Compile Remove="Console\**" />
+    <EmbeddedResource Remove="Console\**" />
+    <None Remove="Console\**" />
   </ItemGroup>
 
 </Project>

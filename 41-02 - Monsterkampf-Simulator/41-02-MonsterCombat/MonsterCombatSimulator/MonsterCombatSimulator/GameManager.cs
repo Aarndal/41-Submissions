@@ -175,7 +175,7 @@ namespace Monster_Combat_Simulator
             {
                 $"{_statName} (Min: {_boundaries.MinValue} | Max: {_boundaries.MaxValue}): ".Write();
 
-                if (float.TryParse(Console.ReadLine(), out statInput))
+                if (float.TryParse(Console.ReadLine().Trim(), out statInput))
                 {
                     if (_boundaries.IsWithinBoundaries(statInput))
                     {
