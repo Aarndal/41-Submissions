@@ -121,9 +121,7 @@ namespace Sorting_Algorithms
             {
                 Console.Write(_message);
 
-                string userInput = Console.ReadLine().Trim();
-
-                if (!int.TryParse(s: userInput, result: out int number) || number < _minValue || number > _maxValue || userInput is null)
+                if (!int.TryParse(s: Console.ReadLine(), result: out int number) || number < _minValue || number > _maxValue)
                 {
                     Console.SetCursorPosition(0, Console.CursorTop - 1);
                     ConsoleEx.ClearCurrentConsoleLine();
