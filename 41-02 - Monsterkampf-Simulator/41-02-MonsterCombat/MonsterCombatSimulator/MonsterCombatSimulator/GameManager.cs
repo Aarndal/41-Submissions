@@ -132,8 +132,10 @@ namespace Monster_Combat_Simulator
             }
 
             "\n".Write();
+            
             "Please, press any key to exit...".WriteLine();
             Console.ReadKey();
+            Environment.Exit(0);
         }
 
         #region GameManager Methods

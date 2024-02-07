@@ -8,10 +8,10 @@ namespace Monster_Combat_Simulator.Monsters
 {
     internal class Goblin: Monster
     {
-        private static readonly Boundaries m_healthBoundaries = new(2, 4);
-        private static readonly Boundaries m_attackBoundaries = new(2, 4);
-        private static readonly Boundaries m_defenseBoundaries = new(3, 6);
-        private static readonly Boundaries m_speedBoundaries = new(3, 6);
+        private static readonly Boundaries m_healthBoundaries = new(7, 12);
+        private static readonly Boundaries m_attackBoundaries = new(5, 8);
+        private static readonly Boundaries m_defenseBoundaries = new(2, 5);
+        private static readonly Boundaries m_speedBoundaries = new(4, 6);
 
         public Goblin() 
             : base(0, 0, 0, 0)
