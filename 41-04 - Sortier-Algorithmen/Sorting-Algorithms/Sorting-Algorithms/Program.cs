@@ -149,6 +149,8 @@ namespace Sorting_Algorithms
             for (int i = 0; i < array.Length; i++)
             {
                 array[i] = GetValideNumberInput($"{i + 1}. Zahl: ", int.MinValue, int.MaxValue);
+                Console.SetCursorPosition(0, Console.CursorTop - 1);
+                ConsoleEx.ClearCurrentConsoleLine();
             }
 
             return array;
