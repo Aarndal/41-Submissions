@@ -6,19 +6,30 @@ using static System.Collections.Specialized.BitVector32;
 
 namespace Sorting_Algorithms
 {
+    public enum ArrayCreationMethod : int
+    {
+        Zufällig,
+        Händisch
+    }
+
     internal class Program
     {
         static void Main()
         {
             Console.Title = "Sorting Algorithms";
             ConsoleEx.SetColors(ConsoleColor.White, ConsoleColor.DarkBlue);
-
-            Console.WriteLine("Bitte gib an, wie viele zufällige ganze Zahlen von -100 bis 100 generiert werden sollen.");
-            string message = "Gebe hierzu nachfolgend eine ganze Zahl zwischen 2 und 100 ein: ";
-            int count = GetValideNumberInput(message, 2, 100);
-            int[] array = GetArray(count);
-
             Console.CursorVisible = false;
+
+            SelectArrayCreationMethod(out ArrayCreationMethod selectedArrayCreationMethod);
+
+            Console.WriteLine('\n');
+
+            int[] array;
+            if (selectedArrayCreationMethod == ArrayCreationMethod.Händisch)
+                array = GetUserInputArray();
+            else
+                array = GetRandomArray();
+
             Console.WriteLine("\nUnsortiert:");
             PrintArray(array);
 
@@ -61,7 +72,7 @@ namespace Sorting_Algorithms
                 }
                 Console.SetCursorPosition(0, Console.CursorTop - 1);
             }
-            
+
             Console.WriteLine("\n");
 
             selection = true;
@@ -107,6 +118,7 @@ namespace Sorting_Algorithms
             Environment.Exit(0);
         }
 
+
         #region Program methods
         private static void DisplaySorting(int[] _array, SortingMethods _method, SortingAlgorithm _algorithm)
         {
@@ -115,14 +127,28 @@ namespace Sorting_Algorithms
             PrintArray(_array);
         }
 
-        private static int[] GetArray(int _count)
+        private static int[] GetRandomArray()
         {
-            int[] array = new int[_count];
+            Console.WriteLine("Bitte gib an, wie viele zufällige ganze Zahlen (von -100 bis 100) generiert werden sollen.");
+            int arrayLength = GetValideNumberInput("Gebe hierzu nachfolgend eine ganze Zahl von 2 bis 100 ein: ", 2, 100);
+            int[] array = new int[arrayLength];
             Random rnd = new();
 
             for (int i = 0; i < array.Length; i++)
             {
                 array[i] = rnd.Next(-100, 101);
+            }
+
+            return array;
+        }
+
+        private static int[] GetUserInputArray()
+        {
+            int[] array = new int[GetValideNumberInput("Bitte gib an, wie viele ganze Zahlen eingegeben werden sollen (Min: 2 | Max: 10): ", 2, 10)];
+
+            for (int i = 0; i < array.Length; i++)
+            {
+                array[i] = GetValideNumberInput($"{i + 1}. Zahl: ", int.MinValue, int.MaxValue);
             }
 
             return array;
@@ -160,6 +186,42 @@ namespace Sorting_Algorithms
             print += "]";
 
             Console.WriteLine(print + '\n');
+        }
+        
+        private static void SelectArrayCreationMethod(out ArrayCreationMethod _selectedArrayCreationMethod)
+        {
+            bool selection = true;
+            ArrayCreationMethod[] arrayCreationMethods = Enum.GetValues<ArrayCreationMethod>();
+            int selectArrayCreationMethodIndex = 0;
+            _selectedArrayCreationMethod = ArrayCreationMethod.Zufällig;
+            Console.WriteLine($"Bitte wähle aus, ob du eine Zahlenreihe händisch eingeben möchtest");
+            Console.WriteLine($"oder eine zufällige Zahlenreihe generiert werden soll:\n");
+
+            while (selection)
+            {
+                ConsoleEx.ClearCurrentConsoleLine();
+                Console.WriteLine($"{arrayCreationMethods[selectArrayCreationMethodIndex]}");
+
+                ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+                switch (keyInfo.Key)
+                {
+                    case ConsoleKey.A:
+                        selectArrayCreationMethodIndex--;
+                        if (selectArrayCreationMethodIndex < 0)
+                            selectArrayCreationMethodIndex = arrayCreationMethods.Length - 1;
+                        break;
+                    case ConsoleKey.D:
+                        selectArrayCreationMethodIndex++;
+                        if (selectArrayCreationMethodIndex > arrayCreationMethods.Length - 1)
+                            selectArrayCreationMethodIndex = 0;
+                        break;
+                    case ConsoleKey.Enter:
+                        _selectedArrayCreationMethod = arrayCreationMethods[selectArrayCreationMethodIndex];
+                        selection = false;
+                        break;
+                }
+                Console.SetCursorPosition(0, Console.CursorTop - 1);
+            }
         }
         #endregion
     }
