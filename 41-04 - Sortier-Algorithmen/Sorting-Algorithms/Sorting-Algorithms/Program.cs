@@ -13,21 +13,16 @@ namespace Sorting_Algorithms
             Console.Title = "Sorting Algorithms";
             ConsoleEx.SetColors(ConsoleColor.White, ConsoleColor.DarkBlue);
 
-            Console.WriteLine("Bitte gib an, wie viele zufällige Zahlen von 1 bis 100 generiert werden sollen.");
+            Console.WriteLine("Bitte gib an, wie viele zufällige ganze Zahlen von -100 bis 100 generiert werden sollen.");
             string message = "Gebe hierzu nachfolgend eine ganze Zahl zwischen 2 und 100 ein: ";
             int count = GetValideNumberInput(message, 2, 100);
-            int[] array = new int[count];
-
-            Random rnd = new();
-            for (int i = 0; i < array.Length; i++)
-            {
-                array[i] = rnd.Next(1, 101);
-            }
+            int[] array = GetArray(count);
 
             Console.CursorVisible = false;
             Console.WriteLine("\nUnsortiert:");
             PrintArray(array);
 
+            bool selection = true;
             SortingAlgorithm[] sortingAlgorithms =
             [
                 new BubbleSort(),
@@ -36,10 +31,8 @@ namespace Sorting_Algorithms
                 new HeapSort(),
                 new SelectionSort(),
             ];
-
-            int selectSortingAlgorithmIndex = 0;
-            bool selection = true;
             SortingAlgorithm? selectedSortingAlgorithm = null;
+            int selectSortingAlgorithmIndex = 0;
 
             Console.WriteLine("Wähle einen Sortieralgorithmus mit A und D und bestätige mit Enter:\n");
 
@@ -68,12 +61,13 @@ namespace Sorting_Algorithms
                 }
                 Console.SetCursorPosition(0, Console.CursorTop - 1);
             }
+            
             Console.WriteLine("\n");
-            selection = true;
 
-            int selectSortingMethodIndex = 0;
+            selection = true;
             SortingMethods[] sortingMethods = Enum.GetValues<SortingMethods>();
             SortingMethods selectedSortingMethod = SortingMethods.Aufsteigend;
+            int selectSortingMethodIndex = 0;
 
             Console.WriteLine("Wähle eine Sortiermethode mit A und D und bestätige mit Enter:\n");
 
@@ -110,11 +104,30 @@ namespace Sorting_Algorithms
 
             Console.WriteLine("Drücke eine beliebige Taste, um das Programm zu beenden...");
             Console.ReadKey();
-
             Environment.Exit(0);
         }
 
         #region Program methods
+        private static void DisplaySorting(int[] _array, SortingMethods _method, SortingAlgorithm _algorithm)
+        {
+            Console.WriteLine($"{_method} mit {_algorithm.Name} sortiert:");
+            _algorithm.Sort(_array, _method);
+            PrintArray(_array);
+        }
+
+        private static int[] GetArray(int _count)
+        {
+            int[] array = new int[_count];
+            Random rnd = new();
+
+            for (int i = 0; i < array.Length; i++)
+            {
+                array[i] = rnd.Next(-100, 101);
+            }
+
+            return array;
+        }
+
         private static int GetValideNumberInput(string _message, int _minValue, int _maxValue)
         {
             do
@@ -132,14 +145,6 @@ namespace Sorting_Algorithms
                 }
 
             } while (true);
-        }
-
-
-        private static void DisplaySorting(int[] _array, SortingMethods _method, SortingAlgorithm _algorithm)
-        {
-            Console.WriteLine($"{_method} mit {_algorithm.Name} sortiert:");
-            _algorithm.Sort(_array, _method);
-            PrintArray(_array);
         }
 
         private static void PrintArray(int[] _array)
