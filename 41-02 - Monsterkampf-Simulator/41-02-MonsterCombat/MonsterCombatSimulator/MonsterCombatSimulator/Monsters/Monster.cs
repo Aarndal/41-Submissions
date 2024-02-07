@@ -10,7 +10,6 @@ namespace Monster_Combat_Simulator.Monsters
     {
         public enum MonsterType
         {
-            MONSTER = 0,
             GOBLIN = 1,
             ORC = 2,
             TROLL = 3,

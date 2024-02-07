@@ -113,10 +113,14 @@ namespace Monster_Combat_Simulator
                 float hpBeforeAttack = combatans[1 - currentCombatant]?.HP ?? 0;
                 combatans[currentCombatant]?.Attack(combatans[1 - currentCombatant]);
                 float damage = hpBeforeAttack - (combatans[1 - currentCombatant]?.HP ?? 0);
+                
                 $"The {combatans[currentCombatant]?.Type} deals {damage} damage to the {combatans[1 - currentCombatant]?.Type}!".WriteLine();
+
+                Thread.Sleep(TimeSpan.FromSeconds(1.5));
+
                 $"The {combatans[1 - currentCombatant]?.Type} has {combatans[1 - currentCombatant]?.HP} HP left! \n".WriteLine();
 
-                // sleep einbauen
+                Thread.Sleep(TimeSpan.FromSeconds(1.5));
 
                 if (combatans[1 - currentCombatant]?.IsDead == true)
                 {
@@ -167,7 +171,7 @@ namespace Monster_Combat_Simulator
             return monster.SetStats(hp, ap, dp, sp);
         }
 
-        private static float CheckMonsterStatInput(string _statName, Boundaries _boundaries) // ToDo: parameter für Min/Max-Werte
+        private static float CheckMonsterStatInput(string _statName, Boundaries _boundaries)
         {
             float statInput;
 
@@ -175,7 +179,7 @@ namespace Monster_Combat_Simulator
             {
                 $"{_statName} (Min: {_boundaries.MinValue} | Max: {_boundaries.MaxValue}): ".Write();
 
-                if (float.TryParse(Console.ReadLine().Trim(), out statInput))
+                if (float.TryParse(Console.ReadLine(), out statInput))
                 {
                     if (_boundaries.IsWithinBoundaries(statInput))
                     {
