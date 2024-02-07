@@ -12,10 +12,10 @@ namespace Sorting_Algorithms
         {
             Console.Title = "Sorting Algorithms";
             ConsoleEx.SetColors(ConsoleColor.White, ConsoleColor.DarkBlue);
-            
-            Console.Write("Bitte gib an, wie viele zufällige Zahlen von 1 bis 100 generiert werden sollen: ");
-            int count = int.Parse(Console.ReadLine() ?? string.Empty);
-            //int.TryParse(Console.ReadLine().Trim(), out int count) ? 0 : count;
+
+            Console.WriteLine("Bitte gib an, wie viele zufällige Zahlen von 1 bis 100 generiert werden sollen.");
+            string message = "Gebe hierzu nachfolgend eine ganze Zahl zwischen 2 und 100 ein: ";
+            int count = GetValideNumberInput(message, 2, 100);
             int[] array = new int[count];
 
             Random rnd = new();
@@ -110,7 +110,32 @@ namespace Sorting_Algorithms
 
             Console.WriteLine("Drücke eine beliebige Taste, um das Programm zu beenden...");
             Console.ReadKey();
+
+            Environment.Exit(0);
         }
+
+        #region Program methods
+        private static int GetValideNumberInput(string _message, int _minValue, int _maxValue)
+        {
+            do
+            {
+                Console.Write(_message);
+
+                string userInput = Console.ReadLine().Trim();
+
+                if (!int.TryParse(s: userInput, result: out int number) || number < _minValue || number > _maxValue || userInput is null)
+                {
+                    Console.SetCursorPosition(0, Console.CursorTop - 1);
+                    ConsoleEx.ClearCurrentConsoleLine();
+                }
+                else
+                {
+                    return number;
+                }
+
+            } while (true);
+        }
+
 
         private static void DisplaySorting(int[] _array, SortingMethods _method, SortingAlgorithm _algorithm)
         {
@@ -133,5 +158,6 @@ namespace Sorting_Algorithms
 
             Console.WriteLine(print + '\n');
         }
+        #endregion
     }
 }
