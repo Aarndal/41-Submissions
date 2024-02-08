@@ -111,7 +111,7 @@ namespace Sorting_Algorithms
             Console.WriteLine("\n");
 
             if (selectedSortingAlgorithm != null)
-                DisplaySorting(array, selectedSortingMethod, selectedSortingAlgorithm);
+                DisplaySortedArray(array, selectedSortingMethod, selectedSortingAlgorithm);
 
             Console.WriteLine("Drücke eine beliebige Taste, um das Programm zu beenden...");
             Console.ReadKey();
@@ -120,7 +120,7 @@ namespace Sorting_Algorithms
 
 
         #region Program methods
-        private static void DisplaySorting(int[] _array, SortingMethods _method, SortingAlgorithm _algorithm)
+        private static void DisplaySortedArray(int[] _array, SortingMethods _method, SortingAlgorithm _algorithm)
         {
             Console.WriteLine($"{_method} mit {_algorithm.Name} sortiert:");
             _algorithm.Sort(_array, _method);
@@ -130,7 +130,7 @@ namespace Sorting_Algorithms
         private static int[] GetRandomArray()
         {
             Console.WriteLine("Bitte gib an, wie viele zufällige ganze Zahlen (von -100 bis 100) generiert werden sollen.");
-            int arrayLength = GetValideNumberInput("Gebe hierzu nachfolgend eine ganze Zahl von 2 bis 100 ein: ", 2, 100);
+            int arrayLength = ConsoleEx.GetValideNumberInput("Gebe hierzu nachfolgend eine ganze Zahl von 2 bis 100 ein: ", 2, 100);
             int[] array = new int[arrayLength];
             Random rnd = new();
 
@@ -144,11 +144,11 @@ namespace Sorting_Algorithms
 
         private static int[] GetUserInputArray()
         {
-            int[] array = new int[GetValideNumberInput("Bitte gib an, wie viele ganze Zahlen eingegeben werden sollen (Min: 2 | Max: 10): ", 2, 10)];
+            int[] array = new int[ConsoleEx.GetValideNumberInput("Bitte gib an, wie viele ganze Zahlen eingegeben werden sollen (Min: 2 | Max: 10): ", 2, 10)];
 
             for (int i = 0; i < array.Length; i++)
             {
-                array[i] = GetValideNumberInput($"{i + 1}. Zahl: ", int.MinValue, int.MaxValue);
+                array[i] = ConsoleEx.GetValideNumberInput($"{i + 1}. Zahl: ", int.MinValue, int.MaxValue);
                 Console.SetCursorPosition(0, Console.CursorTop - 1);
                 ConsoleEx.ClearCurrentConsoleLine();
             }
@@ -156,24 +156,24 @@ namespace Sorting_Algorithms
             return array;
         }
 
-        private static int GetValideNumberInput(string _message, int _minValue, int _maxValue)
-        {
-            do
-            {
-                Console.Write(_message);
+        //private static int GetValideNumberInput(string _message, int _minValue, int _maxValue)
+        //{
+        //    do
+        //    {
+        //        Console.Write(_message);
 
-                if (!int.TryParse(s: Console.ReadLine(), result: out int number) || number < _minValue || number > _maxValue)
-                {
-                    Console.SetCursorPosition(0, Console.CursorTop - 1);
-                    ConsoleEx.ClearCurrentConsoleLine();
-                }
-                else
-                {
-                    return number;
-                }
+        //        if (!int.TryParse(s: Console.ReadLine(), result: out int number) || number < _minValue || number > _maxValue)
+        //        {
+        //            Console.SetCursorPosition(0, Console.CursorTop - 1);
+        //            ConsoleEx.ClearCurrentConsoleLine();
+        //        }
+        //        else
+        //        {
+        //            return number;
+        //        }
 
-            } while (true);
-        }
+        //    } while (true);
+        //}
 
         private static void PrintArray(int[] _array)
         {

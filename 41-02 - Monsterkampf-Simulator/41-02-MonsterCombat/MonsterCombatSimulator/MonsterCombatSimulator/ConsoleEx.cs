@@ -12,27 +12,50 @@ namespace Monster_Combat_Simulator
         static ConsoleColor m_foreground = ConsoleColor.White;
         static ConsoleColor m_background = ConsoleColor.Black;
 
-        public static void WriteLine(this string _string)
+        /// <summary>
+        /// Method to clear the current console line and set the cursor to the beginning of the line.
+        /// </summary>
+        public static void ClearCurrentConsoleLine()
         {
-            Console.WriteLine(_string);
-        }
-        public static void WriteLine(this string _string, ConsoleColor _color)
-        {
-            Console.ForegroundColor = _color;
-            Console.WriteLine(_string);
-            ResetColor();
+            int currentLineCursor = Console.CursorTop;
+            Console.SetCursorPosition(0, Console.CursorTop);
+            Console.Write(new string(' ', Console.WindowWidth));
+            Console.SetCursorPosition(0, currentLineCursor);
         }
 
-        public static void Write(this string _string)
+        public static int GetValideNumberInput(string _text, int _minValue, int _maxValue)
         {
-            Console.Write(_string);
+            do
+            {
+                _text.Write();
+
+                if (!int.TryParse(s: Console.ReadLine(), result: out int number) || number < _minValue || number > _maxValue)
+                {
+                    Console.SetCursorPosition(0, Console.CursorTop - 1);
+                    ClearCurrentConsoleLine();
+                }
+                else
+                    return number;
+
+            } while (true);
         }
-        public static void Write(this string _string, ConsoleColor _color)
+        public static int GetValideNumberInput(string _text, ConsoleColor _textColor, int _minValue, int _maxValue)
         {
-            Console.ForegroundColor = _color;
-            Console.Write(_string);
-            ResetColor();
+            do
+            {
+                _text.Write(_textColor);
+
+                if (!int.TryParse(s: Console.ReadLine(), result: out int number) || number < _minValue || number > _maxValue)
+                {
+                    Console.SetCursorPosition(0, Console.CursorTop - 1);
+                    ClearCurrentConsoleLine();
+                }
+                else
+                    return number;
+
+            } while (true);
         }
+
         private static void ResetColor()
         {
             Console.ForegroundColor = m_foreground;
@@ -47,15 +70,26 @@ namespace Monster_Combat_Simulator
             Console.Clear();
         }
 
-        /// <summary>
-        /// Method to clear the current console line and set the cursor to the beginning of the line.
-        /// </summary>
-        public static void ClearCurrentConsoleLine()
+        public static void Write(this string _string)
         {
-            int currentLineCursor = Console.CursorTop;
-            Console.SetCursorPosition(0, Console.CursorTop);
-            Console.Write(new string(' ', Console.WindowWidth));
-            Console.SetCursorPosition(0, currentLineCursor);
+            Console.Write(_string);
+        }
+        public static void Write(this string _string, ConsoleColor _color)
+        {
+            Console.ForegroundColor = _color;
+            Console.Write(_string);
+            ResetColor();
+        }
+
+        public static void WriteLine(this string _string)
+        {
+            Console.WriteLine(_string);
+        }
+        public static void WriteLine(this string _string, ConsoleColor _color)
+        {
+            Console.ForegroundColor = _color;
+            Console.WriteLine(_string);
+            ResetColor();
         }
     }
 }
