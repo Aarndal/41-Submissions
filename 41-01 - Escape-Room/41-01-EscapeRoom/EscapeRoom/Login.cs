@@ -11,19 +11,7 @@ using System.Threading.Tasks;
 
 namespace _2309_41_01_EscapeRoom
 {
-    struct ColoredStringText
-    {
-        public string text;
-        public ConsoleColor tileColor;
-
-        public ColoredStringText(string _text = "", ConsoleColor _textColor = ConsoleColor.White)
-        {
-            text = _text;
-            tileColor = _textColor;
-        }
-    }
-
-    class Login
+    internal class Login
     {
         public static void StartGame()
         {
@@ -33,38 +21,70 @@ namespace _2309_41_01_EscapeRoom
 
         private static void StartScreen()
         {
-            //insert ASCII art
-            Console.WriteLine("Welcome to my Escape Room!");
-            Console.WriteLine("Press any key to continue...");
+            "Welcome to my Escape Room!".WriteLine();
+            "\n".Write();
+            "Press any key to continue...".WriteLine(ConsoleColor.DarkGreen);
             Console.ReadKey();
             Console.Clear();
         }
 
         private static void LoginScreen()
         {
-            Console.WriteLine("Welcome brave adventurer! Please, tell me your name:");
-            string player = new (value: Console.ReadLine().Trim());
             
-            Console.WriteLine($"\nHello {player}! And be welcome to my little Escape Room!\n");
 
-            ColoredStringText key = new("<K>", ConsoleColor.DarkYellow);
-            ColoredStringText door = new("<D>", ConsoleColor.Red);
-            ColoredStringText playerChar = new("<P>", ConsoleColor.Blue);
+            "Welcome brave adventurer! Please, tell me your name:".WriteLine();
+            string player = GetUserInput();
 
-            Console.WriteLine("To escape, you must pick up the key, open the door and go through it.");
-            Console.WriteLine($"The key is represented by a yellow {key.text} and the door by a red {door.text}.");
-            Console.WriteLine($"Your character is represented by a blue {playerChar.text}, which turns yellow as soon as you have picked up the key.");
-            Console.WriteLine("You can move your character either with the W, A, S and D keys on your keyboard or with the arrow keys.\n");
-            
-            Console.WriteLine("Controls:");
-            Console.WriteLine("Move Up:     W or Up Arrow");
-            Console.WriteLine("Move Down:   S or Down Arrow");
-            Console.WriteLine("Move Left:   A or Left Arrow");
-            Console.WriteLine("Move Right:  D or Right Arrow");
-            
+            $"\nHello {player}! And be welcome to my little Escape Room!\n".WriteLine();
+
+            "To escape, you must pick up the key, open the door and go through it.".WriteLine();
+
+            "The key is represented by a yellow ".Write();
+            "<K>".Write(ConsoleColor.DarkYellow);
+            " and the door by a red ".Write();
+            "<D>".Write(ConsoleColor.Red);
+            ".".WriteLine();
+            "Your character is represented by a blue ".Write();
+            "<P>".Write(ConsoleColor.DarkCyan);
+            ", which turns into a yellow ".Write();
+            "<P>".Write(ConsoleColor.DarkYellow);
+            " as soon as you have picked up the key.".WriteLine();
+
+            "You can move your character either with the W, A, S and D keys or with the arrow keys on your keyboard.\n".WriteLine();
+
+            "Controls:".WriteLine();
+            "Move Up:     W or Up Arrow".WriteLine();
+            "Move Down:   S or Down Arrow".WriteLine();
+            "Move Left:   A or Left Arrow".WriteLine();
+            "Move Right:  D or Right Arrow".WriteLine();
+
+            "\n".Write();
+            Game.m_roomXValue = ConsoleEx.GetValideNumberInput("Please enter the width of the room (min: 5, max: 30): ", ConsoleColor.DarkGreen, 5, 30) + 2;
+            Game.m_roomYValue = ConsoleEx.GetValideNumberInput("Please enter the length of the room (min: 5, max: 15): ", ConsoleColor.DarkGreen, 5, 15) + 2;
+            "\n".Write();
+
+            Thread.Sleep(TimeSpan.FromSeconds(1.0));
+
+            "Press any key to start the game...".WriteLine(ConsoleColor.DarkGreen);
             Console.ReadKey();
             Console.Clear();
         }
 
+        private static string GetUserInput()
+        {
+            do
+            {
+                string input = Console.ReadLine().Trim();
+
+                if (input is null || input == "")
+                {
+                    Console.SetCursorPosition(0, Console.CursorTop - 1);
+                    ConsoleEx.ClearCurrentConsoleLine();
+                }
+                else
+                    return input;
+
+            } while (true);
+        }
     }
 }

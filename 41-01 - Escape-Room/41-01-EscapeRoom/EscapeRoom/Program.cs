@@ -3,23 +3,25 @@
 namespace _2309_41_01_EscapeRoom
 {
 
-    class Program
+    internal class Program
     {
         static void Main()
         {
             Console.Title = "Escape Room";
 
-            Login Login = new();
             Login.StartGame();
 
-            Game EscapeRoom = new ();
+            Game EscapeRoom = new();
             EscapeRoom.RunGame();
 
-            Console.ForegroundColor = ConsoleColor.DarkGreen;
-            Console.WriteLine("Congratulations! You've escaped!... ");
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine("Or have you?...");
+            "Congratulations! You've escaped!...".WriteLine(ConsoleColor.DarkGreen);
+
+            Thread.Sleep(TimeSpan.FromSeconds(2.0));
+
+            "Or have you?...".WriteLine(ConsoleColor.DarkRed);
+
             Console.ReadKey();
+            Environment.Exit(0);
         }
     }
 }

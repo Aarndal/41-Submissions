@@ -37,7 +37,7 @@ namespace _2309_41_01_EscapeRoom
     }
     #endregion
 
-    class Game
+    internal class Game
     {
         #region MemberVariables
         private static bool m_gameIsRunning = true;
@@ -211,9 +211,7 @@ namespace _2309_41_01_EscapeRoom
             if (m_room is null)
                 return;
             if (m_room[_newX, _newY].tile == m_wall.tile)
-            {
                 return;
-            }
             else if (m_room[_newX, _newY].tile == m_door.tile)
             {
                 switch (m_pcHasKey)
