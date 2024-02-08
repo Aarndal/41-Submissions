@@ -51,6 +51,7 @@ namespace Monster_Combat_Simulator
                 input01 = TextInput().Trim().ToUpper();
             }
 
+            // Parses the user's input for the first Monster's Monster Type and sets the stats of the first Monster.
             Monster.MonsterType monsterType01 = Enum.Parse<Monster.MonsterType>(input01, true);
             Monster? monster01 = SetMonsterStats(monsterType01);
             "\n".Write();
@@ -78,6 +79,7 @@ namespace Monster_Combat_Simulator
                 }
             }
 
+            // Parses the user's input for the second Monster's Monster Type and sets the stats of the second Monster.
             Monster.MonsterType monsterType02 = Enum.Parse<Monster.MonsterType>(input02, true);
             Monster? monster02 = SetMonsterStats(monsterType02);
 
@@ -101,11 +103,13 @@ namespace Monster_Combat_Simulator
             Console.Clear();
             Console.SetCursorPosition(0, Console.CursorTop);
 
+            // Determines which Monster has the higher Speed Points and sets the combatants accordingly.
             Monster?[] combatans = new Monster[2];
-
             combatans[0] = monster01?.SP >= monster02?.SP ? monster01 : monster02;
             combatans[1] = monster01?.SP >= monster02?.SP ? monster02 : monster01;
 
+            
+            // Combat loop.
             int currentCombatant = 0;
 
             while (true)
@@ -139,6 +143,9 @@ namespace Monster_Combat_Simulator
         }
 
         #region GameManager Methods
+        /// <summary>
+        /// Writes the instructions for the Monster Combat Simulator to the console.
+        /// </summary>
         private static void MonsterCombatSimulatorInstructions()
         {
             "There are three Monster Types to choose from:".WriteLine();
@@ -156,6 +163,11 @@ namespace Monster_Combat_Simulator
             "\n".Write();
         }
 
+        /// <summary>
+        /// Creates the Monster of the chosen Type, takes in its stats, and sets them.
+        /// </summary>
+        /// <param name="_type"></param>
+        /// <returns>Returns a Monster of the chosen Type with the set Stats within the given boundaries.</returns>
         private static Monster? SetMonsterStats(Monster.MonsterType _type)
         {
             Monster? monster = CreateMonster(_type);
@@ -173,6 +185,12 @@ namespace Monster_Combat_Simulator
             return monster.SetStats(hp, ap, dp, sp);
         }
 
+        /// <summary>
+        /// Checks if the user's input for the Monster's stats is valid and within the given boundaries.
+        /// </summary>
+        /// <param name="_statName"></param>
+        /// <param name="_boundaries"></param>
+        /// <returns></returns>
         private static float CheckMonsterStatInput(string _statName, Boundaries _boundaries)
         {
             float statInput;
@@ -206,10 +224,6 @@ namespace Monster_Combat_Simulator
         /// Creates a new object of the Monster class.
         /// </summary>
         /// <param name="_type"></param>
-        /// <param name="_hp"></param>
-        /// <param name="_ap"></param>
-        /// <param name="_dp"></param>
-        /// <param name="_sp"></param>
         /// <returns>Returns either a Goblin, Orc, or Troll, depending on the chosen Monster Type.</returns>
         private static Monster? CreateMonster(Monster.MonsterType _type)
         {
