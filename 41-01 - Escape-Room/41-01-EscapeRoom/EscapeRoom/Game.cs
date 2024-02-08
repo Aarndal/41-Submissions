@@ -242,28 +242,19 @@ namespace _2309_41_01_EscapeRoom
         {
             ConsoleKey input = Console.ReadKey(true).Key; // get KeyInfo from UserInput
 
-            switch (input) // Enable ArrowKeys and WASD to move the PC
+            return input switch // Enable ArrowKeys and WASD to move the PC
             {
                 // Move PC upwards
-                case ConsoleKey.UpArrow:
-                case ConsoleKey.W:
-                    return new Vector2(0, -1);
+                ConsoleKey.UpArrow or ConsoleKey.W => new Vector2(0, -1),
                 // Move PC leftwards
-                case ConsoleKey.LeftArrow:
-                case ConsoleKey.A:
-                    return new Vector2(-1, 0);
+                ConsoleKey.LeftArrow or ConsoleKey.A => new Vector2(-1, 0),
                 // Move PC downwards
-                case ConsoleKey.DownArrow:
-                case ConsoleKey.S:
-                    return new Vector2(0, 1);
+                ConsoleKey.DownArrow or ConsoleKey.S => new Vector2(0, 1),
                 // Move PC rightwards
-                case ConsoleKey.RightArrow:
-                case ConsoleKey.D:
-                    return new Vector2(1, 0);
+                ConsoleKey.RightArrow or ConsoleKey.D => new Vector2(1, 0),
                 // Don't move PC
-                default:
-                    return new Vector2(0, 0);
-            }
+                _ => new Vector2(0, 0),
+            };
         }
 
         private void PickUpKey(int _x, int _y) // enables the PC to "pick up" the Key

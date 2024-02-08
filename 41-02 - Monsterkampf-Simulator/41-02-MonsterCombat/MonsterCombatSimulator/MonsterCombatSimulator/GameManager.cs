@@ -184,16 +184,13 @@ namespace Monster_Combat_Simulator
                 if (float.TryParse(Console.ReadLine(), out statInput))
                 {
                     if (_boundaries.IsWithinBoundaries(statInput))
-                    {
                         break;
-                    }
                     else
                     {
                         Console.SetCursorPosition(0, Console.CursorTop - 1);
                         ConsoleEx.ClearCurrentConsoleLine();
                     }
                 }
-                
                 else
                 {
                     Console.SetCursorPosition(0, Console.CursorTop - 1);

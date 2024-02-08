@@ -74,7 +74,7 @@ namespace _2309_41_01_EscapeRoom
         {
             do
             {
-                string input = Console.ReadLine().Trim();
+                string input = Console.ReadLine()!.Trim();
 
                 if (input is null || input == "")
                 {

@@ -8,7 +8,7 @@ namespace VectorMath
 {
     public class Vector
     {
-        private static float m_MinFloat = MathF.Pow(10f, -6f); //minFloat is used to compare floats to zero and therefore avoid division by zero
+        private static readonly float m_MinFloat = MathF.Pow(10f, -6f); //minFloat is used to compare floats to zero and therefore avoid division by zero
         private float m_x, m_y, m_z;
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace VectorMath
         /// </summary>
         public static Vector Zero
         {
-            get => new Vector();
+            get => new();
         }
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace VectorMath
         /// </summary>
         public static Vector StdUnitVectorX
         {
-            get => new Vector(1, 0, 0);
+            get => new(1, 0, 0);
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace VectorMath
         /// </summary>
         public static Vector StdUnitVectorY
         {
-            get => new Vector(0, 1, 0);
+            get => new(0, 1, 0);
         }
 
         /// <summary>
@@ -105,7 +105,7 @@ namespace VectorMath
         /// </summary>
         public static Vector StdUnitVectorZ
         {
-            get => new Vector(0, 0, 1);
+            get => new(0, 0, 1);
         }
         #endregion
 
@@ -118,10 +118,12 @@ namespace VectorMath
         /// <returns>Returns the sum as a Vector.</returns>
         public static Vector operator +(Vector _vector1, Vector _vector2)
         {
-            Vector sumVector = new Vector();
-            sumVector.m_x = _vector1.m_x + _vector2.m_x;
-            sumVector.m_y = _vector1.m_y + _vector2.m_y;
-            sumVector.m_z = _vector1.m_z + _vector2.m_z;
+            Vector sumVector = new()
+            {
+                m_x = _vector1.m_x + _vector2.m_x,
+                m_y = _vector1.m_y + _vector2.m_y,
+                m_z = _vector1.m_z + _vector2.m_z
+            };
             return sumVector;
         }
 
@@ -147,10 +149,12 @@ namespace VectorMath
         /// <returns>Returns the given Vector whose components have been multiplied by the given number.</returns>
         public static Vector operator *(Vector _vector, float _float)
         {
-            Vector scalarProductVector = new Vector();
-            scalarProductVector.m_x = _vector.m_x * _float;
-            scalarProductVector.m_y = _vector.m_y * _float;
-            scalarProductVector.m_z = _vector.m_z * _float;
+            Vector scalarProductVector = new()
+            {
+                m_x = _vector.m_x * _float,
+                m_y = _vector.m_y * _float,
+                m_z = _vector.m_z * _float
+            };
             return scalarProductVector;
         }
 
@@ -162,10 +166,12 @@ namespace VectorMath
         /// <returns>Returns the given Vector whose components have been multiplied by the given number.</returns>
         public static Vector operator *(Vector _vector, int _integer)
         {
-            Vector scalarProductVector = new Vector();
-            scalarProductVector.m_x = _vector.m_x * _integer;
-            scalarProductVector.m_y = _vector.m_y * _integer;
-            scalarProductVector.m_z = _vector.m_z * _integer;
+            Vector scalarProductVector = new()
+            {
+                m_x = _vector.m_x * _integer,
+                m_y = _vector.m_y * _integer,
+                m_z = _vector.m_z * _integer
+            };
             return scalarProductVector;
         }
 
@@ -228,10 +234,12 @@ namespace VectorMath
         /// <returns>Returns the Cross Product as a new Vector.</returns>
         public static Vector operator %(Vector _vector1, Vector _vector2)
         {
-            Vector crossProductVector = new Vector();
-            crossProductVector.m_x = (_vector1.m_y * _vector2.m_z) - (_vector1.m_z * _vector2.m_y);
-            crossProductVector.m_y = -(_vector1.m_x * _vector2.m_z) + (_vector1.m_z * _vector2.m_x);
-            crossProductVector.m_z = (_vector1.m_x * _vector2.m_y) - (_vector1.m_y * _vector2.m_x);
+            Vector crossProductVector = new()
+            {
+                m_x = (_vector1.m_y * _vector2.m_z) - (_vector1.m_z * _vector2.m_y),
+                m_y = -(_vector1.m_x * _vector2.m_z) + (_vector1.m_z * _vector2.m_x),
+                m_z = (_vector1.m_x * _vector2.m_y) - (_vector1.m_y * _vector2.m_x)
+            };
             return crossProductVector;
         }
         #endregion
@@ -431,7 +439,7 @@ namespace VectorMath
         /// <returns>Returns the Projection Vector.</returns>
         public Vector ProjectOnAxis(CartesianAxis _axis)
         {
-            Vector target = new Vector();
+            Vector target = new();
 
             switch (_axis)
             {
@@ -486,7 +494,7 @@ namespace VectorMath
             float angle = GetAngleBetween(_origin, _target);
 
             //gets the axis to define the sign of the angle in regards of a right hand coordinate system
-            Vector rotationAxisVector = new Vector();
+            Vector rotationAxisVector = new();
             switch (_rotationAxis)
             {
                 case CartesianAxis.XAxis:
@@ -532,7 +540,7 @@ namespace VectorMath
             float angle = GetAngleBetween(this, _target);
 
             //gets the axis to define the sign of the angle in regards of a right hand coordinate system
-            Vector rotationAxis = new Vector();
+            Vector rotationAxis = new();
             switch (_rotationAxis)
             {
                 case CartesianAxis.XAxis:

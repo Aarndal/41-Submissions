@@ -2,12 +2,10 @@
 {
     internal class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
-            Vector vector1 = new Vector(1, 0);
-            Vector vector2 = new Vector(0, 1);
-
-            Vector sum = vector1 + vector2;
+            Vector vector1 = new(1, 0);
+            Vector vector2 = new(0, 1);
 
             float staticAngle = Vector.GetSignedAngleBetween(vector1, vector2, Vector.CartesianAxis.YAxis);
             float nonstaticAngle = vector1.GetSignedAngleTo(vector2);
