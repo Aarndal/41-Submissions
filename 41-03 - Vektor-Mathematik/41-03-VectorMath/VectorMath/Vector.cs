@@ -473,14 +473,18 @@ namespace VectorMath
             try
             {
                 float dotProduct = _firstAngleArm * _secondAngleArm;
-                float sqrCosPhi = (dotProduct * dotProduct) / (_firstAngleArm.SqrLength * _secondAngleArm.SqrLength);
-                float angle = MathF.Round((MathF.Acos(MathF.Sqrt(sqrCosPhi)) * 180) / MathF.PI, 4, MidpointRounding.AwayFromZero);
+                float cosPhi = dotProduct / (_firstAngleArm.Length * _secondAngleArm.Length);
+                float angle = MathF.Round((MathF.Acos(cosPhi) * 180) / MathF.PI, 4, MidpointRounding.AwayFromZero);
+                
+                // Alternative calculation of the angle... perhaps more performant?
+                //float sqrCosPhi = (dotProduct * dotProduct) / (_firstAngleArm.SqrLength * _secondAngleArm.SqrLength);
+                //float angle = MathF.Round((MathF.Acos(MathF.Sqrt(sqrCosPhi)) * 180) / MathF.PI, 4, MidpointRounding.AwayFromZero);
 
                 /* Checks if the Dot Product of the two Vectors is negative.
                  * If it is negative, the angle is an obtuse angle (between 90° and 180°) and is calculated as 180° - angle.
                  */
-                if (dotProduct < m_MinFloat)
-                    return angle = 180 - angle;
+                //if (dotProduct < m_MinFloat)
+                //    return angle = 180 - angle;
                 return angle;
             }
             catch (ArithmeticException _exception)
@@ -500,14 +504,18 @@ namespace VectorMath
             try
             {
                 float dotProduct = this * _target;
-                float sqrCosPhi = (dotProduct * dotProduct) / (this.SqrLength * _target.SqrLength);
-                float angle = MathF.Round((MathF.Acos(MathF.Sqrt(sqrCosPhi)) * 180) / MathF.PI, 4, MidpointRounding.AwayFromZero);
+                float cosPhi = dotProduct / (this.Length * _target.Length);
+                float angle = MathF.Round((MathF.Acos(cosPhi) * 180) / MathF.PI, 4, MidpointRounding.AwayFromZero);
+
+                // Alternative calculation of the angle... perhaps more performant?
+                //float sqrCosPhi = (dotProduct * dotProduct) / (this.SqrLength * _target.SqrLength);
+                //float angle = MathF.Round((MathF.Acos(MathF.Sqrt(sqrCosPhi)) * 180) / MathF.PI, 4, MidpointRounding.AwayFromZero);
 
                 /* Checks if the Dot Product of the two Vectors is negative.
                  * If it is negative, the angle is an obtuse angle (between 90° and 180°) and is calculated as 180° - angle.
                  */
-                if (dotProduct < m_MinFloat)
-                    return angle = 180 - angle;
+                //if (dotProduct < m_MinFloat)
+                //    return angle = 180 - angle;
                 return angle;
             }
             catch (ArithmeticException _exception)
@@ -590,10 +598,10 @@ namespace VectorMath
 
         //    for (int i = 0; i < cartesianAxes.Length; i++)
         //    {
-        //        float dotProduct = crossProduct * cartesianAxes[i];
-        //        float sqrCosPhi = (dotProduct * dotProduct) / (crossProduct.SqrLength * cartesianAxes[i].SqrLength);
-        //        axisAngles[i] = MathF.Round((MathF.Acos(MathF.Sqrt(sqrCosPhi)) * 180) / MathF.PI, 4, MidpointRounding.AwayFromZero);
-        //        //axisAngles[i] = GetAngleBetween(crossProduct, cartesianAxes[i]);
+        //        //float dotProduct = crossProduct * cartesianAxes[i];
+        //        //float sqrCosPhi = (dotProduct * dotProduct) / (crossProduct.SqrLength * cartesianAxes[i].SqrLength);
+        //        //axisAngles[i] = MathF.Round((MathF.Acos(MathF.Sqrt(sqrCosPhi)) * 180) / MathF.PI, 4, MidpointRounding.AwayFromZero);
+        //        axisAngles[i] = GetAngleBetween(crossProduct, cartesianAxes[i]);
         //    }
 
         //    Vector rotationAxis = cartesianAxes[Array.IndexOf(axisAngles, axisAngles.Min())];
