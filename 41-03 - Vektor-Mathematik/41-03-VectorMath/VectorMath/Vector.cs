@@ -423,7 +423,7 @@ namespace VectorMath
         }
 
         /// <summary>
-        /// Projects the Vector on a given Target Vector and returns the Projection Vector.
+        /// Projects the Vector on a given Target Vector.
         /// </summary>
         /// <param name="_target">Target Vector</param>
         /// <returns>Returns the Projection Vector.</returns>
@@ -437,7 +437,7 @@ namespace VectorMath
         /// </summary>
         /// <param name="_axis"></param>
         /// <returns>Returns the Projection Vector.</returns>
-        public Vector ProjectOnAxis(CartesianAxis _axis)
+        public Vector ProjectOn(CartesianAxis _axis)
         {
             Vector target = new();
 
@@ -462,21 +462,23 @@ namespace VectorMath
 
         #region Angles
         /// <summary>
-        /// Returns the direct angle between two given Vectors as a float, but without any information on the direction of rotation.
+        /// Calculates the direct angle between two given vectors.
         /// </summary>
-        /// <param name="_origin">The Vector that defines the start of the angle.</param>
-        /// <param name="_target">The Vector that defines the end of the angle.</param>
-        /// <returns>The direct angle as a float.</returns>
+        /// <param name="_firstAngleArm">The Vector that defines the start of the angle.</param>
+        /// <param name="_secondAngleArm">The Vector that defines the end of the angle.</param>
+        /// <returns>Returns the direct angle as a float, but without information about the direction of rotation.</returns>
         /// <exception cref="ArithmeticException"></exception>
-        public static float GetAngleBetween(Vector _origin, Vector _target)
+        public static float GetAngleBetween(Vector _firstAngleArm, Vector _secondAngleArm)
         {
             try
             {
-                float dotProduct = _origin * _target;
-                float sqrCosPhi = (dotProduct * dotProduct) / (_origin.SqrLength * _target.SqrLength);
+                float dotProduct = _firstAngleArm * _secondAngleArm;
+                float sqrCosPhi = (dotProduct * dotProduct) / (_firstAngleArm.SqrLength * _secondAngleArm.SqrLength);
                 float angle = MathF.Round((MathF.Acos(MathF.Sqrt(sqrCosPhi)) * 180) / MathF.PI, 4, MidpointRounding.AwayFromZero);
 
-                // Checks if the Dot Product of the two Vectors is negative to make a range between 0° and 180° possible.
+                /* Checks if the Dot Product of the two Vectors is negative.
+                 * If it is negative, the angle is an obtuse angle (between 90° and 180°) and is calculated as 180° - angle.
+                 */
                 if (dotProduct < m_MinFloat)
                     return angle = 180 - angle;
                 return angle;
@@ -487,13 +489,39 @@ namespace VectorMath
             }
         }
 
-        
-        public static float GetSignedAngleBetween(Vector _origin, Vector _target, CartesianAxis _rotationAxis)
+        /// <summary>
+        /// Calculates the direct angle between the Vector and a given Target Vector.
+        /// </summary>
+        /// <param name="_target"></param>
+        /// <returns>Returns the direct angle as a float, but without information about the direction of rotation.</returns>
+        /// <exception cref="ArithmeticException"></exception>
+        public float GetAngleTo(Vector _target)
         {
-            //gets the "direct" angle between two vectors
-            float angle = GetAngleBetween(_origin, _target);
+            try
+            {
+                float dotProduct = this * _target;
+                float sqrCosPhi = (dotProduct * dotProduct) / (this.SqrLength * _target.SqrLength);
+                float angle = MathF.Round((MathF.Acos(MathF.Sqrt(sqrCosPhi)) * 180) / MathF.PI, 4, MidpointRounding.AwayFromZero);
 
-            //gets the axis to define the sign of the angle in regards of a right hand coordinate system
+                /* Checks if the Dot Product of the two Vectors is negative.
+                 * If it is negative, the angle is an obtuse angle (between 90° and 180°) and is calculated as 180° - angle.
+                 */
+                if (dotProduct < m_MinFloat)
+                    return angle = 180 - angle;
+                return angle;
+            }
+            catch (ArithmeticException _exception)
+            {
+                throw new ArithmeticException("You can't calculate an angle to a Zero Vector.", _exception);
+            }
+        }
+
+        public static float GetSignedAngleBetween(Vector _firstAngleArm, Vector _secondAngleArm, CartesianAxis _rotationAxis)
+        {
+            // Gets the direct angle between two vectors
+            float angle = GetAngleBetween(_firstAngleArm, _secondAngleArm);
+
+            // Gets the axis to define the sign of the angle in regards of a right hand coordinate system
             Vector rotationAxisVector = new();
             switch (_rotationAxis)
             {
@@ -510,33 +538,19 @@ namespace VectorMath
                     break;
             }
 
-            //checks if the angle is positive or negative in regards of the rotation axis (right hand coordinate system) and returns the signed angle
-            float tripleProduct = (_origin % _target) * rotationAxisVector;
+            /* 
+             * Calculates the triple product of the 
+             * Checks if the angle is positive or negative in regards of the rotation axis (right hand coordinate system) and returns the signed angle
+             */
+            float tripleProduct = rotationAxisVector * (_firstAngleArm % _secondAngleArm);
             if (tripleProduct < m_MinFloat)
                 angle = -angle;
             return angle;
         }
 
-        public float GetAngleTo(Vector _target)
-        {
-            try
-            {
-                float dotProduct = this * _target;
-                float sqrCosPhi = (dotProduct * dotProduct) / (this.SqrLength * _target.SqrLength);
-                float angle = MathF.Round((MathF.Acos(MathF.Sqrt(sqrCosPhi)) * 180) / MathF.PI, 4, MidpointRounding.AwayFromZero);
-                if (dotProduct < m_MinFloat)
-                    return angle = 180 - angle;
-                return angle;
-            }
-            catch (ArithmeticException _exception)
-            {
-                throw new ArithmeticException("You can't calculate an angle to a Zero Vector.", _exception);
-            }
-        }
-
         public float GetSignedAngleTo(Vector _target, CartesianAxis _rotationAxis)
         {
-            //gets the "direct" angle between two vectors
+            //gets the direct angle between two vectors
             float angle = GetAngleBetween(this, _target);
 
             //gets the axis to define the sign of the angle in regards of a right hand coordinate system
@@ -557,7 +571,7 @@ namespace VectorMath
             }
 
             // checks if the angle is positive or negative in regards of the rotation axis (right hand coordinate system) and returns the signed angle
-            float tripleProduct = (this % _target) * rotationAxis;
+            float tripleProduct = rotationAxis * (this % _target);
             if (tripleProduct < m_MinFloat)
                 angle = -angle;
             return angle;
@@ -568,28 +582,41 @@ namespace VectorMath
         /// </summary>
         /// <param name="_target"></param>
         /// <returns></returns>
-        public float GetSignedAngleTo(Vector _target)
-        {
-            Vector crossProduct = this % _target;
-            Vector[] cartesianAxes = new Vector[] { StdUnitVectorX, StdUnitVectorY, StdUnitVectorZ };
-            float[] angles = new float[cartesianAxes.Length];
+        //public float GetSignedAngleTo(Vector _target)
+        //{
+        //    Vector crossProduct = this % _target;
+        //    Vector[] cartesianAxes = new Vector[] { StdUnitVectorX, StdUnitVectorY, StdUnitVectorZ };
+        //    float[] axisAngles = new float[cartesianAxes.Length];
 
-            for (int i = 0; i < cartesianAxes.Length; i++)
-                angles[i] = GetAngleBetween(crossProduct, cartesianAxes[i]);
+        //    for (int i = 0; i < cartesianAxes.Length; i++)
+        //    {
+        //        float dotProduct = crossProduct * cartesianAxes[i];
+        //        float sqrCosPhi = (dotProduct * dotProduct) / (crossProduct.SqrLength * cartesianAxes[i].SqrLength);
+        //        axisAngles[i] = MathF.Round((MathF.Acos(MathF.Sqrt(sqrCosPhi)) * 180) / MathF.PI, 4, MidpointRounding.AwayFromZero);
+        //        //axisAngles[i] = GetAngleBetween(crossProduct, cartesianAxes[i]);
+        //    }
 
-            Vector rotationAxis = cartesianAxes[Array.IndexOf(angles, angles.Min())];
+        //    Vector rotationAxis = cartesianAxes[Array.IndexOf(axisAngles, axisAngles.Min())];
 
-            // gets the "direct" angle between two vectors
-            float angle = GetAngleBetween(this, _target);
+        //    // gets the direct angle between two vectors
+        //    float angle = GetAngleBetween(this, _target);
 
-            // checks if the angle is positive or negative in regards of the rotation axis (right hand coordinate system) and returns the signed angle
-            if (crossProduct * rotationAxis < m_MinFloat)
-                angle = -angle;
-            return angle;
-        }
+        //    // checks if the angle is positive or negative in regards of the rotation axis (right hand coordinate system) and returns the signed angle
+        //    if (rotationAxis * crossProduct < m_MinFloat)
+        //        angle = -angle;
+        //    return angle;
+        //}
         #endregion
 
         #region Booleans
+        
+        //private bool HasSameDirectionAs(Vector _vector)
+        //{
+        //    if (this.Normalized == _vector.Normalized)
+        //        return true;
+        //    return false;
+        //}
+        
         /// <summary>
         /// Checks if the Vector is a Zero Vector.
         /// </summary>
