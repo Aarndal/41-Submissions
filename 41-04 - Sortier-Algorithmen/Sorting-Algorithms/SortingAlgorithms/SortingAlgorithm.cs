@@ -34,9 +34,9 @@ namespace Sorting_Algorithms.SortingAlgorithms
             for (int i = 0; i < _array.Length; i++)
             {
                 if (i % 2 == 0)
-                    _array[i] = tmpArray[i / 2];
-                else
                     _array[i] = tmpArray[_array.Length - (i / 2) - 1];
+                else
+                    _array[i] = tmpArray[i / 2];
             }
         }
 
