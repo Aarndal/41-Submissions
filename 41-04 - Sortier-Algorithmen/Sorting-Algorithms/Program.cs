@@ -1,5 +1,6 @@
 ﻿using Sorting_Algorithms.SortingAlgorithms;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.Runtime.CompilerServices;
 using static Sorting_Algorithms.SortingAlgorithms.SortingAlgorithm;
 using static System.Collections.Specialized.BitVector32;
@@ -156,25 +157,6 @@ namespace Sorting_Algorithms
             return array;
         }
 
-        //private static int GetValideNumberInput(string _message, int _minValue, int _maxValue)
-        //{
-        //    do
-        //    {
-        //        Console.Write(_message);
-
-        //        if (!int.TryParse(s: Console.ReadLine(), result: out int number) || number < _minValue || number > _maxValue)
-        //        {
-        //            Console.SetCursorPosition(0, Console.CursorTop - 1);
-        //            ConsoleEx.ClearCurrentConsoleLine();
-        //        }
-        //        else
-        //        {
-        //            return number;
-        //        }
-
-        //    } while (true);
-        //}
-
         private static void PrintArray(int[] _array)
         {
             string print = "[";
@@ -184,7 +166,7 @@ namespace Sorting_Algorithms
                 print += number + "|";
             }
 
-            print = print.Substring(startIndex: 0, print.Length - 1);
+            print = print[..^1]; // Substring()
             print += "]";
 
             Console.WriteLine(print + '\n');
