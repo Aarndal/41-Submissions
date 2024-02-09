@@ -47,8 +47,8 @@ namespace _2309_41_01_EscapeRoom
         private ColoredCharTile m_background = new(' ', ConsoleColor.Black);
         private ColoredCharTile m_wall = new('\u2593', ConsoleColor.Green);
 
-        public static int m_roomXValue = 20; // Default Room Width
-        public static int m_roomYValue = 10; // Default Room Length
+        private static int m_roomXValue = 20; // Default Room Width
+        private static int m_roomYValue = 10; // Default Room Length
 
         Vector2 m_levelStart = new(10, 10);
 
@@ -63,9 +63,27 @@ namespace _2309_41_01_EscapeRoom
         // PlayerCharacterVariables
         private ColoredCharTile m_playerCharacter = new('P', ConsoleColor.DarkCyan);
         Vector2 m_pcPosition = new(1, m_roomYValue / 2); // Default PlayerCharacterPosition
-
         static bool m_pcHasKey = false;
+        #endregion
 
+        #region Properties
+        public static int RoomWidth
+        {
+            get => m_roomXValue;
+            set => m_roomXValue = value;
+        }
+
+        public static int RoomLength
+        {
+            get => m_roomYValue;
+            set => m_roomYValue = value;
+        }
+
+        public static int RoomWidthMin => 5;
+        public static int RoomWidthMax => 30;
+               
+        public static int RoomLengthMin => 5;
+        public static int RoomLengthMax => 15;
         #endregion
 
         public void RunGame()
@@ -91,6 +109,9 @@ namespace _2309_41_01_EscapeRoom
             InitializePC();
         }
 
+        /// <summary>
+        /// Fills the 2DArray with WallTiles and BackgroundTiles.
+        /// </summary>
         private void InitializeRoom()
         {
             m_room = new ColoredCharTile[m_roomXValue, m_roomYValue]; // Initialization and Definition of 2DArray for Room
@@ -111,6 +132,9 @@ namespace _2309_41_01_EscapeRoom
             }
         }
 
+        /// <summary>
+        /// Fills the 2DArray with the DoorTile.
+        /// </summary>
         private void InitializeDoor() // Randomizing DoorSpawnPoint
         {
             Random rnd = new();
@@ -142,6 +166,9 @@ namespace _2309_41_01_EscapeRoom
                 m_room[m_doorPosition.x, m_doorPosition.y] = m_door;
         }
 
+        /// <summary>
+        /// Fill the 2DArray with the PlayerCharacterTile.
+        /// </summary>
         private void InitializePC() // Randomizing PlayerSpawnPoint
         {
             Random _rnd = new();
@@ -160,6 +187,9 @@ namespace _2309_41_01_EscapeRoom
             InitializeKey();
         }
 
+        /// <summary>
+        /// Fill the 2DArray with the KeyTile, and checks if the KeySpawnPoint is not the same as the PlayerSpawnPoint.
+        /// </summary>
         private void InitializeKey() // Randomizing KeySpawnPoint
         {
             Random _rnd = new();
@@ -186,7 +216,10 @@ namespace _2309_41_01_EscapeRoom
             PCMovement();
         }
 
-        private void PrintLevel() // Prints Walls, Floor, Door, Player at StartPosition, and Key
+        /// <summary>
+        /// Prints the filled 2DArray to the Console.
+        /// </summary>
+        private void PrintLevel()
         {
             for (int j = 0; j < m_roomYValue; j++)
             {
@@ -202,6 +235,9 @@ namespace _2309_41_01_EscapeRoom
             }
         }
 
+        /// <summary>
+        /// Gets the UserInput and moves the PC accordingly.
+        /// </summary>
         private void PCMovement()
         {
             Vector2 delta = GetUserInput();
@@ -238,6 +274,10 @@ namespace _2309_41_01_EscapeRoom
             }
         }
 
+        /// <summary>
+        /// Gets the UserInput and returns a "DeltaVector" for PCMovement method.
+        /// </summary>
+        /// <returns></returns>
         private static Vector2 GetUserInput() // returns a "DeltaVector" for PCMovement method
         {
             ConsoleKey input = Console.ReadKey(true).Key; // get KeyInfo from UserInput
@@ -257,11 +297,16 @@ namespace _2309_41_01_EscapeRoom
             };
         }
 
+        /// <summary>
+        /// Checks if the PC is on the KeyTile. Sets m_pcHasKey to true if the condition is met.
+        /// </summary>
+        /// <param name="_x"></param>
+        /// <param name="_y"></param>
         private void PickUpKey(int _x, int _y) // enables the PC to "pick up" the Key
         {
             if (m_room is null)
                 return;
-            if (m_room[_x, _y].tile == m_key.tile)
+            if (m_room[_x, _y].tile == m_key.tile) // checks if the player moved on the keytile
             {
                 m_pcHasKey = true;
                 Console.Beep();
@@ -270,7 +315,6 @@ namespace _2309_41_01_EscapeRoom
             else
                 return;
         }
-
         #endregion
     }
 }

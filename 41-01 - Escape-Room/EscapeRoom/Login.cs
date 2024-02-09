@@ -13,29 +13,38 @@ namespace _2309_41_01_EscapeRoom
 {
     internal class Login
     {
+        public static string? Player { get; private set; }
+        
+        /// <summary>
+        /// Welcome screen and introduction to the game.
+        /// </summary>
         public static void StartGame()
         {
-            StartScreen();
+            WelcomeScreen();
             LoginScreen();
         }
 
-        private static void StartScreen()
+        /// <summary>
+        /// Starts the welcome screen.
+        /// </summary>
+        private static void WelcomeScreen()
         {
-            "Welcome to my Escape Room!".WriteLine();
+            "Welcome to my little Escape Room!".WriteLine();
             "\n".Write();
             "Press any key to continue...".WriteLine(ConsoleColor.DarkGreen);
             Console.ReadKey();
             Console.Clear();
         }
 
+        /// <summary>
+        /// Login screen to get the player's name as well as the room's width and length, and to explain the game.
+        /// </summary>
         private static void LoginScreen()
         {
-            
-
             "Welcome brave adventurer! Please, tell me your name:".WriteLine();
-            string player = GetUserInput();
+            Player = GetUserInput();
 
-            $"\nHello {player}! And be welcome to my little Escape Room!\n".WriteLine();
+            $"\nHello {Player}! And be welcome to my little Escape Room!\n".WriteLine();
 
             "To escape, you must pick up the key, open the door and go through it.".WriteLine();
 
@@ -59,8 +68,8 @@ namespace _2309_41_01_EscapeRoom
             "Move Right:  D or Right Arrow".WriteLine();
 
             "\n".Write();
-            Game.m_roomXValue = ConsoleEx.GetValideNumberInput("Please enter the width of the room (min: 5, max: 30): ", ConsoleColor.DarkGreen, 5, 30) + 2;
-            Game.m_roomYValue = ConsoleEx.GetValideNumberInput("Please enter the length of the room (min: 5, max: 15): ", ConsoleColor.DarkGreen, 5, 15) + 2;
+            Game.RoomWidth = (int)(ConsoleEx.GetValideNumberInput(Game.RoomWidthMin, Game.RoomWidthMax, $"Please enter the width of the room (min: {Game.RoomWidthMin}, max: {Game.RoomWidthMax}): ", ConsoleColor.DarkGreen) + 2);
+            Game.RoomLength = (int)(ConsoleEx.GetValideNumberInput(Game.RoomLengthMin, Game.RoomLengthMax, $"Please enter the length of the room (min: {Game.RoomLengthMin}, max: {Game.RoomLengthMax}): ", ConsoleColor.DarkGreen) + 2);
             "\n".Write();
 
             Thread.Sleep(TimeSpan.FromSeconds(1.0));
@@ -70,6 +79,10 @@ namespace _2309_41_01_EscapeRoom
             Console.Clear();
         }
 
+        /// <summary>
+        /// Gets the user's input, checks if it is not null, and returns it.
+        /// </summary>
+        /// <returns></returns>
         private static string GetUserInput()
         {
             do
