@@ -1,6 +1,7 @@
 ﻿using Monster_Combat_Simulator.Monsters;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -13,15 +14,6 @@ namespace Monster_Combat_Simulator
 {
     internal class GameManager
     {
-        private static string TextInput()
-        {
-            string? tmp = Console.ReadLine();
-
-            tmp ??= "";
-
-            return tmp;
-        }
-
         private static void Main()
         {
             // Sets the title of the console window and the colors of the console.
@@ -53,7 +45,10 @@ namespace Monster_Combat_Simulator
 
             // Parses the user's input for the first Monster's Monster Type and sets the stats of the first Monster.
             Monster.MonsterType monsterType01 = Enum.Parse<Monster.MonsterType>(input01, true);
-            Monster? monster01 = SetMonsterStats(monsterType01);
+            Monster monster01 = Monster.CreateMonster(monsterType01)!;
+            $"You've chosen a {monster01.Type}. Now set the stats of the {monster01.Type}:".WriteLine();
+            monster01.SetStats();
+
             "\n".Write();
 
             // Gets the user's input for the second Monster's Monster Type.
@@ -81,7 +76,9 @@ namespace Monster_Combat_Simulator
 
             // Parses the user's input for the second Monster's Monster Type and sets the stats of the second Monster.
             Monster.MonsterType monsterType02 = Enum.Parse<Monster.MonsterType>(input02, true);
-            Monster? monster02 = SetMonsterStats(monsterType02);
+            Monster monster02 = Monster.CreateMonster(monsterType02)!;
+            $"You've chosen a {monster02.Type}. Now set the stats of the {monster02.Type}:".WriteLine();
+            monster02.SetStats();
 
             "\n".Write();
             "Please, press any key to continue...".WriteLine();
@@ -138,11 +135,10 @@ namespace Monster_Combat_Simulator
             "\n".Write();
             
             "Please, press any key to exit...".WriteLine();
-            Console.ReadKey();
-            Environment.Exit(0);
+            Console.ReadKey(true);
         }
 
-        #region GameManager Methods
+        #region Methods
         /// <summary>
         /// Writes the instructions for the Monster Combat Simulator to the console.
         /// </summary>
@@ -163,77 +159,11 @@ namespace Monster_Combat_Simulator
             "\n".Write();
         }
 
-        /// <summary>
-        /// Creates the Monster of the chosen Type, takes in its stats, and sets them.
-        /// </summary>
-        /// <param name="_type"></param>
-        /// <returns>Returns a Monster of the chosen Type with the set Stats within the given boundaries.</returns>
-        private static Monster? SetMonsterStats(Monster.MonsterType _type)
+        private static string TextInput()
         {
-            Monster? monster = CreateMonster(_type);
-            if(monster == null)
-                return null;
-
-            $"You've chosen a {monster.Type}. Now set the stats of the {monster.Type}:".WriteLine();
-
-            // Gets the user's input for the Monster's stats.
-            float hp = CheckMonsterStatInput("Hit Points", monster.HealthBoundaries);
-            float ap = CheckMonsterStatInput("Attack Power", monster.AttackBoundaries);
-            float dp = CheckMonsterStatInput("Defense Points", monster.DefenseBoundaries);
-            float sp = CheckMonsterStatInput("Speed Points", monster.SpeedBoundaries);
-
-            return monster.SetStats(hp, ap, dp, sp);
-        }
-
-        /// <summary>
-        /// Checks if the user's input for the Monster's stats is valid and within the given boundaries.
-        /// </summary>
-        /// <param name="_statName"></param>
-        /// <param name="_boundaries"></param>
-        /// <returns></returns>
-        private static float CheckMonsterStatInput(string _statName, Boundaries _boundaries)
-        {
-            float statInput;
-
-            do
-            {
-                $"{_statName} (Min: {_boundaries.MinValue} | Max: {_boundaries.MaxValue}): ".Write();
-
-                if (float.TryParse(Console.ReadLine(), out statInput))
-                {
-                    if (_boundaries.IsWithinBoundaries(statInput))
-                        break;
-                    else
-                    {
-                        Console.SetCursorPosition(0, Console.CursorTop - 1);
-                        ConsoleEx.ClearCurrentConsoleLine();
-                    }
-                }
-                else
-                {
-                    Console.SetCursorPosition(0, Console.CursorTop - 1);
-                    ConsoleEx.ClearCurrentConsoleLine();
-                }
-
-            } while (true);
-
-            return statInput;
-        }
-
-        /// <summary>
-        /// Creates a new object of the Monster class.
-        /// </summary>
-        /// <param name="_type"></param>
-        /// <returns>Returns either a Goblin, Orc, or Troll, depending on the chosen Monster Type.</returns>
-        private static Monster? CreateMonster(Monster.MonsterType _type)
-        {
-            return _type switch
-            {
-                Monster.MonsterType.GOBLIN => new Goblin(),
-                Monster.MonsterType.ORC => new Orc(),
-                Monster.MonsterType.TROLL => new Troll(),
-                _ => null,
-            };
+            string? tmp = Console.ReadLine();
+            tmp ??= "";
+            return tmp;
         }
         #endregion
     }
