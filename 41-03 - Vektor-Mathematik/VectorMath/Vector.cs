@@ -585,11 +585,7 @@ namespace VectorMath
             return angle;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="_target"></param>
-        /// <returns></returns>
+        // Bugged implementation of the GetSignedAngleTo method
         //public float GetSignedAngleTo(Vector _target)
         //{
         //    Vector crossProduct = this % _target;
