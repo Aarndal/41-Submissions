@@ -109,6 +109,8 @@ namespace Monster_Combat_Simulator
             // Combat loop.
             int currentCombatant = 0;
 
+            int combatCounter = 1;
+
             while (true)
             {
                 float hpBeforeAttack = combatans[1 - currentCombatant]?.HP ?? 0;
@@ -126,10 +128,12 @@ namespace Monster_Combat_Simulator
                 if (combatans[1 - currentCombatant]?.IsDead == true)
                 {
                     $"The combat is over! The {combatans[currentCombatant]?.Type} won!".WriteLine();
+                    $"\nThe combat lasted {combatCounter} rounds.".WriteLine();
                     break;
                 }
 
                 currentCombatant = 1 - currentCombatant;
+                combatCounter++;
             }
 
             "\n".Write();
