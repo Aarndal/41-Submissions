@@ -8,8 +8,8 @@ namespace Sorting_Algorithms
 {
     internal static class ConsoleEx
     {
-        static ConsoleColor m_foreground = ConsoleColor.White;
-        static ConsoleColor m_background = ConsoleColor.Black;
+        private static ConsoleColor m_foreground = ConsoleColor.White;
+        private static ConsoleColor m_background = ConsoleColor.Black;
 
         /// <summary>
         /// Method to clear the current console line and set the cursor to the beginning of the line.
@@ -22,29 +22,13 @@ namespace Sorting_Algorithms
             Console.SetCursorPosition(0, currentLineCursor);
         }
 
-        public static int GetValideNumberInput(string _text, int _minValue, int _maxValue)
-        {
-            do
-            {
-                _text.Write();
-
-                if (!int.TryParse(s: Console.ReadLine(), result: out int number) || number < _minValue || number > _maxValue)
-                {
-                    Console.SetCursorPosition(0, Console.CursorTop - 1);
-                    ClearCurrentConsoleLine();
-                }
-                else
-                    return number;
-
-            } while (true);
-        }
-        public static int GetValideNumberInput(string _text, ConsoleColor _textColor, int _minValue, int _maxValue)
+        public static float GetValideNumberInput(float _minValue, float _maxValue, string _text, ConsoleColor _textColor = ConsoleColor.White)
         {
             do
             {
                 _text.Write(_textColor);
 
-                if (!int.TryParse(s: Console.ReadLine(), result: out int number) || number < _minValue || number > _maxValue)
+                if (!float.TryParse(s: Console.ReadLine(), result: out float number) || number < _minValue || number > _maxValue)
                 {
                     Console.SetCursorPosition(0, Console.CursorTop - 1);
                     ClearCurrentConsoleLine();

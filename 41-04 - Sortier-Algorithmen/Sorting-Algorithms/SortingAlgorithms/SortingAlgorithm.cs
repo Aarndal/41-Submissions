@@ -10,9 +10,9 @@ namespace Sorting_Algorithms.SortingAlgorithms
     {
         public enum SortingMethods : int
         {
-            Aufsteigend,
-            Absteigend,
-            ZickZack,
+            Ascending,
+            Descending,
+            ZigZag,
         }
 
         public abstract string? Name { get; }
@@ -44,13 +44,13 @@ namespace Sorting_Algorithms.SortingAlgorithms
         {
             switch (_method)
             {
-                case SortingMethods.Aufsteigend:
+                case SortingMethods.Ascending:
                     this.SortAscending(_array);
                     break;
-                case SortingMethods.Absteigend:
+                case SortingMethods.Descending:
                     this.SortDescending(_array);
                     break;
-                case SortingMethods.ZickZack:
+                case SortingMethods.ZigZag:
                     this.SortZigZag(_array);
                     break;
             }

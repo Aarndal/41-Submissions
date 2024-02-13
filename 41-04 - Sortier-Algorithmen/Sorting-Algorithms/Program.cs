@@ -9,8 +9,8 @@ namespace Sorting_Algorithms
 {
     public enum ArrayCreationMethod : int
     {
-        Zufällig,
-        Händisch
+        Manual,
+        Random
     }
 
     internal class Program
@@ -26,27 +26,27 @@ namespace Sorting_Algorithms
             Console.WriteLine('\n');
 
             int[] array;
-            if (selectedArrayCreationMethod == ArrayCreationMethod.Händisch)
+            if (selectedArrayCreationMethod == ArrayCreationMethod.Manual)
                 array = GetUserInputArray();
             else
                 array = GetRandomArray();
 
-            Console.WriteLine("\nUnsortiert:");
+            Console.WriteLine("\nUnsorted:");
             PrintArray(array);
 
             bool selection = true;
             SortingAlgorithm[] sortingAlgorithms =
-            [
+            {
                 new BubbleSort(),
                 new InsertionSort(),
                 new GnomeSort(),
                 new HeapSort(),
                 new SelectionSort(),
-            ];
+            };
             SortingAlgorithm? selectedSortingAlgorithm = null;
             int selectSortingAlgorithmIndex = 0;
 
-            Console.WriteLine("Wähle einen Sortieralgorithmus mit A und D und bestätige mit Enter:\n");
+            Console.WriteLine("Select a sorting algorithm with A and D and confirm with Enter:\n");
 
             while (selection && selectedSortingAlgorithm == null)
             {
@@ -78,10 +78,10 @@ namespace Sorting_Algorithms
 
             selection = true;
             SortingMethods[] sortingMethods = Enum.GetValues<SortingMethods>();
-            SortingMethods selectedSortingMethod = SortingMethods.Aufsteigend;
+            SortingMethods selectedSortingMethod = SortingMethods.Ascending;
             int selectSortingMethodIndex = 0;
 
-            Console.WriteLine("Wähle eine Sortiermethode mit A und D und bestätige mit Enter:\n");
+            Console.WriteLine("Select a sorting method with A and D and confirm with Enter:\n");
 
             while (selection)
             {
@@ -114,7 +114,7 @@ namespace Sorting_Algorithms
             if (selectedSortingAlgorithm != null)
                 DisplaySortedArray(array, selectedSortingMethod, selectedSortingAlgorithm);
 
-            Console.WriteLine("Drücke eine beliebige Taste, um das Programm zu beenden...");
+            Console.WriteLine("Press any key to exit the program...");
             Console.ReadKey();
             Environment.Exit(0);
         }
@@ -123,21 +123,26 @@ namespace Sorting_Algorithms
         #region Program methods
         private static void DisplaySortedArray(int[] _array, SortingMethods _method, SortingAlgorithm _algorithm)
         {
-            Console.WriteLine($"{_method} mit {_algorithm.Name} sortiert:");
+            Console.WriteLine($"Sorted {_method} using {_algorithm.Name}:");
             _algorithm.Sort(_array, _method);
             PrintArray(_array);
         }
 
         private static int[] GetRandomArray()
         {
-            Console.WriteLine("Bitte gib an, wie viele zufällige ganze Zahlen (von -100 bis 100) generiert werden sollen.");
-            int arrayLength = ConsoleEx.GetValideNumberInput("Gebe hierzu nachfolgend eine ganze Zahl von 2 bis 100 ein: ", 2, 100);
+            int arraySizeMinValue = 2;
+            int arraySizeMaxValue = 100;
+            int randomMinValue = -100;
+            int randomMaxValue = 100;
+
+            Console.WriteLine($"Please specify how many random integers (from {randomMinValue} to {randomMaxValue}) should be generated.");
+            int arrayLength = (int)ConsoleEx.GetValideNumberInput(arraySizeMinValue, arraySizeMaxValue, $"Enter an integer from {arraySizeMinValue} to {arraySizeMaxValue} here: ");
             int[] array = new int[arrayLength];
             Random rnd = new();
 
             for (int i = 0; i < array.Length; i++)
             {
-                array[i] = rnd.Next(-100, 101);
+                array[i] = rnd.Next(randomMinValue, randomMaxValue);
             }
 
             return array;
@@ -145,11 +150,13 @@ namespace Sorting_Algorithms
 
         private static int[] GetUserInputArray()
         {
-            int[] array = new int[ConsoleEx.GetValideNumberInput("Bitte gib an, wie viele ganze Zahlen eingegeben werden sollen (Min: 2 | Max: 10): ", 2, 10)];
+            int arraySizeMinValue = 2;
+            int arraySizeMaxValue = 10;
+            int[] array = new int[(int)ConsoleEx.GetValideNumberInput(arraySizeMinValue, arraySizeMaxValue, $"Please specify how many integers you want to enter (Min: {arraySizeMinValue} | Max: {arraySizeMaxValue}): ")];
 
             for (int i = 0; i < array.Length; i++)
             {
-                array[i] = ConsoleEx.GetValideNumberInput($"{i + 1}. Zahl: ", int.MinValue, int.MaxValue);
+                array[i] = (int)ConsoleEx.GetValideNumberInput(int.MinValue, int.MaxValue, $"{i + 1}. Integer: ");
                 Console.SetCursorPosition(0, Console.CursorTop - 1);
                 ConsoleEx.ClearCurrentConsoleLine();
             }
@@ -171,15 +178,15 @@ namespace Sorting_Algorithms
 
             Console.WriteLine(print + '\n');
         }
-        
+
         private static void SelectArrayCreationMethod(out ArrayCreationMethod _selectedArrayCreationMethod)
         {
             bool selection = true;
             ArrayCreationMethod[] arrayCreationMethods = Enum.GetValues<ArrayCreationMethod>();
             int selectArrayCreationMethodIndex = 0;
-            _selectedArrayCreationMethod = ArrayCreationMethod.Zufällig;
-            Console.WriteLine($"Bitte wähle aus, ob du eine Zahlenreihe händisch eingeben möchtest");
-            Console.WriteLine($"oder eine zufällige Zahlenreihe generiert werden soll:\n");
+            _selectedArrayCreationMethod = ArrayCreationMethod.Random;
+            Console.WriteLine($"Please select whether you want to enter a series of numbers manually");
+            Console.WriteLine($"or whether a random series of numbers should be generated:\n");
 
             while (selection)
             {
