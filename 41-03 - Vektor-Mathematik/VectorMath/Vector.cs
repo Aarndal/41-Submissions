@@ -8,6 +8,7 @@ namespace VectorMath
 {
     public class Vector
     {
+        // MemberVariables
         private static readonly float m_MinFloat = MathF.Pow(10f, -6f); //minFloat is used to compare floats to zero and therefore avoid division by zero
         private float m_x, m_y, m_z;
 
@@ -46,7 +47,7 @@ namespace VectorMath
         }
         #endregion
 
-        #region VectorComponents
+        #region Properties
         /// <summary>
         /// Gets/sets the X component of the Vector.
         /// </summary>
@@ -72,6 +73,19 @@ namespace VectorMath
         {
             get => this.m_z;
             set => this.m_z = value;
+        }
+                
+        /// <summary>
+        /// Gets the dimension of the Vector.
+        /// </summary>
+        public int Dimensions
+        {
+            get
+            {
+                if (m_x == 0 || m_y == 0 || m_z == 0)
+                    return 2;
+                return 3;
+            }
         }
         #endregion
 
@@ -613,14 +627,6 @@ namespace VectorMath
         #endregion
 
         #region Booleans
-        
-        //private bool HasSameDirectionAs(Vector _vector)
-        //{
-        //    if (this.Normalized == _vector.Normalized)
-        //        return true;
-        //    return false;
-        //}
-        
         /// <summary>
         /// Checks if the Vector is a Zero Vector.
         /// </summary>
@@ -633,6 +639,18 @@ namespace VectorMath
                     return false;
                 return true;
             }
+        }
+
+        /// <summary>
+        /// Checks if a given Vector has the same direction as the Vector.
+        /// </summary>
+        /// <param name="_vector"></param>
+        /// <returns></returns>
+        public bool HasSameDirectionAs(Vector _vector)
+        {
+            if (this.Normalized == _vector.Normalized)
+                return true;
+            return false;
         }
 
         /// <summary>
