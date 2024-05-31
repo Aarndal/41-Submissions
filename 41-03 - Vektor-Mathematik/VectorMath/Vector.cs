@@ -74,7 +74,7 @@ namespace VectorMath
             get => this.m_z;
             set => this.m_z = value;
         }
-                
+
         /// <summary>
         /// Gets the dimension of the Vector.
         /// </summary>
@@ -298,18 +298,12 @@ namespace VectorMath
         }
 
         // Calculates the squared Length of the Vector.
-        private float GetSqrLength()
-        {
-            return m_x * m_x + m_y * m_y + m_z * m_z;
-        }
+        private float GetSqrLength() => m_x * m_x + m_y * m_y + m_z * m_z;
 
         /// <summary>
         /// Gets the squared length of the Vector.
         /// </summary>
-        public float SqrLength
-        {
-            get => GetSqrLength();
-        }
+        public float SqrLength => GetSqrLength();
 
         /// <summary>
         /// Calculates the length of a given Vector.
@@ -489,7 +483,7 @@ namespace VectorMath
                 float dotProduct = _firstAngleArm * _secondAngleArm;
                 float cosPhi = dotProduct / (_firstAngleArm.Length * _secondAngleArm.Length);
                 float angle = MathF.Round((MathF.Acos(cosPhi) * 180) / MathF.PI, 4, MidpointRounding.AwayFromZero);
-                
+
                 // Alternative calculation of the angle... perhaps more performant?
                 //float sqrCosPhi = (dotProduct * dotProduct) / (_firstAngleArm.SqrLength * _secondAngleArm.SqrLength);
                 //float angle = MathF.Round((MathF.Acos(MathF.Sqrt(sqrCosPhi)) * 180) / MathF.PI, 4, MidpointRounding.AwayFromZero);
