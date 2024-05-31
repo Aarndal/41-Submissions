@@ -1,14 +1,4 @@
 ﻿using Monster_Combat_Simulator.Monsters;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Runtime.Intrinsics.Arm;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Monster_Combat_Simulator
 {
@@ -111,6 +101,8 @@ namespace Monster_Combat_Simulator
 
             int combatCounter = 1;
 
+            double combatPauseTime = 1.5d;
+
             while (true)
             {
                 float hpBeforeAttack = combatans[1 - currentCombatant]?.HP ?? 0;
@@ -119,11 +111,11 @@ namespace Monster_Combat_Simulator
                 
                 $"The {combatans[currentCombatant]?.Type} deals {damage} damage to the {combatans[1 - currentCombatant]?.Type}!".WriteLine();
 
-                Thread.Sleep(TimeSpan.FromSeconds(1.5));
+                Thread.Sleep(TimeSpan.FromSeconds(combatPauseTime));
 
                 $"The {combatans[1 - currentCombatant]?.Type} has {combatans[1 - currentCombatant]?.HP} HP left! \n".WriteLine();
 
-                Thread.Sleep(TimeSpan.FromSeconds(1.5));
+                Thread.Sleep(TimeSpan.FromSeconds(combatPauseTime));
 
                 if (combatans[1 - currentCombatant]?.IsDead == true)
                 {
